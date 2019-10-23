@@ -203,7 +203,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-23 14:21:37" itemprop="dateModified" datetime="2019-10-23T14:21:37+08:00">2019-10-23</time>
+                <time title="Modified: 2019-10-23 14:24:59" itemprop="dateModified" datetime="2019-10-23T14:24:59+08:00">2019-10-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,8 +229,6 @@
 
       
           <h1 id="Welcome-to-My-Blog"><a href="#Welcome-to-My-Blog" class="headerlink" title="Welcome to My Blog"></a>Welcome to My Blog</h1><p><img src="/images/KingOfWolf.jpg" alt="狼王洛洛"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()&#123;</span><br><span class="line">    printf(&quot;Hello, World!&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
@@ -281,7 +279,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-23 14:21:26" itemprop="dateModified" datetime="2019-10-23T14:21:26+08:00">2019-10-23</time>
+                <time title="Modified: 2019-10-23 14:24:51" itemprop="dateModified" datetime="2019-10-23T14:24:51+08:00">2019-10-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -331,7 +329,7 @@
 </blockquote>
 <p>&emsp;&emsp;还有一项是If-Unmodified-Since，但拦截得到的报文只有If-Modefied-Since，得先更改。If-Unmodified-Since是经过Date()函数和toUTCString()函数构造的<br>&emsp;&emsp;到网络上找到Date()的具体用法，随便复制粘贴一个到PhpStrom中：<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%97%A5%E6%9C%9F.png" alt="信息安全-日期"><br>&emsp;&emsp;查阅资料也可知，toUTCString()是将Date对象转换为字符串<br>&emsp;&emsp;然后用MySQL快速计算一下从今天开始过了21162天后的大致日期：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT date_add(now(), INTERVAL 21162 day) FROM DUAL</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;得到结果：<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F.png" alt="信息安全-MySQL"><br>&emsp;&emsp;大致估计能够拿到flag的时间为2077年10月1日。于是在PhpStrom的JS代码中写入该时间，计算该时间对应的UTC字符串：<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8JS%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F.png" alt="信息安全-JS"><br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8UTCString.png" alt="信息安全-UTCString"><br>&emsp;&emsp;最后，在BurpSuite中修改If-Unmodified-Since，”Go”，即可得到flag<br>![信息安全-flag](/images/信息安全 flag.png)</p>
+<p>&emsp;&emsp;得到结果：<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F.png" alt="信息安全-MySQL"><br>&emsp;&emsp;大致估计能够拿到flag的时间为2077年10月1日。于是在PhpStrom的JS代码中写入该时间，计算该时间对应的UTC字符串：<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8JS%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F.png" alt="信息安全-JS"><br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8UTCString.png" alt="信息安全-UTCString"><br>&emsp;&emsp;最后，在BurpSuite中修改If-Unmodified-Since，”Go”，即可得到flag<br><img src="/images/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8flag.png" alt="信息安全-flag"></p>
 <hr>
 
       
