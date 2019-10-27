@@ -69,7 +69,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E5%85%88%E5%86%99%E5%85%A5.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E6%9F%A5%E7%9C%8B.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;t.png">
-<meta property="og:updated_time" content="2019-10-26T14:20:10.552Z">
+<meta property="og:updated_time" content="2019-10-27T01:39:04.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;r%E6%9F%A5%E7%9C%8B.png">
 
@@ -216,10 +216,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-10-26 21:45:12 / Modified: 22:20:10" itemprop="dateCreated datePublished" datetime="2019-10-26T21:45:12+08:00">2019-10-26</time>
+              <time title="Created: 2019-10-26 21:45:12" itemprop="dateCreated datePublished" datetime="2019-10-26T21:45:12+08:00">2019-10-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-27 09:39:04" itemprop="dateModified" datetime="2019-10-27T09:39:04+08:00">2019-10-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -259,9 +265,9 @@
       
         <p>记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版</p>
 <a id="more"></a>
-<h1 id="debug指令"><a href="#debug指令" class="headerlink" title="debug指令"></a>debug指令</h1><p><strong>r</strong>  register(查看、修改各寄存器的内容)<br>查看：<br><img src="/images/AssemblyLanguage/r%E6%9F%A5%E7%9C%8B.png" alt=""><br>修改：<br><img src="/images/AssemblyLanguage/r%E4%BF%AE%E6%94%B9.png" alt=""><br><strong>d</strong> dump(查看内存中的内容)<br>默认查看128字节：<br><img src="/images/AssemblyLanguage/d%E9%BB%98%E8%AE%A4.png" alt=""><br>指定查看的末物理地址：<br><img src="/images/AssemblyLanguage/d%E6%8C%87%E5%AE%9A.png" alt=""><br><strong>e</strong> enter(改写内存中的内容)<br>直接改写：<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A5.png" alt=""><br>&emsp;（修改为字符或字符串，不区分单引号和双引号）<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A52.png" alt=""><br>逐个改写：<br><img src="/images/AssemblyLanguage/e%E9%80%90%E4%B8%AA.png" alt=""><br>&emsp;（逐个改写的方法只支持修改为机器码）<br><strong>a</strong> assemble(直接向内存中写入汇编指令)<br><img src="/images/AssemblyLanguage/a.png" alt=""><br><strong>u</strong> unassemble(查看机器码对应的汇编指令)<br>先写入机器码：（b80100 <code>mov ax,0001</code>、b90200 <code>mov cx,0002</code>、01c8 <code>add ax,cx</code>）<br><img src="/images/AssemblyLanguage/u%E5%85%88%E5%86%99%E5%85%A5.png" alt=""><br>查看汇编指令：<br><img src="/images/AssemblyLanguage/u%E6%9F%A5%E7%9C%8B.png" alt=""><br><strong>t</strong> trace(执行CS:IP处的一条汇编指令，后调用一次r指令显示寄存器内容)<br><img src="/images/AssemblyLanguage/t.png" alt=""></p>
+<h1 id="debug指令"><a href="#debug指令" class="headerlink" title="debug指令"></a>debug指令</h1><p><strong><font size=10>r</font></strong>  register(查看、修改各寄存器的内容)<br>查看：<br><img src="/images/AssemblyLanguage/r%E6%9F%A5%E7%9C%8B.png" alt=""><br>修改：<br><img src="/images/AssemblyLanguage/r%E4%BF%AE%E6%94%B9.png" alt=""><br><strong><font size=10>d</font></strong> dump(查看内存中的内容)<br>默认查看128字节：<br><img src="/images/AssemblyLanguage/d%E9%BB%98%E8%AE%A4.png" alt=""><br>指定查看的末物理地址：<br><img src="/images/AssemblyLanguage/d%E6%8C%87%E5%AE%9A.png" alt=""><br><strong><font size=10>e</font></strong> enter(改写内存中的内容)<br>直接改写：<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A5.png" alt=""><br>&emsp;（修改为字符或字符串，不区分单引号和双引号）<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A52.png" alt=""><br>逐个改写：<br><img src="/images/AssemblyLanguage/e%E9%80%90%E4%B8%AA.png" alt=""><br>&emsp;（逐个改写的方法只支持修改为机器码）<br><strong><font size=10>a</font></strong> assemble(直接向内存中写入汇编指令)<br><img src="/images/AssemblyLanguage/a.png" alt=""><br><strong><font size=10>u</font></strong> unassemble(查看机器码对应的汇编指令)<br>先写入机器码：（b80100 <code>mov ax,0001</code>、b90200 <code>mov cx,0002</code>、01c8 <code>add ax,cx</code>）<br><img src="/images/AssemblyLanguage/u%E5%85%88%E5%86%99%E5%85%A5.png" alt=""><br>查看汇编指令：<br><img src="/images/AssemblyLanguage/u%E6%9F%A5%E7%9C%8B.png" alt=""><br><strong><font size=10>t</font></strong> trace(执行CS:IP处的一条汇编指令，后调用一次r指令显示寄存器内容)<br><img src="/images/AssemblyLanguage/t.png" alt=""></p>
 <hr>
-<h1 id="各寄存器"><a href="#各寄存器" class="headerlink" title="各寄存器"></a>各寄存器</h1><p><strong>CS &amp; IP</strong><br>&emsp;(code segment &amp; instruct pointer)<br>&emsp;存放着当前指令的段地址和偏移地址<br><strong>DS</strong><br>&emsp;(data segment)<br>&emsp;访问内存单元时，存放着默认的段地址；偏移地址通过[address]指出<br><strong>SS &amp; SP</strong><br>&emsp;(stack segment &amp; stack pointer)<br>&emsp;使用<code>push</code>和<code>pop</code>指令时，SS:SP指向栈顶元素<br><strong>CX</strong><br>&emsp;使用<code>debug 1.exe</code>追踪程序运行时，cx存放程序的长度</p>
+<h1 id="各寄存器"><a href="#各寄存器" class="headerlink" title="各寄存器"></a>各寄存器</h1><p><strong><font size=10>CS &amp; IP</font></strong><br>&emsp;(code segment &amp; instruct pointer)<br>&emsp;存放着当前指令的段地址和偏移地址<br><strong><font size=10>DS</font></strong><br>&emsp;(data segment)<br>&emsp;访问内存单元时，存放着默认的段地址；偏移地址通过[address]指出<br><strong><font size=10>SS &amp; SP</font></strong><br>&emsp;(stack segment &amp; stack pointer)<br>&emsp;使用<code>push</code>和<code>pop</code>指令时，SS:SP指向栈顶元素<br><strong><font size=10>CX</font></strong><br>&emsp;使用<code>debug 1.exe</code>追踪程序运行时，cx存放程序的长度</p>
 <hr>
 <h1 id="【debug】和【汇编指令】状态下的读写内存"><a href="#【debug】和【汇编指令】状态下的读写内存" class="headerlink" title="【debug】和【汇编指令】状态下的读写内存"></a>【debug】和【汇编指令】状态下的读写内存</h1><p>&emsp;&emsp;注意区分【debug】和【汇编指令】两种状态<br>&emsp;&emsp;在使用debug时，能够轻松地读写内存：d查看、e和a改写<br>&emsp;&emsp;但通过汇编指令读写内存就是另一回事了</p>
 <p>&emsp;&emsp;<strong>通过汇编指令读取内存</strong><br>&emsp;&emsp;若要将某处的内存单元的内容读入寄存器中，格式为：mov 寄存器名,内存单元地址<br>&emsp;&emsp;比如，读取10000H处的内存单元，有mov al,[0]。其中寄存器al用来存储读取的内容，而[ … ]表示内存单元的偏移地址，它的段地址默认存放在段寄存器DS中，所以必须提前将DS修改为1000H<br>&emsp;&emsp;由于CPU的硬件限制，不允许直接将诸如1000H的数据送入段寄存器DS中。折中的办法就是用一个普通的寄存器(如ax, bx)存放数据，再将其送入段寄存器中：</p>
@@ -272,7 +278,7 @@
 <p>&emsp;&emsp;在上面这条汇编代码之前，也应该指定段寄存器DS的内容，所以完整步骤就是：</p>
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> <span class="built_in">bx</span>, <span class="number">1000</span></span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">ds</span>, <span class="built_in">bx</span></span><br><span class="line"><span class="keyword">mov</span> [<span class="number">0</span>], <span class="built_in">al</span></span><br></pre></td></tr></table></figure>
 <hr>
-<h1 id="一个完整的汇编程序"><a href="#一个完整的汇编程序" class="headerlink" title="一个完整的汇编程序"></a>一个完整的汇编程序</h1><p><strong>创建</strong>：<br>&emsp;&emsp;输入edit指令进入DosBox自带的edit编辑器，完成汇编代码的编写；假设编写好的汇编代码为1.asm<br>&emsp;&emsp;（edit是以<Alt>开头，高亮字符为快捷键，如Alt+f、Alt+s、Alt+x）<br><strong>编译</strong>：<br>&emsp;&emsp;输入masm指令，快速编译”masm 1;”，或者进入masm界面，查看详细过程<br>&emsp;&emsp;编译过程中，可能会产生目标文件[.OBJ]、列表文件[.LST]、交叉引用文件[.CRF]<br><strong>连接</strong>：<br>&emsp;&emsp;输入link指令，快速连接”link 1;”，或者进入link界面，查看详细过程<br>&emsp;&emsp;连接过程中，可能会产生可执行文件[.EXE]、映像文件[.MAP]，可能会需要库文件[.LIB]<br><strong>执行</strong>：<br>&emsp;&emsp;直接键入可执行文件名，如”1”<br><strong>追踪</strong>：<br>&emsp;&emsp;使用DosBox的debug软件，键入<code>debug 1.exe</code><br>&emsp;&emsp;DOS将.exe文件加载到内存中，有以下几个流程：<br>&emsp;&emsp;&emsp;①找到一段起始地址为SA:0000(即偏移地址为0000)，足够空闲的空间；同时ds被设置为SA，表示段地址<br>&emsp;&emsp;&emsp;②该内存区的前256个字节(=100H)存放程序段前缀(PSP)，DOS利用PSP与被加载程序进行通信<br>&emsp;&emsp;&emsp;③在SA+10H:0000处开始装入程序；同时设置CS:IP指向该程序的入口<br>&emsp;&emsp;&emsp;&emsp;易知此时cs = ds + 10H<br>&emsp;&emsp;进入debug后，CS:IP指向SA+10H:0000，可通过t指令逐条执行<br>&emsp;&emsp;注意：当执行到退出程序的汇编代码”int 21H”时，不使用指令t，而要使用指令p，会显示”Program terminated normally”</p>
+<h1 id="一个完整的汇编程序"><a href="#一个完整的汇编程序" class="headerlink" title="一个完整的汇编程序"></a>一个完整的汇编程序</h1><p><strong>创建</strong>：<br>&emsp;&emsp;输入edit指令进入DosBox自带的edit编辑器，完成汇编代码的编写；假设编写好的汇编代码为1.asm<br>&emsp;&emsp;（edit是以&lt;Alt&gt;开头，高亮字符为快捷键，如Alt+f、Alt+s、Alt+x）<br><strong>编译</strong>：<br>&emsp;&emsp;输入masm指令，快速编译”masm 1;”，或者进入masm界面，查看详细过程<br>&emsp;&emsp;编译过程中，可能会产生目标文件[.OBJ]、列表文件[.LST]、交叉引用文件[.CRF]<br><strong>连接</strong>：<br>&emsp;&emsp;输入link指令，快速连接”link 1;”，或者进入link界面，查看详细过程<br>&emsp;&emsp;连接过程中，可能会产生可执行文件[.EXE]、映像文件[.MAP]，可能会需要库文件[.LIB]<br><strong>执行</strong>：<br>&emsp;&emsp;直接键入可执行文件名，如”1”<br><strong>追踪</strong>：<br>&emsp;&emsp;使用DosBox的debug软件，键入<code>debug 1.exe</code><br>&emsp;&emsp;DOS将.exe文件加载到内存中，有以下几个流程：<br>&emsp;&emsp;&emsp;①找到一段起始地址为SA:0000(即偏移地址为0000)，足够空闲的空间；同时ds被设置为SA，表示段地址<br>&emsp;&emsp;&emsp;②该内存区的前256个字节(=100H)存放程序段前缀(PSP)，DOS利用PSP与被加载程序进行通信<br>&emsp;&emsp;&emsp;③在SA+10H:0000处开始装入程序；同时设置CS:IP指向该程序的入口<br>&emsp;&emsp;&emsp;&emsp;易知此时cs = ds + 10H<br>&emsp;&emsp;进入debug后，CS:IP指向SA+10H:0000，可通过t指令逐条执行<br>&emsp;&emsp;注意：当执行到退出程序的汇编代码”int 21H”时，不使用指令t，而要使用指令p，会显示”Program terminated normally”</p>
 
     </div>
 
