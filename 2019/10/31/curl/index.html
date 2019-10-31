@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="学习使用命令行工具curl">
+<meta name="keywords" content="CTF,curl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="curl">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;31&#x2F;curl&#x2F;index.html">
+<meta property="og:site_name" content="Examine2&#39;s Home">
+<meta property="og:description" content="学习使用命令行工具curl">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;curl&#x2F;xff.png">
+<meta property="og:updated_time" content="2019-10-31T08:02:28.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;curl&#x2F;xff.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/10/31/curl/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>curl | Examine2's Home</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Examine2's Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/31/curl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/128X128.gif">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Examine2's Home">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          curl
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-10-31 15:57:50 / Modified: 16:02:28" itemprop="dateCreated datePublished" datetime="2019-10-31T15:57:50+08:00">2019-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>6 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>学习使用命令行工具curl</p>
+<a id="more"></a>
+<h1 id="curl-–-Client-URL"><a href="#curl-–-Client-URL" class="headerlink" title="curl –(Client URL)"></a>curl –(Client URL)</h1><p>一个利用URL语法在命令行下工作的文件传输工具</p>
+<hr>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>基础用法：<br><code>$ curl https://www.baidu.com</code><br>上面的命令便是curl最基本的用法，获取URL处的源代码</p>
+<p>curl往往携带许多参数，参数也是curl的精髓，没有参数的curl只能获取源代码，useless</p>
+<p>以参数<code>-A</code>为例，<code>-A</code>能够指定客户端的用户代理标头，即User-Agent，伪造User-Agent用于伪造浏览器；在一些CTF题目中，往往需要使用指定的浏览器去访问网页才能得到flag，而真的去下载该浏览器是傻子行为，有时候那些浏览器根本不存在</p>
+<p>参考<a href="https://2019game.picoctf.com/problems" target="_blank" rel="noopener">pico2019</a>Web的一道题目——‘picobrowser’，要求我们使用一款名为picobrowser的浏览器去访问网站<code>https://2019shell1.picoctf.com/problem/37829/flag</code>，即可得到flag</p>
+<p>那么使用curl：<br><code>$ curl -A picobrowser https://2019shell1.picoctf.com/problem/37829/flag</code><br>服务器将把你看作你是用picobrowser访问网页的，就会返回对应的网页</p>
+<p>在网页源代码中仔细查找，即可找到<code>picoCTF{xxx}</code></p>
+<blockquote>
+<p>这里还有一点值得注意，curl在命令行下即可运行，也就是Windows和Linux都行</p>
+</blockquote>
+<blockquote>
+<p>将上面含<code>-A</code>的curl命令在Windows的cmd窗口中输入，同样能够返回想要的源代码，同样能够找到<code>picoCTF{xxx}</code>。但是使用Linux的命令配合curl，将会使curl得到更好的效果</p>
+</blockquote>
+<blockquote>
+<p>比如，如果返回的源代码太多，我们不会想去自己一行一行地搜索有没有<code>picoCTF{xxx}</code>，这时可以利用Linux的<code>grep</code>命令，用<code>|</code>形成管道，将源代码传递给<code>grep</code>作为正则匹配文本，直接匹配：<br><code>$ curl -A picobrowser https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code></p>
+</blockquote>
+<blockquote>
+<p>便捷高效</p>
+</blockquote>
+<blockquote>
+<p>因此练习curl在Linux系统下最好（至少我是）</p>
+</blockquote>
+<p>以修改User Agent的<code>-A</code>为起点，正式展开对curl的学习</p>
+<hr>
+<h1 id="部分概念"><a href="#部分概念" class="headerlink" title="部分概念"></a>部分概念</h1><hr>
+<h2 id="参数位置"><a href="#参数位置" class="headerlink" title="参数位置"></a>参数位置</h2><p>在curl中，命令行解析器总是解析整个命令行，因此参数选项可以放在整个命令行的任意位置：<br><code>curl https://2019shell1.picoctf.com/problem/37829/flag -A picobrowser | grep pico</code></p>
+<p>当然你要是说要把参数放在<code>curl</code>之前，可别怪我一砖拍下去</p>
+<p>所谓的任意位置也只限于curl命令，grep命令接收curl传送过来的文本，因此必须放在<code>|</code>之后</p>
+<hr>
+<h2 id="短形式-amp-长形式"><a href="#短形式-amp-长形式" class="headerlink" title="短形式 &amp; 长形式"></a>短形式 &amp; 长形式</h2><p>curl的参数大多是为了追求高效率的缩写，如<code>-A</code>，称为<strong>短形式</strong>；但当参数过多，单独一个字母的参数反倒容易引起困惑（比如，<code>-a</code>，它是一个与<code>-A</code>没关系的参数），短形式也不能从字面意思上记忆</p>
+<p>所有短形式都对应着一个<strong>长形式</strong>，例如<code>-A</code>，它的长形式就是<code>--user-agent</code></p>
+<p>短形式用一个中划线<code>-</code>指定，而长形式用两个中划线指定<code>--</code>。两者是完全互相等效的</p>
+<p>于是上面的picobrowser题也可以写成：<br><code>curl --user-agent picobrowser https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code></p>
+<p>当你实在忘记修改UA(User Agent)的参数缩写是什么的时候，只要你还记得User Agent这个词语，就能敲上<code>--user-agent</code></p>
+<hr>
+<h2 id="单引号-or-双引号"><a href="#单引号-or-双引号" class="headerlink" title="单引号 or 双引号"></a>单引号 or 双引号</h2><p>多数情况下，在curl中添加单引号或双引号是无关痛痒的。下面三条命令产生的效果完全一样：<br><code>curl -A picobrowser https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code><br><code>curl -A &#39;picobrowser&#39; https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code><br><code>curl -A &quot;picobrowser&quot; https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code></p>
+<p>单引号和双引号都将内容概括成一个字符串，两者没有任何区别</p>
+<p>当参数包含空格的时候，引号的作用就凸显出来了：假如要求你使用一个名为’Are you OK?’的浏览器访问页面，你必须写成：<br><code>curl -A &quot;Are you OK?&quot; https://2019shell1.picoctf.com/problem/37829/flag | grep pico</code></p>
+<p>不添加引号，<code>Are</code>将会被单独解析为UA(User Agent，使用缩写是个好习惯)，而剩下的<code>you</code>和<code>OK?</code>很可能导致未知的错误</p>
+<hr>
+<h2 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h2><p>当你需要查阅一些关于curl参数的文档的时候，除了一些概括性的博客文章，还可以查阅内置的官方文档</p>
+<p><code>$ curl --help</code>将显示所有参数的短形式、长形式以及简要用法</p>
+<p><code>$ curl --manual</code>将详细地呈现每个参数的使用方法</p>
+<hr>
+<h1 id="部分参数汇总"><a href="#部分参数汇总" class="headerlink" title="部分参数汇总"></a>部分参数汇总</h1><hr>
+<h2 id="emsp-A-user-agent"><a href="#emsp-A-user-agent" class="headerlink" title="&emsp;-A --user-agent"></a>&emsp;<code>-A</code> <code>--user-agent</code></h2><p>设置用户代理(User Agent)，简称UA；通常用于伪装成特定的浏览器</p>
+<blockquote>
+<p>一些网站常常通过判断UA来给不同的操作系统、不同的浏览器发送不同的页面，因此可能造成某些页面无法在某个浏览器中正常显示。可以通过伪装UA来绕过检测</p>
+</blockquote>
+<p>在网上可以找到大部分浏览器的UA字符串</p>
+<hr>
+<h2 id="emsp-e-referer"><a href="#emsp-e-referer" class="headerlink" title="&emsp;-e --referer"></a>&emsp;<code>-e</code> <code>--referer</code></h2><p>与设置UA的<code>-A</code>类似，<code>-e</code>设置的是来源网址(Referer)</p>
+<p>当你从<code>www.google.com</code>点击进入<code>www.examine2.top</code>，和从<code>www.baidu.com</code>点击进入<code>www.examine2.top</code>时，这两次的请求头信息是不完全一样的，至少两次的Referer分别是<code>www.google.com</code>和<code>www.baidu.com</code></p>
+<p>Referer通常用于<strong>统计网站流量来源</strong>，有时也用于<strong>防盗链</strong>。指定我的图片服务器只能我自己的网站访问，那么图片服务器每次都会判断取到的Referer是否合法</p>
+<p><strong>空Referer</strong>的产生是由直接从浏览器的地址栏输入URL访问导致的</p>
+<blockquote>
+<p>Referer的正确英语拼法是referrer，由于早期HTTP规范的拼写错误，为了保持向后兼容就将错就错了。其它网络技术的规范试图修正此问题，使用正确拼法，所以目前拼法不统一</p>
+</blockquote>
+<p><a href="https://www.sojson.com/blog/58.html" target="_blank" rel="noopener">本部分参考</a></p>
+<hr>
+<h2 id="emsp-H-header"><a href="#emsp-H-header" class="headerlink" title="&emsp;-H --header"></a>&emsp;<code>-H</code> <code>--header</code></h2><p>事实上，上面的User-Agent和Referer都属于<strong>HTTP请求头</strong>，而常用的HTTP请求头就有30多个：</p>
+<blockquote>
+<ul>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Authorization</li>
+<li>Content-Type</li>
+<li>Host</li>
+<li>If-Modified-Since</li>
+<li>…</li>
+</ul>
+</blockquote>
+<p>在curl中，为每一个请求头都准备一个缩写参数，没必要且容易引起混淆。为此可以通过<code>-H</code>来指定请求头和请求头的内容</p>
+<p><code>$ curl -A picobrowser www.google.com</code>和<code>$ curl -H &#39;user-agent: picobrowser&#39; www.google.com</code>是等效的</p>
+<p><code>-H</code>参数后接字符串，请求头和请求头内容之间用冒号<code>:</code>和一个空格<code></code>连接。一个<code>-H</code>参数修改一个请求头信息，要修改多个请求头，建议<strong>使用多个<code>-H</code></strong></p>
+<blockquote>
+<p><a href="https://adworld.xctf.org.cn/task" target="_blank" rel="noopener">攻防世界</a>Web题的新手练习区中，题目”xff_referer”适合练手</p>
+</blockquote>
+<blockquote>
+<p>题目要求我们访问一个网页，请求头”X-Forwarded-For”(即xff)代表Web服务器最原始的IP地址，伪造它即可实现给出的提示“ip地址必须为123.123.123.123”</p>
+</blockquote>
+<blockquote>
+<p>后面又要求“必须来自<a href="https://www.google.com”，于是我们使用curl，一波带走：" target="_blank" rel="noopener">https://www.google.com”，于是我们使用curl，一波带走：</a></p>
+</blockquote>
+<blockquote>
+<p><code>$ curl -H &#39;x-forwarded-for: 123.123.123.123&#39; -H &#39;referer: https://www.google.com&#39; http://111.198.29.45:55724/</code></p>
+</blockquote>
+<blockquote>
+<p>拿到flag总有一种喜悦是不是，n_n<br><img src="/images/curl/xff.png" alt=""></p>
+</blockquote>
+<hr>
+<p>未完待续</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/curl/" rel="tag"># curl</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/31/Discrete_Mathematics/" rel="next" title="Discrete Mathematics">
+                  <i class="fa fa-chevron-left"></i> Discrete Mathematics
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#curl-–-Client-URL"><span class="nav-number">1.</span> <span class="nav-text">curl –(Client URL)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部分概念"><span class="nav-number">2.</span> <span class="nav-text">部分概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数位置"><span class="nav-number">2.1.</span> <span class="nav-text">参数位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#短形式-amp-长形式"><span class="nav-number">2.2.</span> <span class="nav-text">短形式 &amp; 长形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单引号-or-双引号"><span class="nav-number">2.3.</span> <span class="nav-text">单引号 or 双引号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Help"><span class="nav-number">2.4.</span> <span class="nav-text">Help</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部分参数汇总"><span class="nav-number">3.</span> <span class="nav-text">部分参数汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#emsp-A-user-agent"><span class="nav-number">3.1.</span> <span class="nav-text"> -A --user-agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#emsp-e-referer"><span class="nav-number">3.2.</span> <span class="nav-text"> -e --referer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#emsp-H-header"><span class="nav-number">3.3.</span> <span class="nav-text"> -H --header</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/128X128.gif">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">18k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">30 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
