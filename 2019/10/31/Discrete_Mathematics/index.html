@@ -50,28 +50,32 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Examine2&#39;s Home">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+  <meta name="description" content="《离散数学》">
+<meta name="keywords" content="Lesson">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Discrete Mathematics">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;31&#x2F;Discrete_Mathematics&#x2F;index.html">
 <meta property="og:site_name" content="Examine2&#39;s Home">
+<meta property="og:description" content="《离散数学》">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-31T00:35:05.244Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2019/10/31/Discrete_Mathematics/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Examine2's Home</title>
+  <title>Discrete Mathematics | Examine2's Home</title>
   
 
 
@@ -169,10 +173,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/31/Discrete_Mathematics/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -186,8 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/31/Discrete_Mathematics/" class="post-title-link" itemprop="url">Discrete Mathematics</a>
+          Discrete Mathematics
         </h1>
 
         <div class="post-meta">
@@ -237,398 +240,91 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>《离散数学》</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/31/Discrete_Mathematics/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p>《离散数学》</p>
+<a id="more"></a>
+<h1 id="概率论与数理统计"><a href="#概率论与数理统计" class="headerlink" title="概率论与数理统计"></a>概率论与数理统计</h1><hr>
+<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a><font color='blue'>公式</font></h2><h3 id="条件概率"><a href="#条件概率" class="headerlink" title="条件概率"></a><strong>条件概率</strong></h3><p>$$P(B|A)=\frac{P(AB)}{P(A)}$$</p>
+<h3 id="乘法公式"><a href="#乘法公式" class="headerlink" title="乘法公式"></a><strong>乘法公式</strong></h3><p>$$P(AB)=P(B|A)P(A)$$</p>
+<h3 id="全概率公式"><a href="#全概率公式" class="headerlink" title="全概率公式"></a><strong>全概率公式</strong></h3><p>设试验E的样本空间为S，A为E的事件，$B_1$,$B_2$,…,$B_n$为S的一个划分，则：</p>
+<p>$$P(A)=P(A|B_1)P(B_1)+P(A|B_2)P(B_2)+…+P(A|B_n)P(B_n)$$</p>
+<h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a><strong>贝叶斯公式</strong></h3><p>设试验E的样本空间为S，A为E的事件，$B_1$,$B_2$,…,$B_n$为S的一个划分，则：</p>
+<p>$$P(B_i|A)=\frac{P(A|B_i)P(B_i)}{\sum_{j=1}^{n} {P(A|B_j)P(B_j)}}$$</p>
+<blockquote>
+<p>由条件概率和全概率公式可以求得</p>
+<h3 id="二阶全概率公式"><a href="#二阶全概率公式" class="headerlink" title="二阶全概率公式"></a>二阶全概率公式</h3><p>$$P(A)=P(A|B)P(B)+P(A|\overline{B})P(\overline{B})$$</p>
+<h3 id="二阶贝叶斯公式"><a href="#二阶贝叶斯公式" class="headerlink" title="二阶贝叶斯公式"></a>二阶贝叶斯公式</h3><p>$$P(B|A)=\frac{P(AB)}{P(A)}=\frac{P(A|B)P(B)}{P(A|B)P(B)+P(A|\overline{B})P(\overline{B})}$$</p>
+</blockquote>
+<hr>
+<h2 id="分布"><a href="#分布" class="headerlink" title="分布"></a><font color='blue'>分布</font></h2><h3 id="0-1-分布"><a href="#0-1-分布" class="headerlink" title="(0-1)分布"></a><strong>(0-1)分布</strong></h3><p>随机变量X只可能取0与1两个值</p>
+<p>$$P{X=k}=p^k(1-p)^{1-k},k=0,1$$</p>
+<h3 id="伯努利试验"><a href="#伯努利试验" class="headerlink" title="伯努利试验"></a><strong>伯努利试验</strong></h3><p>定义：实验E只有两个可能的结果：$A$及$\overline{A}$<br><strong>n重伯努利试验</strong>：将E独立重复地进行n次</p>
+<h3 id="二项分布，记作-emsp-X-sim-b-n-p"><a href="#二项分布，记作-emsp-X-sim-b-n-p" class="headerlink" title="二项分布，记作&emsp;$X\sim b(n,p)$"></a><strong>二项分布，记作&emsp;$X\sim b(n,p)$</strong></h3><p>记 $q=1-p$：<br>$$P{X=k}=C_n^kp^kq^{n-k},k=0,1,2,…,n$$</p>
+<p>当$n=1$时，二项分布化简为(0-1)分布：$P{X=k}=p^kq^{1-k}$</p>
+<h3 id="泊松分布，记作-emsp-X-sim-pi-lambda"><a href="#泊松分布，记作-emsp-X-sim-pi-lambda" class="headerlink" title="泊松分布，记作&emsp;$X\sim \pi(\lambda) $"></a><strong>泊松分布，记作&emsp;$X\sim \pi(\lambda) $</strong></h3><p>设随机变量X所有可能取的值为0,1,2,…，而取各个值的概率为：<br>$$P{X=k}=\frac{\lambda^ke^{-\lambda}}{k!},k=0,1,2,…$$</p>
+<blockquote>
+<h3 id="泊松定理（联系泊松分布和二项分布）"><a href="#泊松定理（联系泊松分布和二项分布）" class="headerlink" title="泊松定理（联系泊松分布和二项分布）"></a><strong>泊松定理（联系泊松分布和二项分布）</strong></h3><p>对于二项分布：<br>&emsp;$P{X=k}=C_n^kp^kq^{n-k}$,$k=0,1,2,…,n$<br>当$n$很大，$p$很小时，有：<br>$$C_n^kp^k(1-p)^{n-k}\approx\frac{\lambda^ke^{-\lambda}}{k!}，其中\lambda=np$$</p>
+</blockquote>
+<h3 id="均匀分布，记作-emsp-X-sim-U-a-b"><a href="#均匀分布，记作-emsp-X-sim-U-a-b" class="headerlink" title="均匀分布，记作&emsp;$X\sim U(a,b)$"></a><strong>均匀分布，记作&emsp;$X\sim U(a,b)$</strong></h3><p>连续型随机变量$X$具有概率密度：<br>$$<br>f(x) =<br>\begin{cases}<br>  \frac{1}{b-a}, &amp; a&lt;x&lt;b, \\<br>  0, &amp; else,<br>\end{cases}<br>$$<br>$$<br>F(x) =<br>\begin{cases}<br>  0, &amp; x&lt;a, \\<br>  \frac{x-a}{b-a}, &amp; a\leq x&lt;b, \\<br>  1, &amp; x\geq b,<br>\end{cases}<br>$$</p>
+<h3 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a><strong>指数分布</strong></h3><p>连续型随机变量$X$具有概率密度：<br>$$<br>f(x) =<br>\begin{cases}<br>  \frac{1}{\theta}e^{-x/\theta}, &amp; x&gt;0 \\<br>  0, &amp; else<br>\end{cases}<br>$$<br>$$<br>F(x) =<br>\begin{cases}<br>  1-e^{-x/\theta}, &amp; x&gt;0 \\<br>  0, &amp; else<br>\end{cases}<br>$$</p>
+<blockquote>
+<h4 id="指数分布的无记忆性"><a href="#指数分布的无记忆性" class="headerlink" title="指数分布的无记忆性"></a><strong>指数分布的无记忆性</strong></h4><p>服从指数分布的随机变量$X$具有以下性质：<br>&emsp;&emsp;对于任意$s,t&gt;0$，有<br>$$P{X&gt;s+t|X&gt;s}=P{X&gt;t}$$</p>
+</blockquote>
+<h3 id="正态分布-高斯分布-，记作-emsp-X-sim-N-mu-sigma-2"><a href="#正态分布-高斯分布-，记作-emsp-X-sim-N-mu-sigma-2" class="headerlink" title="正态分布(高斯分布)，记作&emsp;$X\sim N(\mu,\sigma^2)$"></a><strong>正态分布(高斯分布)，记作&emsp;$X\sim N(\mu,\sigma^2)$</strong></h3><p>连续型随机变量$X$具有概率密度：<br>$$f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}, -\infty&lt;x&lt;+\infty$$</p>
+<blockquote>
+<h4 id="正态分布性质"><a href="#正态分布性质" class="headerlink" title="正态分布性质"></a><strong>正态分布性质</strong></h4><ol>
+<li>曲线关于$x=\mu$对称，且在$x=\mu$处取得最大值</li>
+<li>当$\mu=0$,$\sigma=1$时，$X$服从<strong>标准正态分布</strong><br>$$<br>\varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2} \\<br>\Phi(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^xe^{-t^2/2}dt<br>$$</li>
+<li>$$\Phi(-x)=1-\Phi(x)$$</li>
+<li>常见的$\Phi(x)$值：<blockquote>
+<p>$\Phi(1)=0.8413$<br>$\Phi(2)=0.9772$<br>$\Phi(3)=0.9987$</p>
+</blockquote>
+</li>
+<li>普通正态分布<strong>线性变换</strong>成标准正态分布<br>&emsp;若$X\sim N(\mu,\sigma^2)$，则$Z=\frac{X-\mu}{\sigma}\sim N(0,1)$</li>
+</ol>
+</blockquote>
+<h1 id="Markdown数学公式"><a href="#Markdown数学公式" class="headerlink" title="Markdown数学公式"></a>Markdown数学公式</h1><p>分式： $\frac{a}{b}$</p>
+<p>下标： $x_2$ 和 ${abc}_{xyz}$<br>上标： $x^2$ 和 ${abc}^{xyz}$</p>
+<p>上划线： $\overline{abc}$<br>下划线： $\underline{abc}$</p>
+<p>波浪线： $\sim$</p>
+<p>约等于： $\approx$</p>
+<p>无穷： $\infty$</p>
+<p>多值函数：<br>$$<br>p(x) =<br>\begin{cases}<br>  p, &amp; x = 1 \\<br>  1 - p, &amp; x = 0<br>\end{cases}<br>$$</p>
+<p>求和：<br>$$\sum_{k=1}^n\frac{1}{k}$$<br>积分：<br>$$\int_a^b f(x)dx$$</p>
+<h2 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h2><p>1 $\alpha$<br>2 $\beta$<br>3 $\gamma$<br>4 $\epsilon$<br>5 $\eta$<br>6 $\theta$<br>7 $\lambda$<br>8 $\mu$<br>9 $\nu$<br>10 $\xi$<br>11 $\pi$<br>12 $\rho$<br>13 $\phi$<br>14 $\varphi$<br>15 $\psi$<br>16 $\omega$<br>17 $\sigma$<br>18 $\Phi$</p>
+
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Lesson/" rel="tag"># Lesson</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/29/Linux_Attempt/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/128X128.gif">
-      <meta itemprop="name" content="examine">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Home">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/29/Linux_Attempt/" class="post-title-link" itemprop="url">Linux Attempt</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-29 21:13:34 / Modified: 21:18:35" itemprop="dateCreated datePublished" datetime="2019-10-29T21:13:34+08:00">2019-10-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>5 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>复习并记录当初学习过的部分Linux知识</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/29/Linux_Attempt/#more" rel="contents">
-                Read more &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/29/Linux_Attempt/" rel="next" title="Linux Attempt">
+                  <i class="fa fa-chevron-left"></i> Linux Attempt
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+            <span class="post-nav-divider"></span>
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/Encrypt_Test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/128X128.gif">
-      <meta itemprop="name" content="examine">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Home">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/27/Encrypt_Test/" class="post-title-link" itemprop="url">Encrypt Test</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-27 17:12:20 / Modified: 20:13:13" itemprop="dateCreated datePublished" datetime="2019-10-27T17:12:20+08:00">2019-10-27</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>116</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          测试加密文章
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/27/Encrypt_Test/#more" rel="contents">
-                Read more &raquo;
-              </a>
+            <div class="post-nav-prev post-nav-item">
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+          </div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/Assembly_Language/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/128X128.gif">
-      <meta itemprop="name" content="examine">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Home">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/26/Assembly_Language/" class="post-title-link" itemprop="url">Assembly Language Learning</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-10-26 21:45:12" itemprop="dateCreated datePublished" datetime="2019-10-26T21:45:12+08:00">2019-10-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-27 11:15:48" itemprop="dateModified" datetime="2019-10-27T11:15:48+08:00">2019-10-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/26/Assembly_Language/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/22/Hackergame_2019_writes-up/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/128X128.gif">
-      <meta itemprop="name" content="examine">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Home">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/22/Hackergame_2019_writes-up/" class="post-title-link" itemprop="url">Hackergame 2019 writes-up</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-10-22 15:52:33" itemprop="dateCreated datePublished" datetime="2019-10-22T15:52:33+08:00">2019-10-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-26 21:56:07" itemprop="dateModified" datetime="2019-10-26T21:56:07+08:00">2019-10-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>6.7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>11 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录第一次参加Hackergame的解题情况，入门网络安全不到一个月，太菜，拿了800分，排名442</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/22/Hackergame_2019_writes-up/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -657,6 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概率论与数理统计"><span class="nav-number">1.</span> <span class="nav-text">概率论与数理统计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公式"><span class="nav-number">1.1.</span> <span class="nav-text">公式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件概率"><span class="nav-number">1.1.1.</span> <span class="nav-text">条件概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乘法公式"><span class="nav-number">1.1.2.</span> <span class="nav-text">乘法公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全概率公式"><span class="nav-number">1.1.3.</span> <span class="nav-text">全概率公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">1.1.4.</span> <span class="nav-text">贝叶斯公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二阶全概率公式"><span class="nav-number">1.1.5.</span> <span class="nav-text">二阶全概率公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二阶贝叶斯公式"><span class="nav-number">1.1.6.</span> <span class="nav-text">二阶贝叶斯公式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布"><span class="nav-number">1.2.</span> <span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-1-分布"><span class="nav-number">1.2.1.</span> <span class="nav-text">(0-1)分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伯努利试验"><span class="nav-number">1.2.2.</span> <span class="nav-text">伯努利试验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二项分布，记作-emsp-X-sim-b-n-p"><span class="nav-number">1.2.3.</span> <span class="nav-text">二项分布，记作 $X\sim b(n,p)$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泊松分布，记作-emsp-X-sim-pi-lambda"><span class="nav-number">1.2.4.</span> <span class="nav-text">泊松分布，记作 $X\sim \pi(\lambda) $</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泊松定理（联系泊松分布和二项分布）"><span class="nav-number">1.2.5.</span> <span class="nav-text">泊松定理（联系泊松分布和二项分布）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#均匀分布，记作-emsp-X-sim-U-a-b"><span class="nav-number">1.2.6.</span> <span class="nav-text">均匀分布，记作 $X\sim U(a,b)$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数分布"><span class="nav-number">1.2.7.</span> <span class="nav-text">指数分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#指数分布的无记忆性"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">指数分布的无记忆性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正态分布-高斯分布-，记作-emsp-X-sim-N-mu-sigma-2"><span class="nav-number">1.2.8.</span> <span class="nav-text">正态分布(高斯分布)，记作 $X\sim N(\mu,\sigma^2)$</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#正态分布性质"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">正态分布性质</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Markdown数学公式"><span class="nav-number">2.</span> <span class="nav-text">Markdown数学公式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊字符"><span class="nav-number">2.1.</span> <span class="nav-text">特殊字符</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
