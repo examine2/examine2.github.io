@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录CTF招新赛Crypto和MISC题目的write-up">
+<meta name="keywords" content="CTF,write up">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF newers&#39; Crypto &amp; MISC write-up">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;12&#x2F;CTFnewer_Crypto_MISC&#x2F;index.html">
+<meta property="og:site_name" content="Examine2&#39;s Home">
+<meta property="og:description" content="记录CTF招新赛Crypto和MISC题目的write-up">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_en.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_d.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_flag.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;fullRSA.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;littlerRSA_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;littlerRSA_flag.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_Python.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_big_small.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_rsappend_next.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_s.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_result4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_sameN.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_result4_again.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_shareN.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_flag.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;base64_flag.png">
+<meta property="og:updated_time" content="2019-11-12T14:21:57.497Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_en.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/12/CTFnewer_Crypto_MISC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CTF newers' Crypto & MISC write-up | Examine2's Home</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Examine2's Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/12/CTFnewer_Crypto_MISC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/128X128.gif">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Examine2's Home">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTF newers' Crypto & MISC write-up
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-12 22:17:42 / Modified: 22:21:57" itemprop="dateCreated datePublished" datetime="2019-11-12T22:17:42+08:00">2019-11-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>6 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录CTF招新赛Crypto和MISC题目的write-up</p>
+<a id="more"></a>
+
+<h1 id="Crypto-write-up"><a href="#Crypto-write-up" class="headerlink" title="Crypto write-up"></a>Crypto write-up</h1><p>我写出的5题全是RSA的，其实只要稍微了解一下RSA，借助现成的工具，就能拿下这5题</p>
+<hr>
+<h2 id="litterRSA"><a href="#litterRSA" class="headerlink" title="litterRSA"></a>litterRSA</h2><p>出题人送分，flag就在文件里</p>
+<hr>
+<h2 id="bigRSA"><a href="#bigRSA" class="headerlink" title="bigRSA"></a>bigRSA</h2><p><code>e</code>很大，Google一下，觉得很符合维也纳攻击的特点<br><a href="https://www.cnblogs.com/zaqzzz/p/9914374.html" target="_blank" rel="noopener">https://www.cnblogs.com/zaqzzz/p/9914374.html</a><br>根据上面这篇文章，安装了rsa-wiener-attack，然后把自己的<code>e</code>和<code>n</code>填上去，运行<br><img src="/images/CTF-new/bigRSA_en.png" alt=""><br>结果：<br><img src="/images/CTF-new/bigRSA_d.png" alt=""></p>
+<p>得到d<br>打开RSA-Tool，输入<code>e</code>、<code>n</code>、<code>d</code>，进行解码，获得flag：<br><img src="/images/CTF-new/bigRSA_flag.png" alt=""></p>
+<hr>
+<h2 id="fullRSA-amp-littlerRSA-Revenger"><a href="#fullRSA-amp-littlerRSA-Revenger" class="headerlink" title="fullRSA &amp; littlerRSA Revenger"></a>fullRSA &amp; littlerRSA Revenger</h2><p>这两题都是比较纯粹的解密RSA<br>在github上看到一个项目——<a href="https://github.com/3summer/CTF-RSA-tool" target="_blank" rel="noopener">CTF-RSA-tool</a>，介绍上也说，“CTF-RSA-tool 是一款基于python以及sage的小工具，助不熟悉RSA的CTFer在CTF比赛中快速解决RSA相关的基本题型”</p>
+<p>一开始安装第三方库出现各种问题，就放弃了安装。后来招新赛没什么题好下手，就在虚拟机琢磨了一下，成功把它实现了</p>
+<p>这个脚本主要是根据你提供的条件（<code>e</code>、<code>n</code>、<code>c</code>、<code>p</code>、<code>q</code>等），用它内置的各种解RSA的算法逐一尝试一遍，输出各种解法的结果<br>比如fullRSA这题，拿到txt文本后，直接扔给它：<br><img src="/images/CTF-new/fullRSA.png" alt=""><br>它根据你传递的参数，选择可能的几种解法，依次运行。上图中第二种解法就成功解出了flag<br>littlerRSA Revenger这题也是，把它给的.py文件中的参数复制到一个文档中，整理成它需要的形式：<br><img src="/images/CTF-new/littlerRSA_1.png" alt=""><br>再传给它：<br><img src="/images/CTF-new/littlerRSA_flag.png" alt=""><br>INFO里还告知你<strong>start Hastad attack</strong></p>
+<p>当然，刚才那题bigRSA也可以通过这种办法解决，只是由于我是解决bigRSA之后才捣鼓CTF-RSA-tool的<br>试一试：<br><img src="/images/CTF-new/bigRSA_Python.png" alt=""><br>而且比自己慢慢解的确高效不少，一步到位</p>
+<blockquote>
+<p>打CTF不仅仅是解题拿到flag，更重要的是学习各种与网络安全相关的知识</p>
+</blockquote>
+<blockquote>
+<p>像这种用现成工具无脑得到flag的，如果沉迷，会慢慢把你推向脚本小子的道路，而不是真正的CTFer，因为背后的原理你什么都不懂</p>
+</blockquote>
+<blockquote>
+<p>(高觉悟)(老实.jpg)</p>
+</blockquote>
+<hr>
+<h2 id="AUrora"><a href="#AUrora" class="headerlink" title="AUrora"></a>AUrora</h2><p>题目给了源代码和一个包含运行结果的result_4文件</p>
+<p>首先分析源代码，主函数<code>rsappend()</code>一开始就是显示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsappend</span><span class="params">(m)</span>:</span></span><br><span class="line">    p = genprime(<span class="number">2048</span>)</span><br><span class="line">    q = genprime(<span class="number">2048</span>)</span><br><span class="line">    n = p * q</span><br></pre></td></tr></table></figure>
+
+<p>再看看它调用的<code>genprime()</code>函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genprime</span><span class="params">(l)</span>:</span></span><br><span class="line">    l/=<span class="number">8</span></span><br><span class="line">    big=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(l):</span><br><span class="line">        big=big&lt;&lt;<span class="number">8</span></span><br><span class="line">        l-=<span class="number">8</span></span><br><span class="line">    big-=<span class="number">1</span></span><br><span class="line">    small=(big+<span class="number">1</span>)&gt;&gt;<span class="number">4</span></span><br><span class="line">    temp=random.randint(small,big)</span><br><span class="line">    <span class="keyword">return</span> primefac.nextprime(temp)</span><br></pre></td></tr></table></figure>
+
+<p><code>genprime()</code>函数根据输入的<code>l</code>经过运算后得到一个十分大的数，以它传递的<code>l=2048</code>为例，在Python中模拟运行一遍，在执行到<code>temp=random.randint(small,big)</code>时，<code>big</code>和<code>small</code>的值分别为：<br><img src="/images/CTF-new/AU_big_small.png" alt=""><br>然后<code>temp</code>在这两个大数之间随机选择一个，并作为返回值；就这样，我们得到了两个随机且非常大的数<code>p</code>和<code>q</code></p>
+<p>接下来是<code>n = p * q</code>，做了几道RSA的题目，所以觉得这个也像是RSA<br>但是RSA的<code>p</code>和<code>q</code>是素数，这里的<code>p</code>和<code>q</code>是随机选择的，不一定是素数</p>
+<p>接下来：<br><img src="/images/CTF-new/AU_rsappend_next.png" alt=""><br>正如我注释的那样，得到<code>n</code>之后，把<code>n</code>变成字符串，再加上一个换行符<code>\n</code>，作为result这个list的第一个元素<br>然后调用了<code>padding()</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> s+urandom(abs(<span class="number">256</span>-len(s)))</span><br></pre></td></tr></table></figure>
+
+<p>根据尝试，<code>padding()</code>接收传入的<code>s</code>参数，而<code>s</code>必须是bytes类型的，然后调用<code>urandom()</code>，使用随机的bytes数据填充<code>s</code>，直至<code>s</code>的长度为256。最后返回长度为256的<code>s</code><br><img src="/images/CTF-new/AU_s.png" alt=""><br>源代码中调用<code>padding()</code>时传入的参数是<code>flag</code>，然后填充，生成<code>pm</code>，也就是说<code>flag</code>的信息隐藏在<code>pm</code>中</p>
+<p>接下来有一个32次的<code>for</code>循环：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">    e=genprime(<span class="number">32</span>)</span><br><span class="line">    c=pow(str2num(pm),e,n)</span><br><span class="line">    result.append(str(e)+<span class="string">"###"</span>+str(c)+<span class="string">"\n"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>e</code>是通过<code>genprime()</code>随机生成的一个数，然后计算得到<code>c</code>，最后将<code>e</code>和<code>c</code>中间用<code>###</code>连接，组成一个长的字符串，再将这个长字符串append到列表<code>result</code>中<br>可以知道，执行完这32次循环后，<code>result</code>中就有33个元素了（其中第一个元素是<code>n</code>）</p>
+<p>整个函数最后返回了<code>result</code>列表</p>
+<p>Python代码最后有一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(<span class="string">"result_4"</span>,<span class="string">"w"</span>).write(rsappend(flag))</span><br></pre></td></tr></table></figure>
+
+<p>它将<code>rsappend()</code>的返回值，也就是<code>result</code>列表完全写入到result_4文件中</p>
+<p>至此，源代码分析结束<br>打开那个resutl_4文件，发现它的确符合之前的分析：<br><img src="/images/CTF-new/AU_result4.png" alt=""><br>第一行是<code>result</code>的第一个元素<code>n</code>，之后便是32次遍历，很明显，<code>###</code>之前的是随机数<code>e</code>，之后的是计算得来的<code>c</code></p>
+<p>对比一下RSA的标准形式：加密是<code>c = pow(m,e,N)</code>，解密是<code>m = pow(c,d,N)</code><br>对比一下源代码中的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e=genprime()</span><br><span class="line">c=pow(str2num(pm),e,n)</span><br></pre></td></tr></table></figure>
+
+<p>完美匹配呀<br><code>pm</code>是包含flag信息的填充字符串，可以看作是RSA中的密文<code>m</code>；<code>e</code>和<code>n</code>又都是给出的；那<code>c</code>就是加密后的明文了</p>
+<p>RSA的难点在分解<code>n</code>，源代码中的<code>n</code>也是由两个很大的数<code>p</code>、<code>q</code>相乘得到的，而且没有给出<br>但是留意到每次加密时，<strong>使用的<code>n</code>都是同一个</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsappend</span><span class="params">(m)</span>:</span></span><br><span class="line">    p = genprime(<span class="number">2048</span>)</span><br><span class="line">    q = genprime(<span class="number">2048</span>)</span><br><span class="line">    n = p * q</span><br><span class="line">    <span class="keyword">return</span>[str(n)+<span class="string">"\n"</span>]</span><br><span class="line">    pm=padding(flag)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        e=genprime(<span class="number">32</span>)</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p><code>n</code>是在<code>for</code>循环之外定义的，每次加密都使用同一个模<code>n</code></p>
+<p>在RSA的解密方法中，就有一种<strong>共模攻击</strong>，其解释是：使用相同的模数N、不同的私钥，加密同一明文信息<br>完全符合源代码，使用了相同的模<code>n</code>，每次的私钥<code>e</code>都是临时获得的、不同，然后加密的密文就是隐藏flag信息的<code>pm</code></p>
+<p>使用CTF-RSA-tool工具，其内含共模攻击<br>①首先是转换文件格式<br>&emsp;CTF-RSA-tool中，共模攻击传入的文档的格式大致是：<br><img src="/images/CTF-new/AU_sameN.png" alt=""><br>&emsp;但我们得到的result_4的格式却是：<br><img src="/images/CTF-new/AU_result4_again.png" alt=""><br>&emsp;因此使用Python写一个变换格式的脚本myScript.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">file1 = open(<span class="string">"result_4"</span>,<span class="string">"r"</span>)</span><br><span class="line">file2 = open(<span class="string">"shareN.txt"</span>,<span class="string">"a"</span>)</span><br><span class="line"></span><br><span class="line">n = file1.readline()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">    str = file1.readline()</span><br><span class="line">    site = str.find(<span class="string">"###"</span>)</span><br><span class="line">    str1 = str[:site]</span><br><span class="line">    str2 = str[site+<span class="number">3</span>:]</span><br><span class="line">    string = <span class="string">"n = "</span>+n+<span class="string">"e = "</span>+str1+<span class="string">"\n"</span>+<span class="string">"c = "</span>+str2+<span class="string">"\n"</span></span><br><span class="line">    file2.write(string)</span><br><span class="line"></span><br><span class="line">file1.close()</span><br><span class="line">file2.close()</span><br></pre></td></tr></table></figure>
+
+<p>执行一下，得到工整的文件shareN.txt：<br><img src="/images/CTF-new/AU_shareN.png" alt=""><br>②直接发动共模攻击：<br><img src="/images/CTF-new/AU_flag.png" alt=""><br>然后得到明文<code>pm</code>，前面部分就是flag了</p>
+<hr>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><hr>
+<h2 id="vim2048"><a href="#vim2048" class="headerlink" title="vim2048"></a>vim2048</h2><p>玩游戏就对了，玩到2048也不难<br>话说之前也接触过vim，总是混淆上和下的操作，玩这个游戏有奇效</p>
+<hr>
+<h2 id="base64-stego"><a href="#base64-stego" class="headerlink" title="base64_stego"></a>base64_stego</h2><p>base64隐写<br>在<a href="https://www.tr0y.wang/2017/06/14/Base64steg/index.html" target="_blank" rel="noopener">troy的博客</a>学习了base64的一个小技巧，base64编码的字符串中隐藏着信息<br>复制他的解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line">b64chars = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'base64.txt'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    bin_str = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">        stegb64 = <span class="string">''</span>.join(line.split())</span><br><span class="line">        rowb64 =  <span class="string">''</span>.join(stegb64.decode(<span class="string">'base64'</span>).encode(<span class="string">'base64'</span>).split())</span><br><span class="line">        offset = abs(b64chars.index(stegb64.replace(<span class="string">'='</span>,<span class="string">''</span>)[<span class="number">-1</span>])-b64chars.index(rowb64.replace(<span class="string">'='</span>,<span class="string">''</span>)[<span class="number">-1</span>]))</span><br><span class="line">        equalnum = stegb64.count(<span class="string">'='</span>) <span class="comment">#no equalnum no offset</span></span><br><span class="line">        <span class="keyword">if</span> equalnum:</span><br><span class="line">            bin_str += bin(offset)[<span class="number">2</span>:].zfill(equalnum * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">''</span>.join([chr(int(bin_str[i:i + <span class="number">8</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, len(bin_str), <span class="number">8</span>)]) <span class="comment">#8 位一组</span></span><br></pre></td></tr></table></figure>
+
+<p>然后跑一次，就得到了flag：<br><img src="/images/CTF-new/base64_flag.png" alt=""></p>
+<hr>
+<h2 id="san-check"><a href="#san-check" class="headerlink" title="san check"></a>san check</h2><p>签到题，略</p>
+<hr>
+<p>end</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/write-up/" rel="tag"># write up</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/10/CTFnewer_PWN_RE/" rel="next" title="CTF newers' PWN & RE write-up">
+                  <i class="fa fa-chevron-left"></i> CTF newers' PWN & RE write-up
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto-write-up"><span class="nav-number">1.</span> <span class="nav-text">Crypto write-up</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#litterRSA"><span class="nav-number">1.1.</span> <span class="nav-text">litterRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bigRSA"><span class="nav-number">1.2.</span> <span class="nav-text">bigRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fullRSA-amp-littlerRSA-Revenger"><span class="nav-number">1.3.</span> <span class="nav-text">fullRSA &amp; littlerRSA Revenger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AUrora"><span class="nav-number">1.4.</span> <span class="nav-text">AUrora</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">2.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim2048"><span class="nav-number">2.1.</span> <span class="nav-text">vim2048</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#base64-stego"><span class="nav-number">2.2.</span> <span class="nav-text">base64_stego</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#san-check"><span class="nav-number">2.3.</span> <span class="nav-text">san check</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/128X128.gif">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">32k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">54 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
