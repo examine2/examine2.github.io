@@ -64,7 +64,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;fullRSA.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;littlerRSA_1.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;littlerRSA_flag.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_Python.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_python.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_big_small.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_rsappend_next.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_s.png">
@@ -74,7 +74,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_shareN.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;AU_flag.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;base64_flag.png">
-<meta property="og:updated_time" content="2019-11-12T14:21:57.497Z">
+<meta property="og:updated_time" content="2019-11-12T14:30:33.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;bigRSA_en.png">
 
@@ -218,7 +218,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-12 22:17:42 / Modified: 22:21:57" itemprop="dateCreated datePublished" datetime="2019-11-12T22:17:42+08:00">2019-11-12</time>
+              <time title="Created: 2019-11-12 22:17:42 / Modified: 22:30:33" itemprop="dateCreated datePublished" datetime="2019-11-12T22:17:42+08:00">2019-11-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,7 +270,7 @@
 <h2 id="fullRSA-amp-littlerRSA-Revenger"><a href="#fullRSA-amp-littlerRSA-Revenger" class="headerlink" title="fullRSA &amp; littlerRSA Revenger"></a>fullRSA &amp; littlerRSA Revenger</h2><p>这两题都是比较纯粹的解密RSA<br>在github上看到一个项目——<a href="https://github.com/3summer/CTF-RSA-tool" target="_blank" rel="noopener">CTF-RSA-tool</a>，介绍上也说，“CTF-RSA-tool 是一款基于python以及sage的小工具，助不熟悉RSA的CTFer在CTF比赛中快速解决RSA相关的基本题型”</p>
 <p>一开始安装第三方库出现各种问题，就放弃了安装。后来招新赛没什么题好下手，就在虚拟机琢磨了一下，成功把它实现了</p>
 <p>这个脚本主要是根据你提供的条件（<code>e</code>、<code>n</code>、<code>c</code>、<code>p</code>、<code>q</code>等），用它内置的各种解RSA的算法逐一尝试一遍，输出各种解法的结果<br>比如fullRSA这题，拿到txt文本后，直接扔给它：<br><img src="/images/CTF-new/fullRSA.png" alt=""><br>它根据你传递的参数，选择可能的几种解法，依次运行。上图中第二种解法就成功解出了flag<br>littlerRSA Revenger这题也是，把它给的.py文件中的参数复制到一个文档中，整理成它需要的形式：<br><img src="/images/CTF-new/littlerRSA_1.png" alt=""><br>再传给它：<br><img src="/images/CTF-new/littlerRSA_flag.png" alt=""><br>INFO里还告知你<strong>start Hastad attack</strong></p>
-<p>当然，刚才那题bigRSA也可以通过这种办法解决，只是由于我是解决bigRSA之后才捣鼓CTF-RSA-tool的<br>试一试：<br><img src="/images/CTF-new/bigRSA_Python.png" alt=""><br>而且比自己慢慢解的确高效不少，一步到位</p>
+<p>当然，刚才那题bigRSA也可以通过这种办法解决，只是由于我是解决bigRSA之后才捣鼓CTF-RSA-tool的<br>试一试：<br><img src="/images/CTF-new/bigRSA_python.png" alt=""><br>而且比自己慢慢解的确高效不少，一步到位</p>
 <blockquote>
 <p>打CTF不仅仅是解题拿到flag，更重要的是学习各种与网络安全相关的知识</p>
 </blockquote>
