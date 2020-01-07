@@ -50,13 +50,13 @@
   };
 </script>
 
-  <meta name="description" content="记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版">
+  <meta name="description" content="&amp;emsp;">
 <meta name="keywords" content="CTF,Assembly Language">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Assembly Language Learning">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;Assembly_Language&#x2F;index.html">
 <meta property="og:site_name" content="Examine2&#39;s Home">
-<meta property="og:description" content="记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版">
+<meta property="og:description" content="&amp;emsp;">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;r%E6%9F%A5%E7%9C%8B.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;r%E4%BF%AE%E6%94%B9.png">
@@ -69,7 +69,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E5%85%88%E5%86%99%E5%85%A5.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E6%9F%A5%E7%9C%8B.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;t.png">
-<meta property="og:updated_time" content="2020-01-07T07:57:52.010Z">
+<meta property="og:updated_time" content="2020-01-07T08:30:06.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;r%E6%9F%A5%E7%9C%8B.png">
 
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-07 15:57:52" itemprop="dateModified" datetime="2020-01-07T15:57:52+08:00">2020-01-07</time>
+                <time title="Modified: 2020-01-07 16:30:06" itemprop="dateModified" datetime="2020-01-07T16:30:06+08:00">2020-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版</p>
+        <p>&emsp;</p>
 <a id="more"></a>
 
 <h1 id="debug指令"><a href="#debug指令" class="headerlink" title="debug指令"></a>debug指令</h1><p><strong><font size=10>r</font></strong>  register(查看、修改各寄存器的内容)<br>查看：<br><img src="/images/AssemblyLanguage/r%E6%9F%A5%E7%9C%8B.png" alt=""><br>修改：<br><img src="/images/AssemblyLanguage/r%E4%BF%AE%E6%94%B9.png" alt=""><br><strong><font size=10>d</font></strong> dump(查看内存中的内容)<br>默认查看128字节：<br><img src="/images/AssemblyLanguage/d%E9%BB%98%E8%AE%A4.png" alt=""><br>指定查看的末物理地址：<br><img src="/images/AssemblyLanguage/d%E6%8C%87%E5%AE%9A.png" alt=""><br><strong><font size=10>e</font></strong> enter(改写内存中的内容)<br>直接改写：<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A5.png" alt=""><br>&emsp;（修改为字符或字符串，不区分单引号和双引号）<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A52.png" alt=""><br>逐个改写：<br><img src="/images/AssemblyLanguage/e%E9%80%90%E4%B8%AA.png" alt=""><br>&emsp;（逐个改写的方法只支持修改为机器码）<br><strong><font size=10>a</font></strong> assemble(直接向内存中写入汇编指令)<br><img src="/images/AssemblyLanguage/a.png" alt=""><br><strong><font size=10>u</font></strong> unassemble(查看机器码对应的汇编指令)<br>先写入机器码：（b80100 <code>mov ax,0001</code>、b90200 <code>mov cx,0002</code>、01c8 <code>add ax,cx</code>）<br><img src="/images/AssemblyLanguage/u%E5%85%88%E5%86%99%E5%85%A5.png" alt=""><br>查看汇编指令：<br><img src="/images/AssemblyLanguage/u%E6%9F%A5%E7%9C%8B.png" alt=""><br><strong><font size=10>t</font></strong> trace(执行CS:IP处的一条汇编指令，后调用一次r指令显示寄存器内容)<br><img src="/images/AssemblyLanguage/t.png" alt=""></p>
@@ -300,8 +300,8 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/10/27/Encrypt_Test/" rel="prev" title="Encrypt Test">
-                  Encrypt Test <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/27/Encrypt_Test/" rel="prev" title="测试加密文章">
+                  测试加密文章 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -408,12 +408,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">30k</span>
+    <span title="Symbols count total">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">50 mins.</span>
+    <span title="Reading time total">51 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
