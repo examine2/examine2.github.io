@@ -55,11 +55,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Recording changes in blog">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;07&#x2F;Blog&#x2F;index.html">
-<meta property="og:site_name" content="Examine2&#39;s Home">
+<meta property="og:site_name" content="Examine2&#39;s Blog">
 <meta property="og:description" content="&amp;emsp;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-07T08:50:21.983Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;create_categories.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;dir.jpg">
+<meta property="og:updated_time" content="2020-01-07T12:50:34.589Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;create_categories.jpg">
 
 <link rel="canonical" href="http://yoursite.com/2020/01/07/Blog/">
 
@@ -75,7 +78,7 @@
   };
 </script>
 
-  <title>Recording changes in blog | Examine2's Home</title>
+  <title>Recording changes in blog | Examine2's Blog</title>
   
 
 
@@ -121,7 +124,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Examine2's Home</span>
+        <span class="site-title">Examine2's Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -148,6 +151,11 @@
         <li class="menu-item menu-item-关于">
 
     <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-归档">
@@ -180,13 +188,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/07/Blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/128X128.gif">
+      <meta itemprop="image" content="/images/none.ico">
       <meta itemprop="name" content="examine">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Home">
+      <meta itemprop="name" content="Examine2's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -201,7 +209,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-01-07 15:27:00 / Modified: 16:50:21" itemprop="dateCreated datePublished" datetime="2020-01-07T15:27:00+08:00">2020-01-07</time>
+              <time title="Created: 2020-01-07 15:27:00 / Modified: 20:50:34" itemprop="dateCreated datePublished" datetime="2020-01-07T15:27:00+08:00">2020-01-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +229,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>976</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -291,6 +299,23 @@
 <p>成功，能够起到等价的效果</p>
 </blockquote>
 </blockquote>
+<hr>
+<h1 id="“分类-categories-”页面"><a href="#“分类-categories-”页面" class="headerlink" title="“分类(categories)”页面"></a>“分类(categories)”页面</h1><p>首先在<code>_config.yml</code>中，删除<code>categories</code>选项前的注释符，使其激活：</p>
+<img src="/images/Blog/create_categories.jpg" style="zoom: 80%;" />
+
+<p>然后查看Hexo的<code>source</code>目录下，是否已经有了<code>categories</code>目录：</p>
+<img src="/images/Blog/dir.jpg" style="zoom:67%;" />
+
+<p>如果没有，执行命令创建：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>将新建的<code>categories</code>目录下的<code>index.md</code>修改为：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: categories</span><br><span class="line">data: 2020-01-07 20:27:25</span><br><span class="line">type: "categories"</span><br></pre></td></tr></table></figure>
+
+<p>之后在每篇文章的配置中添加<code>categories</code>，则会自动收录到<code>categories</code>目录下</p>
+<hr>
+<p>可通过同样的方法创建<code>tags</code>页面，抑或是其它页面</p>
+<hr>
 
     </div>
 
@@ -353,14 +378,14 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Typora中图片的相对路径问题"><span class="nav-number">1.</span> <span class="nav-text">Typora中图片的相对路径问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去除文章摘要"><span class="nav-number">2.</span> <span class="nav-text">去除文章摘要</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Typora中图片的相对路径问题"><span class="nav-number">1.</span> <span class="nav-text">Typora中图片的相对路径问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去除文章摘要"><span class="nav-number">2.</span> <span class="nav-text">去除文章摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“分类-categories-”页面"><span class="nav-number">3.</span> <span class="nav-text">“分类(categories)”页面</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <img class="site-author-image" itemprop="image" alt="examine"
-    src="/images/128X128.gif">
+    src="/images/none.ico">
   <p class="site-author-name" itemprop="name">examine</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -373,8 +398,9 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">categories</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">7</span>
