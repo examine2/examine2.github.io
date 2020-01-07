@@ -69,7 +69,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E5%85%88%E5%86%99%E5%85%A5.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;u%E6%9F%A5%E7%9C%8B.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;t.png">
-<meta property="og:updated_time" content="2019-10-31T07:59:47.686Z">
+<meta property="og:updated_time" content="2020-01-07T07:57:52.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;AssemblyLanguage&#x2F;r%E6%9F%A5%E7%9C%8B.png">
 
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-31 15:59:47" itemprop="dateModified" datetime="2019-10-31T15:59:47+08:00">2019-10-31</time>
+                <time title="Modified: 2020-01-07 15:57:52" itemprop="dateModified" datetime="2020-01-07T15:57:52+08:00">2020-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,6 +260,7 @@
       
         <p>记录学习汇编语言的知识点，学习书籍：王爽《汇编语言》第3版</p>
 <a id="more"></a>
+
 <h1 id="debug指令"><a href="#debug指令" class="headerlink" title="debug指令"></a>debug指令</h1><p><strong><font size=10>r</font></strong>  register(查看、修改各寄存器的内容)<br>查看：<br><img src="/images/AssemblyLanguage/r%E6%9F%A5%E7%9C%8B.png" alt=""><br>修改：<br><img src="/images/AssemblyLanguage/r%E4%BF%AE%E6%94%B9.png" alt=""><br><strong><font size=10>d</font></strong> dump(查看内存中的内容)<br>默认查看128字节：<br><img src="/images/AssemblyLanguage/d%E9%BB%98%E8%AE%A4.png" alt=""><br>指定查看的末物理地址：<br><img src="/images/AssemblyLanguage/d%E6%8C%87%E5%AE%9A.png" alt=""><br><strong><font size=10>e</font></strong> enter(改写内存中的内容)<br>直接改写：<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A5.png" alt=""><br>&emsp;（修改为字符或字符串，不区分单引号和双引号）<br><img src="/images/AssemblyLanguage/e%E7%9B%B4%E6%8E%A52.png" alt=""><br>逐个改写：<br><img src="/images/AssemblyLanguage/e%E9%80%90%E4%B8%AA.png" alt=""><br>&emsp;（逐个改写的方法只支持修改为机器码）<br><strong><font size=10>a</font></strong> assemble(直接向内存中写入汇编指令)<br><img src="/images/AssemblyLanguage/a.png" alt=""><br><strong><font size=10>u</font></strong> unassemble(查看机器码对应的汇编指令)<br>先写入机器码：（b80100 <code>mov ax,0001</code>、b90200 <code>mov cx,0002</code>、01c8 <code>add ax,cx</code>）<br><img src="/images/AssemblyLanguage/u%E5%85%88%E5%86%99%E5%85%A5.png" alt=""><br>查看汇编指令：<br><img src="/images/AssemblyLanguage/u%E6%9F%A5%E7%9C%8B.png" alt=""><br><strong><font size=10>t</font></strong> trace(执行CS:IP处的一条汇编指令，后调用一次r指令显示寄存器内容)<br><img src="/images/AssemblyLanguage/t.png" alt=""></p>
 <hr>
 <h1 id="各寄存器"><a href="#各寄存器" class="headerlink" title="各寄存器"></a>各寄存器</h1><p><strong><font size=10>CS &amp; IP</font></strong><br>&emsp;(code segment &amp; instruct pointer)<br>&emsp;存放着当前指令的段地址和偏移地址<br><strong><font size=10>DS</font></strong><br>&emsp;(data segment)<br>&emsp;访问内存单元时，存放着默认的段地址；偏移地址通过[address]指出<br><strong><font size=10>SS &amp; SP</font></strong><br>&emsp;(stack segment &amp; stack pointer)<br>&emsp;使用<code>push</code>和<code>pop</code>指令时，SS:SP指向栈顶元素<br><strong><font size=10>CX</font></strong><br>&emsp;使用<code>debug 1.exe</code>追踪程序运行时，cx存放程序的长度</p>
@@ -398,7 +399,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -407,12 +408,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">34k</span>
+    <span title="Symbols count total">30k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">57 mins.</span>
+    <span title="Reading time total">50 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>

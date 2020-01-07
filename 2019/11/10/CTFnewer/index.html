@@ -155,7 +155,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_twopoints.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_flag.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_lastRegex.png">
-<meta property="og:updated_time" content="2019-11-24T16:04:03.607Z">
+<meta property="og:updated_time" content="2020-01-07T07:57:59.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;ret2text_main.png">
 
@@ -305,7 +305,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-25 00:04:03" itemprop="dateModified" datetime="2019-11-25T00:04:03+08:00">2019-11-25</time>
+                <time title="Modified: 2020-01-07 15:57:59" itemprop="dateModified" datetime="2020-01-07T15:57:59+08:00">2020-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -353,7 +353,7 @@
 <p>接下来就是看怎么传入字符串<code>s</code>，使得栈溢出，而且能够让程序运行<code>win()</code><br>还是之前那篇<a href="https://bbs.pediy.com/thread-225487.htm" target="_blank" rel="noopener">文章</a>，讲述了构造payload的步骤<br>别人题目的payload：<code>0xF3 * &#39;a&#39; + pack(0x08048548)</code>，而我需要仿造它：<br>①<br>&emsp;找到字符串<code>s</code>的栈底位置，这个在程序中很友好的标出来了：<br><img src="/images/CTF-new/ret2text_ebp.png" alt=""><br>&emsp;ebp的10h就是了<br>②<br>&emsp;接下来就是计算，在这篇<a href="https://bbs.pediy.com/thread-251000.htm" target="_blank" rel="noopener">文章</a>中，告诉了怎么在32为程序中手工计算返回地址的位置：就是ebp+4<br>③<br>&emsp;找到<code>win()</code>的开始地址，然后用pwntools的<code>pack()</code>打包一下<del>（不知道原理orz）</del>，在<code>win()</code>的汇编代码中，也很友好地给出了开始地址：<br><img src="/images/CTF-new/ret2text_winStart.png" alt=""><br>&emsp;倒数第二行，明晃晃的”starts at”<br>&emsp;最后就是模仿，有了<code>0x14 * &#39;a&#39; + pack(0x0804851B)</code>，那个<code>a</code>我认为是用来填充占位的<br>④<br>&emsp;之后打开pwntools，还不会用pwntools，但根据<a href="https://xuanxuanblingbling.github.io/ctf/pwn/2019/08/30/start/" target="_blank" rel="noopener">文章</a>中的简单例子，写出了自己的Python代码：<br><img src="/images/CTF-new/ret2text_Python.png" alt=""><br>&emsp;但在终端执行之后，没什么反应，也不知道要干什么…<br><img src="/images/CTF-new/ret2text_terminal.png" alt=""><br>&emsp;最后还是看了<a href="https://bbs.pediy.com/thread-247217.htm" target="_blank" rel="noopener">文章</a>，才后知后觉，我貌似拿到了权限了，相当于登陆上了别人的服务器，接下来就是用Linux指令把flag弄出来：<br><img src="/images/CTF-new/ret2text_flag.png" alt=""></p>
 <hr>
 <h2 id="铁拳先锋"><a href="#铁拳先锋" class="headerlink" title="铁拳先锋"></a>铁拳先锋</h2><p>这道题我觉得是披着Pwn外衣的Web题~<br>IDA查看代码，游戏的基本逻辑正常：<br><img src="/images/CTF-new/doomfist_begin.png" alt=""><br>但是留意到那个<code>nap()</code>，它里面的代码是：<br><img src="/images/CTF-new/doomfist_nap.png" alt=""><br>之前在Hackergame做过达拉崩吧那道题目，也是类似的利用栈溢出，超大的负数最后溢出成正数<br>这里也是，看到无条件的令<code>doomfist_attack *= 2</code>，就尝试着一直让他将攻击力提升，结果：<br><img src="/images/CTF-new/doomfist_0.png" alt=""><br>铁拳的攻击力经历了诡异的变化：<br><code>125 250 500 1000 2000 4000 8000 16000 32000 64000
-62464 59392 53248 40960 16384 32768 0</code><br>最后就是击杀拿flag<br><del>（这题也没怎么用到Pwn的知识啊）</del></p>
+62464 59392 53248 40960 16384 32768 0</code><br>最后就是击杀拿flag</p>
 <hr>
 <h2 id="Guess-number"><a href="#Guess-number" class="headerlink" title="Guess number"></a>Guess number</h2><p>超有趣的一道题目<br>参考攻防世界的一道题目的<a href="https://adworld.xctf.org.cn/task/writeup?type=pwn&id=5057&number=2&grade=0&page=1" target="_blank" rel="noopener">write-up</a>，基本就是原题了</p>
 <p>源代码：<br><img src="/images/CTF-new/guess_rand.png" alt=""><br>由于先读入<code>v3</code>，再调用<code>srand(seed)</code>设置随机数的种子，而<code>v3</code>和<code>seed</code>的位置相近，因此可以输入一个长字符串来将<code>seed</code>的值覆盖成我们想要的<br>对汇编理解还不深，ret2text那题计算偏移值就算了半天，于是输入一个超长的字符串<code>aaaaaaaa...</code>，确保能够覆盖到<br>用C++测试一下对于<code>aaaa</code>，<code>rand()</code>会产生什么结果：</p>
@@ -392,7 +392,7 @@
 <hr>
 <h1 id="Crypto-1"><a href="#Crypto-1" class="headerlink" title="Crypto"></a>Crypto</h1><p>我写出的5题全是RSA的，其实只要稍微了解一下RSA，借助现成的工具，就能拿下这5题</p>
 <hr>
-<h2 id="litterRSA"><a href="#litterRSA" class="headerlink" title="litterRSA"></a>litterRSA</h2><p>出题人送分，flag就在文件里</p>
+<h2 id="littleRSA"><a href="#littleRSA" class="headerlink" title="littleRSA"></a>littleRSA</h2><p>出题人送分，flag就在文件里</p>
 <hr>
 <h2 id="bigRSA"><a href="#bigRSA" class="headerlink" title="bigRSA"></a>bigRSA</h2><p><code>e</code>很大，Google一下，觉得很符合维也纳攻击的特点<br><a href="https://www.cnblogs.com/zaqzzz/p/9914374.html" target="_blank" rel="noopener">https://www.cnblogs.com/zaqzzz/p/9914374.html</a><br>根据上面这篇文章，安装了rsa-wiener-attack，然后把自己的<code>e</code>和<code>n</code>填上去，运行<br><img src="/images/CTF-new/bigRSA_en.png" alt=""><br>结果：<br><img src="/images/CTF-new/bigRSA_d.png" alt=""></p>
 <p>得到d<br>打开RSA-Tool，输入<code>e</code>、<code>n</code>、<code>d</code>，进行解码，获得flag：<br><img src="/images/CTF-new/bigRSA_flag.png" alt=""></p>
@@ -568,6 +568,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2020/01/07/Blog/" rel="prev" title="Recording changes in blog">
+                  Recording changes in blog <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -606,7 +609,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">1.</span> <span class="nav-text">PWN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ret2text"><span class="nav-number">1.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#铁拳先锋"><span class="nav-number">1.2.</span> <span class="nav-text">铁拳先锋</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Guess-number"><span class="nav-number">1.3.</span> <span class="nav-text">Guess number</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RE"><span class="nav-number">2.</span> <span class="nav-text">RE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#re-signup"><span class="nav-number">2.1.</span> <span class="nav-text">re_signup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slow"><span class="nav-number">2.2.</span> <span class="nav-text">Slow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">2.3.</span> <span class="nav-text">Crypto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maze"><span class="nav-number">2.4.</span> <span class="nav-text">Maze</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto-1"><span class="nav-number">3.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#litterRSA"><span class="nav-number">3.1.</span> <span class="nav-text">litterRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bigRSA"><span class="nav-number">3.2.</span> <span class="nav-text">bigRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fullRSA-amp-littlerRSA-Revenger"><span class="nav-number">3.3.</span> <span class="nav-text">fullRSA &amp; littlerRSA Revenger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AUrora"><span class="nav-number">3.4.</span> <span class="nav-text">AUrora</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">4.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim2048"><span class="nav-number">4.1.</span> <span class="nav-text">vim2048</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#base64-stego"><span class="nav-number">4.2.</span> <span class="nav-text">base64_stego</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#san-check"><span class="nav-number">4.3.</span> <span class="nav-text">san check</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">5.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-is-very-good"><span class="nav-number">5.1.</span> <span class="nav-text">PHP is very good</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Check-in"><span class="nav-number">5.2.</span> <span class="nav-text">Check in</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Welcome-to-Aurora"><span class="nav-number">5.3.</span> <span class="nav-text">Welcome to Aurora</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ez-LFI"><span class="nav-number">5.4.</span> <span class="nav-text">ez LFI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssti"><span class="nav-number">5.5.</span> <span class="nav-text">ssti</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-Revenger"><span class="nav-number">5.6.</span> <span class="nav-text">PHP Revenger</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">1.</span> <span class="nav-text">PWN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ret2text"><span class="nav-number">1.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#铁拳先锋"><span class="nav-number">1.2.</span> <span class="nav-text">铁拳先锋</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Guess-number"><span class="nav-number">1.3.</span> <span class="nav-text">Guess number</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RE"><span class="nav-number">2.</span> <span class="nav-text">RE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#re-signup"><span class="nav-number">2.1.</span> <span class="nav-text">re_signup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slow"><span class="nav-number">2.2.</span> <span class="nav-text">Slow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">2.3.</span> <span class="nav-text">Crypto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maze"><span class="nav-number">2.4.</span> <span class="nav-text">Maze</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto-1"><span class="nav-number">3.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#littleRSA"><span class="nav-number">3.1.</span> <span class="nav-text">littleRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bigRSA"><span class="nav-number">3.2.</span> <span class="nav-text">bigRSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fullRSA-amp-littlerRSA-Revenger"><span class="nav-number">3.3.</span> <span class="nav-text">fullRSA &amp; littlerRSA Revenger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AUrora"><span class="nav-number">3.4.</span> <span class="nav-text">AUrora</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">4.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim2048"><span class="nav-number">4.1.</span> <span class="nav-text">vim2048</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#base64-stego"><span class="nav-number">4.2.</span> <span class="nav-text">base64_stego</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#san-check"><span class="nav-number">4.3.</span> <span class="nav-text">san check</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">5.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-is-very-good"><span class="nav-number">5.1.</span> <span class="nav-text">PHP is very good</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Check-in"><span class="nav-number">5.2.</span> <span class="nav-text">Check in</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Welcome-to-Aurora"><span class="nav-number">5.3.</span> <span class="nav-text">Welcome to Aurora</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ez-LFI"><span class="nav-number">5.4.</span> <span class="nav-text">ez LFI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssti"><span class="nav-number">5.5.</span> <span class="nav-text">ssti</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-Revenger"><span class="nav-number">5.6.</span> <span class="nav-text">PHP Revenger</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -664,7 +667,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -673,12 +676,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">34k</span>
+    <span title="Symbols count total">30k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">57 mins.</span>
+    <span title="Reading time total">50 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>

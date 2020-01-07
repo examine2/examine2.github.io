@@ -59,7 +59,7 @@
 <meta property="og:description" content="学习使用命令行工具curl">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;curl&#x2F;xff.png">
-<meta property="og:updated_time" content="2019-10-31T08:02:28.225Z">
+<meta property="og:updated_time" content="2020-01-07T07:58:05.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;curl&#x2F;xff.png">
 
@@ -201,10 +201,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-10-31 15:57:50 / Modified: 16:02:28" itemprop="dateCreated datePublished" datetime="2019-10-31T15:57:50+08:00">2019-10-31</time>
+              <time title="Created: 2019-10-31 15:57:50" itemprop="dateCreated datePublished" datetime="2019-10-31T15:57:50+08:00">2019-10-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-07 15:58:05" itemprop="dateModified" datetime="2020-01-07T15:58:05+08:00">2020-01-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -223,7 +229,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.3k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -246,7 +252,8 @@
 <a id="more"></a>
 <h1 id="curl-–-Client-URL"><a href="#curl-–-Client-URL" class="headerlink" title="curl –(Client URL)"></a>curl –(Client URL)</h1><p>一个利用URL语法在命令行下工作的文件传输工具</p>
 <hr>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>基础用法：<br><code>$ curl https://www.baidu.com</code><br>上面的命令便是curl最基本的用法，获取URL处的源代码</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>学习curl之前，必须有一定的网页知识，至少你不会看到<code>请求头</code>、<code>cookie</code>等字眼会感到十分迷惑</p>
+<p>基础用法：<br><code>$ curl https://www.baidu.com</code><br>上面的命令便是curl最基本的用法，获取URL处的源代码</p>
 <p>curl往往携带许多参数，参数也是curl的精髓，没有参数的curl只能获取源代码，useless</p>
 <p>以参数<code>-A</code>为例，<code>-A</code>能够指定客户端的用户代理标头，即User-Agent，伪造User-Agent用于伪造浏览器；在一些CTF题目中，往往需要使用指定的浏览器去访问网页才能得到flag，而真的去下载该浏览器是傻子行为，有时候那些浏览器根本不存在</p>
 <p>参考<a href="https://2019game.picoctf.com/problems" target="_blank" rel="noopener">pico2019</a>Web的一道题目——‘picobrowser’，要求我们使用一款名为picobrowser的浏览器去访问网站<code>https://2019shell1.picoctf.com/problem/37829/flag</code>，即可得到flag</p>
@@ -330,7 +337,7 @@
 <p>后面又要求“必须来自<a href="https://www.google.com”，于是我们使用curl，一波带走：" target="_blank" rel="noopener">https://www.google.com”，于是我们使用curl，一波带走：</a></p>
 </blockquote>
 <blockquote>
-<p><code>$ curl -H &#39;x-forwarded-for: 123.123.123.123&#39; -H &#39;referer: https://www.google.com&#39; http://111.198.29.45:55724/</code></p>
+<p><code>$ curl -H &#39;x-forwarded-for: 123.123.123.123&#39; -H &#39;referer: https://www.google.com&#39; http://111.198.29.45:55724/</code> </p>
 </blockquote>
 <blockquote>
 <p>拿到flag总有一种喜悦是不是，n_n<br><img src="/images/curl/xff.png" alt=""></p>
@@ -354,8 +361,8 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/10/31/Probability%20and%20Statistics/" rel="next" title="Probability and Statistics">
-                  <i class="fa fa-chevron-left"></i> Probability and Statistics
+                <a href="/2019/10/29/Linux_Attempt/" rel="next" title="Linux Attempt">
+                  <i class="fa fa-chevron-left"></i> Linux Attempt
                 </a>
             </div>
 
@@ -461,7 +468,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -470,12 +477,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">34k</span>
+    <span title="Symbols count total">30k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">57 mins.</span>
+    <span title="Reading time total">50 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
