@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css?v=7.4.2">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
@@ -55,14 +55,16 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Recording changes in blog">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;07&#x2F;Question&#x2F;index.html">
-<meta property="og:site_name" content="Examine2&#39;s Blog">
+<meta property="og:site_name" content="examine2&#39;s Blog">
 <meta property="og:description" content="&amp;emsp;">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;create_categories.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;dir.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;readInts.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;inRead.jpg">
-<meta property="og:updated_time" content="2020-01-24T07:20:50.166Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;songti.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;customize_font.png">
+<meta property="og:updated_time" content="2020-02-10T16:29:29.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;Blog&#x2F;create_categories.jpg">
 
@@ -80,7 +82,7 @@
   };
 </script>
 
-  <title>Recording changes in blog | Examine2's Blog</title>
+  <title>Recording changes in blog | examine2's Blog</title>
   
 
 
@@ -126,7 +128,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Examine2's Blog</span>
+        <span class="site-title">examine2's Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -196,7 +198,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Examine2's Blog">
+      <meta itemprop="name" content="examine2's Blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -217,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-24 15:20:50" itemprop="dateModified" datetime="2020-01-24T15:20:50+08:00">2020-01-24</time>
+                <time title="Modified: 2020-02-11 00:29:29" itemprop="dateModified" datetime="2020-02-11T00:29:29+08:00">2020-02-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +239,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4.5k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -414,6 +416,24 @@
 <p>该命令使用 <code>ln</code> 指令，为目录 <code>/mnt/d/win10</code> 创建软连接，而创建的软连接就是默认位置下的 <code>win10</code>目录</p>
 <p>这样就可以将需要交互的文件拖到 <code>win10</code> 中，然后进入WSL，直接 <code>cd win10</code> 就能使用Linux工具进行操作</p>
 <hr>
+<h2 id="更改Hexo字体为思源宋体"><a href="#更改Hexo字体为思源宋体" class="headerlink" title="更改Hexo字体为思源宋体"></a>更改Hexo字体为思源宋体</h2><ol>
+<li><p>前往<a href="https://fonts.google.com/" target="_blank" rel="noopener">https://fonts.google.com/</a>，<kbd>Language</kbd>选项处选择<strong>Chinese (Simplified)</strong>，找到表示<strong>思源宋体</strong>的<strong>Noto Serif SC</strong>：</p>
+<img src="/images/Blog/songti.png" style="zoom:50%;" />
+</li>
+<li><p>点击右上方的<kbd>+</kbd>，页面的右下角会出现提示框，显示”<strong>1 Family Selected”</strong></p>
+</li>
+<li><p>点开它，在<strong>CUSTOMIZE</strong>处能够自定义字体的属性：</p>
+<img src="/images/Blog/customize_font.png" style="zoom:50%;" />
+</li>
+<li><p>自定义完后，点击<strong>EMBED</strong>，将<strong>Embed Font</strong>处的代码复制下来，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/css?family=Noto+Serif+SC:400,500,700&amp;display=swap&amp;subset=chinese-simplified"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件，路径为 <code>~\Hexo\themes\hexo-theme-next\_config.yml</code>，将 <code>font</code> 选项的 <code>enable</code> 设置为 <code>true</code>、将其中 <code>global</code> 选项的 <code>family</code> 设置为 <code>Noto Serif SC</code></p>
+</li>
+<li><p>前往配置文件 <code>~\Hexo\themes\hexo-theme-next\layout\_partials\head\external-fonts.swig</code>（如果没有就新建一个），将<strong>整个文件</strong>的内容替换为上面复制的代码</p>
+</li>
+<li></li>
+</ol>
 
     </div>
 
@@ -430,7 +450,7 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/01/07/Question-Spider/" rel="next" title="Recording changes in blog">
+                <a href="/2020/01/07/Algorithms/" rel="next" title="Recording changes in blog">
                   <i class="fa fa-chevron-left"></i> Recording changes in blog
                 </a>
             </div>
@@ -438,8 +458,8 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/01/29/jpg%E5%9B%BE%E7%A7%8D/" rel="prev" title="jpg图种">
-                  jpg图种 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/01/07/Question-Spider/" rel="prev" title="Recording changes in blog">
+                  Recording changes in blog <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -479,7 +499,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Typora中图片的相对路径问题"><span class="nav-number">1.</span> <span class="nav-text">Typora中图片的相对路径问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除文章摘要"><span class="nav-number">2.</span> <span class="nav-text">去除文章摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“分类-categories-”页面"><span class="nav-number">3.</span> <span class="nav-text">“分类(categories)”页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sublime-Text无法安装插件"><span class="nav-number">4.</span> <span class="nav-text">Sublime Text无法安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（记录）学习《算法》的Java配置"><span class="nav-number">5.</span> <span class="nav-text">（记录）学习《算法》的Java配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译、运行"><span class="nav-number">5.1.</span> <span class="nav-text">编译、运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已在IDEA中添加algs4-jar，但仍会在终端窗口中报错：algs4不存在"><span class="nav-number">5.2.</span> <span class="nav-text">已在IDEA中添加algs4.jar，但仍会在终端窗口中报错：algs4不存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行参数"><span class="nav-number">5.3.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带删除线的readInts"><span class="nav-number">5.4.</span> <span class="nav-text">带删除线的readInts()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除CLion双击Shift启动全局搜索的功能"><span class="nav-number">6.</span> <span class="nav-text">去除CLion双击Shift启动全局搜索的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#win10与WSL互相访问文件系统"><span class="nav-number">7.</span> <span class="nav-text">win10与WSL互相访问文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#win10下访问WSL"><span class="nav-number">7.0.1.</span> <span class="nav-text">win10下访问WSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSL调用win10文件"><span class="nav-number">7.0.2.</span> <span class="nav-text">WSL调用win10文件</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Typora中图片的相对路径问题"><span class="nav-number">1.</span> <span class="nav-text">Typora中图片的相对路径问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除文章摘要"><span class="nav-number">2.</span> <span class="nav-text">去除文章摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“分类-categories-”页面"><span class="nav-number">3.</span> <span class="nav-text">“分类(categories)”页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sublime-Text无法安装插件"><span class="nav-number">4.</span> <span class="nav-text">Sublime Text无法安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（记录）学习《算法》的Java配置"><span class="nav-number">5.</span> <span class="nav-text">（记录）学习《算法》的Java配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译、运行"><span class="nav-number">5.1.</span> <span class="nav-text">编译、运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已在IDEA中添加algs4-jar，但仍会在终端窗口中报错：algs4不存在"><span class="nav-number">5.2.</span> <span class="nav-text">已在IDEA中添加algs4.jar，但仍会在终端窗口中报错：algs4不存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行参数"><span class="nav-number">5.3.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带删除线的readInts"><span class="nav-number">5.4.</span> <span class="nav-text">带删除线的readInts()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除CLion双击Shift启动全局搜索的功能"><span class="nav-number">6.</span> <span class="nav-text">去除CLion双击Shift启动全局搜索的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#win10与WSL互相访问文件系统"><span class="nav-number">7.</span> <span class="nav-text">win10与WSL互相访问文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#win10下访问WSL"><span class="nav-number">7.0.1.</span> <span class="nav-text">win10下访问WSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSL调用win10文件"><span class="nav-number">7.0.2.</span> <span class="nav-text">WSL调用win10文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改Hexo字体为思源宋体"><span class="nav-number">8.</span> <span class="nav-text">更改Hexo字体为思源宋体</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -552,7 +572,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">1:48</span>
+    <span title="Reading time total">1:49</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
