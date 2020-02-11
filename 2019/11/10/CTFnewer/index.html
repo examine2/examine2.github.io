@@ -155,7 +155,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_twopoints.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_flag.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;PHP_lastRegex.png">
-<meta property="og:updated_time" content="2020-01-07T13:00:16.932Z">
+<meta property="og:updated_time" content="2020-02-11T04:58:14.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;CTF-new&#x2F;ret2text_main.png">
 
@@ -310,7 +310,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-07 21:00:16" itemprop="dateModified" datetime="2020-01-07T21:00:16+08:00">2020-01-07</time>
+                <time title="Modified: 2020-02-11 12:58:14" itemprop="dateModified" datetime="2020-02-11T12:58:14+08:00">2020-02-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,8 +352,7 @@
         <p>&emsp;</p>
 <a id="more"></a>
 
-<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><hr>
-<h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>打开IDA，按下F5查看主函数的代码逻辑：<br><img src="/images/CTF-new/ret2text_main.png" style="zoom: 80%;" /><br>然后追踪进<code>vuln()</code>函数里面看看：<br><img src="/images/CTF-new/ret2text_vuln.png" style="zoom: 80%;" /><br>早就听闻<code>gets()</code>有漏洞的大名，连忙上网搜一波</p>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>打开IDA，按下F5查看主函数的代码逻辑：<br><img src="/images/CTF-new/ret2text_main.png" style="zoom: 80%;" /><br>然后追踪进<code>vuln()</code>函数里面看看：<br><img src="/images/CTF-new/ret2text_vuln.png" style="zoom: 80%;" /><br>早就听闻<code>gets()</code>有漏洞的大名，连忙上网搜一波</p>
 <p>在<a href="https://bbs.pediy.com/thread-225487.htm" target="_blank" rel="noopener">文章</a>的pwn2部分，它说要利用栈溢出，使得控制程序执行到指定位置<br>刚好，在IDA的显示中，除了<code>main()</code>和<code>vuln()</code>函数外，还有一个<code>win()</code>：<br><img src="/images/CTF-new/ret2text_win.png" style="zoom:80%;" /><br>里面的代码：<br><img src="/images/CTF-new/ret2text_win2.png" style="zoom:80%;" /><br>很显然，就是文章中所说的，要利用栈溢出使服务器端的程序运行<code>win()</code>函数</p>
 <p>接下来就是看怎么传入字符串<code>s</code>，使得栈溢出，而且能够让程序运行<code>win()</code><br>还是之前那篇<a href="https://bbs.pediy.com/thread-225487.htm" target="_blank" rel="noopener">文章</a>，讲述了构造payload的步骤<br>别人题目的payload：<code>0xF3 * &#39;a&#39; + pack(0x08048548)</code>，而我需要仿造它：<br>①<br>&emsp;找到字符串<code>s</code>的栈底位置，这个在程序中很友好的标出来了：<br><img src="/images/CTF-new/ret2text_ebp.png" style="zoom:80%;" /><br>&emsp;ebp的10h就是了<br>②<br>&emsp;接下来就是计算，在这篇<a href="https://bbs.pediy.com/thread-251000.htm" target="_blank" rel="noopener">文章</a>中，告诉了怎么在32为程序中手工计算返回地址的位置：就是ebp+4<br>③<br>&emsp;找到<code>win()</code>的开始地址，然后用pwntools的<code>pack()</code>打包一下<del>（不知道原理orz）</del>，在<code>win()</code>的汇编代码中，也很友好地给出了开始地址：<br><img src="/images/CTF-new/ret2text_winStart.png" style="zoom:80%;" /><br>&emsp;倒数第二行，明晃晃的”starts at”<br>&emsp;最后就是模仿，有了<code>0x14 * &#39;a&#39; + pack(0x0804851B)</code>，那个<code>a</code>我认为是用来填充占位的<br>④<br>&emsp;之后打开pwntools，还不会用pwntools，但根据<a href="https://xuanxuanblingbling.github.io/ctf/pwn/2019/08/30/start/" target="_blank" rel="noopener">文章</a>中的简单例子，写出了自己的Python代码：<br><img src="/images/CTF-new/ret2text_Python.png" style="zoom:80%;" /><br>&emsp;但在终端执行之后，没什么反应，也不知道要干什么…<br><img src="/images/CTF-new/ret2text_terminal.png" style="zoom:80%;" /><br>&emsp;最后还是看了<a href="https://bbs.pediy.com/thread-247217.htm" target="_blank" rel="noopener">文章</a>，才后知后觉，我貌似拿到了权限了，相当于登陆上了别人的服务器，接下来就是用Linux指令把flag弄出来：<br><img src="/images/CTF-new/ret2text_flag.png" style="zoom:80%;" /></p>
 <hr>
@@ -573,7 +572,7 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/01/07/Algorithms/" rel="prev" title="Recording changes in blog">
+                <a href="/2020/01/07/Question/" rel="prev" title="Recording changes in blog">
                   Recording changes in blog <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
@@ -635,11 +634,11 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -682,12 +681,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">65k</span>
+    <span title="Symbols count total">67k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">1:49</span>
+    <span title="Reading time total">1:51</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
