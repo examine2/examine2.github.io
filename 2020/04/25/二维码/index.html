@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="&amp;emsp;">
+<meta name="keywords" content="CTF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二维码">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;25&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81&#x2F;index.html">
+<meta property="og:site_name" content="examine2&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;test.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;test.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;v1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;position_right.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;position.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;just_v1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;timing.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;two_diff.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;v2_example.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;v2_format.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;v9_look.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;Alignment.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;format_info.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;format_info_mark.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;version_info_site.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;version_info_seq.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;version_temp.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;pic_qrcode.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;data_format.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;show_data_format.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;data_format.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;sequence_block.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;sequence_in.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;mask.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;format_info_detail.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;count.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;data_format.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;last_8_format_info.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;qrazybox_info.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;ctf_draw_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;ctf_draw_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;zzz.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;ctf_draw_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;ctf_ans.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;temp_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;temp_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;temp_3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;temp_4.png">
+<meta property="og:updated_time" content="2020-04-25T13:19:03.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;qrcode&#x2F;test.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/25/%E4%BA%8C%E7%BB%B4%E7%A0%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>二维码 | examine2's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">examine2's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/%E4%BA%8C%E7%BB%B4%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/none.ico">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="examine2's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二维码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-25 21:15:57 / Modified: 21:19:03" itemprop="dateCreated datePublished" datetime="2020-04-25T21:15:57+08:00">2020-04-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/04/25/%E4%BA%8C%E7%BB%B4%E7%A0%81/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/25/%E4%BA%8C%E7%BB%B4%E7%A0%81/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>16 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;</p>
+<a id="more"></a>
+
+<h2 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h2><p>二维码基本可分为<strong>行列式二维码</strong>和<strong>矩阵式二维码</strong></p>
+<p>行列式二维码就是<strong>条形码</strong>，而矩阵式二维码中，最流行的就是<strong>QR Code</strong></p>
+<hr>
+<h3 id="QR-Code"><a href="#QR-Code" class="headerlink" title="QR Code"></a>QR Code</h3><img src="/images/qrcode/test.png" style="zoom: 33%;" /> 
+
+<p>作为最流行的二维码，<strong>QR Code</strong>的全称为<strong>Quick Response Code</strong>，是近年来在移动设备上超流行的一种编码方式</p>
+<p>QR Code一共有<strong>40</strong>个标准版本(Version)，Version 1是$21 × 21$的矩阵、Version 2是$25 × 25$的矩阵......每提升一个Version，矩阵大小会增加4</p>
+<blockquote>
+<p>QR Code的大小计算公式是：$(V - 1) × 4 + 21$</p>
+<p>最高的Version 40：$(40 - 1) × 4 + 21 = 177$，所以是$177 × 177$的矩阵</p>
+</blockquote>
+<p>我们首先从最简单的Version 1来看看QR Code的结构</p>
+<hr>
+<h4 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h4><p>首先是一张Version 1的样例图片：</p>
+<img src="/images/qrcode/test.png" style="zoom:80%;" /> 
+
+<p>然后是Version 1的结构图：</p>
+<img src="/images/qrcode/v1.png" style="zoom: 58%;" /> 
+
+<p>在QR Code中，<strong>码元(module)</strong>是基本单位，Version 1的$21 × 21$矩阵就是由$21 × 21$个module组成的正方形</p>
+<blockquote>
+<p>最基础的QR Code只有<strong>黑白</strong>两色，可以将module理解为<strong>单位黑色像素点</strong></p>
+</blockquote>
+<p>我们首先留意到三个角的<strong>▣</strong>图案，它被称为<strong>定位标识</strong></p>
+<hr>
+<h5 id="定位标识"><a href="#定位标识" class="headerlink" title="定位标识"></a>定位标识</h5><p>英文名为<strong>Position Detection Pattern</strong>，它存在于各个Version的QR Code中，作用是快速在影像中找到QR Code的位置</p>
+<p>由于有<strong>定位标识</strong>，所以在扫描时，哪怕没有对正，计算机也能快速定位到QR Code并正确读取当中的数据：（类似数学中的<strong>坐标系转换</strong>）</p>
+<img src="/images\qrcode\position_right.png" style="zoom: 50%;" /> 
+
+<p>无论在哪个Version中，定位标识▣的大小都是<strong>固定</strong>的：$7 × 7$ modules</p>
+<img src="/images/qrcode/position.png" style="zoom:67%;" /> 
+
+<hr>
+<p>回到Version 1的结构图中：</p>
+<img src="/images/qrcode/just_v1.png" style="zoom:50%;" /> 
+
+<p>三个定位标识▣周围都有一条<strong>白边</strong>，使其与中间的<strong>QR Code 数据</strong>分隔开</p>
+<p><strong>白边</strong>的英文名为<strong>Separators for Position Detection Patterns</strong>，译作<strong>分隔符</strong>；它的作用是辅助定位标识，使得整个QR Code在被扫描的过程中能够更快地定位</p>
+<p>每条<strong>白边</strong>与定位标识相联系，大小固定为$1 × 8$ modules；倘若将<strong>白边</strong>和<strong>定位标识</strong>看作一个整体，那么整体的&quot;定位标识&quot;的大小应该是$8 × 8$ modules</p>
+<hr>
+<h5 id="定时标识"><a href="#定时标识" class="headerlink" title="定时标识"></a>定时标识</h5><p>结构图中，相邻的两个定位标识▣之间有一条<strong>黑白相间的带</strong>，它被称为<strong>定时标识(Timing Pattern)</strong></p>
+<img src="/images/qrcode/timing.png" style="zoom:50%;" /> 
+
+<p>Timing Pattern是一条<strong>宽1 module</strong>的黑白交替带，<strong>由黑色开始和结束</strong>，差1 module与<strong>白边</strong>处于同一直线上</p>
+<p>随着Version的提升，QR Code的大小随之增加，看上去同样大小的QR Code图片，会随着Version的提升密度增大：</p>
+<img src="/images/qrcode/two_diff.png" style="zoom: 33%;" /> 
+
+<p><strong>Timing Pattern</strong>用于<strong>指示密度</strong>，在非正对扫描时，它还用于<strong>辅助建立坐标系</strong></p>
+<hr>
+<h4 id="Version-2"><a href="#Version-2" class="headerlink" title="Version 2"></a>Version 2</h4><p>让我们上升一个Version，查看Version 2的样例QR Code：</p>
+<img src="/images/qrcode/v2_example.png" style="zoom: 33%;" /> 
+
+<p>可以看到，减去左右定位标识$8 × 8$的宽度后，$25 × 25$的Version 2的数据的宽度只有：$25 - 8 - 8 = 9$ modules</p>
+<img src="/images/qrcode/v2_format.png" style="zoom:80%;" /> 
+
+<p>Version 2的QR Code结构相比较Version 1而言，新增了右下方的<strong>小定位标识▣</strong></p>
+<hr>
+<h5 id="校正标识"><a href="#校正标识" class="headerlink" title="校正标识"></a>校正标识</h5><p>校正标识的英文名为<strong>Alignment Pattern</strong>，它只存在于Version$\geq$2的QR Code中，并且随着Version的提升，它的数量也会增加</p>
+<blockquote>
+<p>举例Version 8的结构图：</p>
+<img src="/images/qrcode/v9_look.png" style="zoom: 50%;" /> 
+
+<p>可以看到Version 8包含<strong>6</strong>个校正标识</p>
+</blockquote>
+<p>校正标识用于进一步<strong>辅助建立坐标系</strong>，它的格式也是<strong>固定</strong>的：</p>
+<img src="/images/qrcode/Alignment.png" style="zoom:67%;" /> 
+
+<hr>
+<p>综上，由<strong>定位标识(Position Detection Pattern)</strong>、<strong>定时标识(Timing Pattern)</strong>、<strong>校正标识(Alignment Pattern)</strong>三者构成QR Code的<strong>定位图案</strong></p>
+<p><strong>定位图案</strong>的存在能够帮助计算机在扫描QR Code时快速建立坐标系，并根据此来解读出其中数据</p>
+<p>对于一张QR Code，除去了<strong>定位图案</strong>外，剩下的部分可以分为2部分：</p>
+<ul>
+<li>功能性数据</li>
+<li>数据和纠错字码</li>
+</ul>
+<hr>
+<h4 id="功能性数据"><a href="#功能性数据" class="headerlink" title="功能性数据"></a>功能性数据</h4><h5 id="格式信息-Format-Information"><a href="#格式信息-Format-Information" class="headerlink" title="格式信息(Format Information)"></a>格式信息(Format Information)</h5><p>以Version 1的QR Code举例，留意下图的绿色区域：</p>
+<img src="/images/qrcode/format_info.png" style="zoom:50%;" /> 
+
+<p>对于一张QR Code而言，需要一些特殊的地方来存储一些必需的数据，而上图的绿色区域存储的是<strong>格式信息(Format Information)</strong></p>
+<p>得益于所有Version的<strong>定位标识</strong>的大小都是$7 × 7$，因此绿色区域的大小在所有Version中都是固定的</p>
+<p><strong>格式信息(Format Information)</strong>需要15 bits的位置来进行存储，为此我们将上图的绿色区域进行编号：</p>
+<img src="/images/qrcode/format_info_mark.png" style="zoom:67%;" /> 
+
+<p>首先，下面编号 <code>6</code> 上方的module，被染黑了</p>
+<blockquote>
+<p>被染黑的module被称为<strong>Dark Module</strong></p>
+</blockquote>
+<p>前面有提，绿色区域用于存储占15 bits的<strong>格式信息</strong>，而QR Code中，每个module都可以看作是一个比特位，<code>1</code> <code>0</code> 分别用 <code>黑</code> <code>白</code> 代表</p>
+<p>绿色区域一共有31个module，为了存储15 bits的信息，先将一个module去除掉，而去除掉的module就是上图中的<strong>Dark Module</strong>了</p>
+<blockquote>
+<p><strong>Dark Module</strong>的位置是固定的</p>
+</blockquote>
+<p>去除掉后，剩余的30 modules，可以对半分为两个15 modules；由于我们只需要15 modules来存储<strong>格式信息</strong>，为此，QR Code规定，这两个15 modules都存储<strong>相同</strong>的<strong>格式信息</strong></p>
+<p>左上角的15 modules与剩余的15 modules的信息是<strong>完全一样</strong>的，<strong>基于图上编号的顺序</strong>，如果检测到不一样，那么计算机会认为这是一张错误的QR Code</p>
+<blockquote>
+<p>重复存储<strong>格式信息</strong>看上去会造成空间不必要的浪费，信息冗余，然而信息冗余却是信息安全的一道防线</p>
+<p>同时，当QR Code的某个部分被遮挡、损坏，冗余信息的存在有可能确保QR Code的正确被扫描读取</p>
+</blockquote>
+<blockquote>
+<p><strong>格式信息(Format Information)</strong>都包含什么内容？</p>
+<p>这篇文章是从一个CTFer的角度去学习二维码的，如果继续深入，那要深入的地方实在太多了，恐怕得完完全全将QR Code的生成原理探究清楚</p>
+<p>这不是我们的目的，为此在这里我们选择浅尝辄止，只需要知道，对于所有Version的QR Code，<strong>定位标识</strong>附近有存储<strong>格式信息</strong>的30 modules，存储了2次重复的<strong>格式信息</strong>；此外还有一个固定的<strong>Dark Module</strong></p>
+</blockquote>
+<p>顺便一提，<strong>格式信息</strong>的15 bits中，2 bits用于表示<strong>纠错等级(Error Correction Level)</strong>、3 bits用于表示<strong>掩码(Mask)</strong>、10 bits用于表示<strong>通过BCH Code计算的纠错位</strong></p>
+<p>不需要理解这三个分别是什么，只需留意下，在上图中，编号 <code>0、1</code> 的位置存储<strong>纠错等级</strong>、编号 <code>2、3、4</code> 的位置存储<strong>掩码</strong>，这在后面需要涉及到</p>
+<hr>
+<h5 id="版本信息-Version-Information"><a href="#版本信息-Version-Information" class="headerlink" title="版本信息(Version Information)"></a>版本信息(Version Information)</h5><p><strong>功能性数据</strong>分为两部分，除了上面结束的<strong>格式信息</strong>，剩下的就是<strong>版本信息(Version Information)</strong>了</p>
+<p><strong>版本信息</strong>存在于Version$\geq$7的QR Code中，它们的位置则是下图的蓝色区域：</p>
+<img src="/images/qrcode/version_info_site.png" style="zoom:80%;" /> 
+
+<p>两处蓝色区域都是$3 × 6$或$6 × 3$的区域，共占据18 modules</p>
+<p>与<strong>格式信息</strong>重复存储了2次一样，18 bits的<strong>版本信息</strong>也有一样的冗余度，两处蓝色区域存储的是一样的<strong>版本信息</strong>，而存储顺序为：</p>
+<img src="/images/qrcode/version_info_seq.png" style="zoom:50%;" /> 
+
+<blockquote>
+<p><strong>版本信息</strong>从Version 7到Version 40，都是固定的18 bits二进制字符串，我们可以通过截图的方式做个部分记录：</p>
+<img src="/images/qrcode/version_temp.png" style="zoom: 50%;" /> 
+
+<p>具体可到网站<a href="https://www.thonky.com/qr-code-tutorial/format-version-tables#list-of-all-format-information-strings" target="_blank" rel="noopener">https://www.thonky.com/qr-code-tutorial/format-version-tables#list-of-all-format-information-strings</a> 上查阅</p>
+</blockquote>
+<hr>
+<p>QR Code就占用了上面的特殊位置来存储<strong>功能性数据</strong>，除去<strong>定位图案</strong>和<strong>功能性数据</strong>，剩下的位置都属于<strong>数据和纠错字码</strong>了</p>
+<h4 id="纠错等级"><a href="#纠错等级" class="headerlink" title="纠错等级"></a>纠错等级</h4><p>使用过QR Code的同学可能体会过，哪怕QR Code有一部分的残缺，可还是能够扫描出正确的信息。这得益于QR Code具备&quot;纠错功能&quot;，能够在<strong>一定程度上</strong>恢复残缺的数据</p>
+<blockquote>
+<p>举例，我们经常会在QR Code中心添加图像，如：</p>
+<img src="/images/qrcode/pic_qrcode.png" style="zoom: 6%;" /> 
+
+<p>很显然，图像破坏了数据的完整性，却依旧能扫描出数据</p>
+</blockquote>
+<p>这得益于剩余区域中不全是<strong>数据</strong></p>
+<p>QR Code规定存在4个<strong>纠错等级</strong>：</p>
+<ul>
+<li><strong>L</strong>：7%字码可被修正</li>
+<li><strong>M</strong>：15%字码可被修正</li>
+<li><strong>Q</strong>：25%字码可被修正</li>
+<li><strong>H</strong>：30%字码可被修正</li>
+</ul>
+<p>将一张QR Code剔除<strong>定位图案</strong>和<strong>功能性数据</strong>后，剩余区域可分为2种内容：<strong>数据(Data Codewords)</strong>和<strong>纠错字码(Error Correction Codewords)</strong></p>
+<p>随着<strong>纠错等级</strong>的提升，二维码能够容纳的<strong>数据</strong>就越少，而<strong>纠错字码</strong>则越多</p>
+<blockquote>
+<p>以纠错等级为25%为例，如果QR Code中间要放一张图片，那图片占QR Code的最大比例为$25% × 25% = 0.0625$</p>
+</blockquote>
+<p>由于<strong>纠错等级</strong>有4种，$2^2=4$，占用2 bits空间，因此在前面的<strong>格式信息(Format Information)</strong>中留了2 modules用于放置<strong>纠错等级</strong>信息</p>
+<hr>
+<h4 id="数据、纠错字码"><a href="#数据、纠错字码" class="headerlink" title="数据、纠错字码"></a>数据、纠错字码</h4><p>关于创建一张QR Code的简单步骤：</p>
+<ol>
+<li>选择最优的编码模式</li>
+<li>对数据进行<strong>编码</strong>，以便放入QR Code中</li>
+<li><strong>生成纠错字码</strong></li>
+<li>......</li>
+</ol>
+<p>第二步对源数据进行编码后，得到若干组直接存放在QR Code中的<strong>数据</strong>；随后的第三步，在得到了源数据对应的编码<strong>数据</strong>后，必须再使用这些<strong>数据</strong>生成<strong>纠错字码</strong></p>
+<blockquote>
+<p>QR Code的<strong>纠错字码</strong>主要通过<strong>里德-所罗门纠错算法(Reed-Solomon Error Correction)</strong>来实现</p>
+</blockquote>
+<p><strong>纠错字码</strong>和<strong>数据</strong>是关联的，在扫描QR Code时，计算机通过比较<strong>数据</strong>和<strong>纠错字码</strong>来确定是否正确地读取了数据；如果它发现没有正确地读取数据，还会利用<strong>纠错字码</strong>来纠正<strong>数据</strong>的错误，进而正确读取出信息</p>
+<p>我们来看一张$29 × 29$的Version 3 QR Code的结构：</p>
+<img src="/images/qrcode/data_format.png" style="zoom: 50%;" /> 
+
+<p>黄色区域部分被分为<strong>3</strong>类：</p>
+<ul>
+<li>以 <code>D</code> (Data)为前缀的<strong>数据</strong>区域</li>
+<li>以 <code>E</code> (Error Correction)为前缀的<strong>纠错字码</strong>区域</li>
+<li>位于左下方，名字为 <code>X</code> 的<strong>空白</strong>区域，该区域留作备用</li>
+</ul>
+<p><code>D1</code> 从右下角开始，它到 <code>D2</code> 之间隔着 <code>D14</code>... 各个区域这么&quot;怪异&quot;地放置着，是基于QR Code的生成机理的</p>
+<blockquote>
+<p>每个Version的QR Code的<strong>区域放置</strong>都是基于QR Code的生成原理的，不能简单地理解为：&quot;<code>D</code> 从右下角开始，往上往左，间隔一个区域到达下一个 <code>D</code> 区&quot;</p>
+<p>我们来看一张Version 7的结构图：</p>
+<img src="/images/qrcode/show_data_format.png" style="zoom:50%;" /> 
+
+<p><code>D1</code> 到 <code>D2</code> 之间间隔着 <code>D14</code>、<code>D27</code>、<code>D40</code>、<code>D53</code>区域</p>
+</blockquote>
+<p>对于不打算深入学习的我们，只需知道<strong>数据(Data Codewords)</strong>大致位于二维码右侧，而<strong>纠错字码(Error Correction Codewords)</strong>大致位于二维码左侧</p>
+<p>再返回这张图：</p>
+<img src="/images/qrcode/data_format.png" style="zoom: 50%;" /> 
+
+<p>我们来单独看看<strong>数据</strong>区域</p>
+<p>以 <code>D1</code> 为例，它是一个<strong>$2 × 8$ modules</strong></p>
+<p>在生成QR Code的过程中，把编码好的数据填充到QR Code的module上的顺序是这样的：</p>
+<img src="/images/qrcode/sequence_block.png" style="zoom:50%;" /> 
+
+<center> 从右下角出发的蛇形路线</center> 
+在生成**数据**时，其实源数据已经被"打乱"了，打乱的目的就是为了能够在生成QR Code时直接将数据一一填充
+
+<blockquote>
+<p>填充完 <code>D1</code> 后，按照顺序直接填 <code>D14</code>，而不是先填 <code>D2</code>、等到第14次的时候再回来填 <code>D14</code></p>
+</blockquote>
+<p>填充的时候是以<strong>$2 × 4$ modules区域</strong>为基本单位的，而在每个<strong>区域</strong>中，QR Code采用$Z$字型路线：</p>
+<img src="/images/qrcode/sequence_in.png" style="zoom:50%;" /> 
+
+<p>因此，如果我们要肉眼读取QR Code的数据，务必记得这么Amazing的顺序</p>
+<hr>
+<h4 id="掩码-Mask"><a href="#掩码-Mask" class="headerlink" title="掩码(Mask)"></a>掩码(Mask)</h4><p>在填充完<strong>数据</strong>和<strong>纠错字码</strong>后，可能会出现大片的连续黑白区域在QR Code上</p>
+<p>为了避免这种情况，QR Code规定，在填充完之后需要对整个QR Code应用一些全局的Mask：</p>
+<img src="/images/qrcode/mask.png" style="zoom: 50%;" /> 
+
+<p><strong>Mask</strong>共有上图的8种，填充完后会在其中挑选一个<strong>效果最好</strong>的Mask，对整张QR Code的<strong>非定位图案、非功能性数据</strong>区域进行Xor运算</p>
+<blockquote>
+<p>如何挑选出效果最好的Mask也是有依据的</p>
+</blockquote>
+<p>如此做后，得到的QR Code就能避免大片的黑白连续区域这种情况，更利于识别</p>
+<p>而且<strong>Mask Xor</strong>这一步是必须的，计算机在解码QR Code的过程中，会根据<strong>格式信息(Format Information)</strong>中标明的3 modules信息，再对QR Code进行Xor运算，得到真正的数据信息</p>
+<blockquote>
+<p>众所周知，对同一变量异或两次，还是等于本身：<code>a ^ b ^ b == a</code></p>
+</blockquote>
+<hr>
+<p>回到介绍<strong>格式信息</strong>的那张图片中，我们可以标注出2 bits的<strong>纠错等级</strong>和3 bits的<strong>掩码</strong>：</p>
+<img src="/images/qrcode/format_info_detail.png" style="zoom: 50%;" /> 
+
+<p>这里可以记录一下：</p>
+<p><strong>2 bits</strong>的<strong>纠错等级</strong>：</p>
+<ul>
+<li><code>11</code>：<strong>L</strong>级，7%字码可被修正</li>
+<li><code>10</code>：<strong>M</strong>级，15%字码可被修正</li>
+<li><code>01</code>：<strong>Q</strong>级，25%字码可被修正</li>
+<li><code>00</code>：<strong>H</strong>级，30%字码可被修正</li>
+</ul>
+<p><strong>3 bits</strong>的<strong>掩码</strong>：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Mask Pattern(掩码模式)</th>
+<th align="center">位于格式信息中的编码</th>
+<th align="center">Mask Pattern(掩码模式)</th>
+<th align="center">位于格式信息中的编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center"><code>101</code></td>
+<td align="center">4</td>
+<td align="center"><code>001</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center"><code>100</code></td>
+<td align="center">5</td>
+<td align="center"><code>000</code></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center"><code>111</code></td>
+<td align="center">6</td>
+<td align="center"><code>011</code></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center"><code>110</code></td>
+<td align="center">7</td>
+<td align="center"><code>010</code></td>
+</tr>
+</tbody></table>
+<p>后面10 bits是基于BCH Code计算的纠错位，略过不讲，但对于一张QR Code，一旦确定了<strong>纠错等级</strong>和<strong>掩码</strong>，就意味着知道了完整的<strong>格式信息</strong></p>
+<p>详细的<strong>格式信息字符串</strong>可以查阅网站：<a href="https://www.thonky.com/qr-code-tutorial/format-version-tables#list-of-all-format-information-strings" target="_blank" rel="noopener">https://www.thonky.com/qr-code-tutorial/format-version-tables#list-of-all-format-information-strings</a></p>
+<hr>
+<h4 id="编码模式-Mode"><a href="#编码模式-Mode" class="headerlink" title="编码模式(Mode)"></a>编码模式(Mode)</h4><p>在将特定的文本转化成QR Code前，第一步其实是要选择<strong>编码模式</strong></p>
+<p>QR Code拥有多种<strong>编码模式</strong>：</p>
+<ul>
+<li><p>数字模式（<strong>Numeric Mode</strong>）</p>
+<p>包含 $0$ 到 $9$ 的十进制数字</p>
+<blockquote>
+<p>编码方式：$2^{10} = 1024 \lt 1000$，所以把每3个数进行分组，每组转换成10 bit二进制数</p>
+</blockquote>
+</li>
+<li><p>字母数字模式（<strong>Alphanumeric Mode</strong>）</p>
+<p>除了 $0$ 到 $9$ 的十进制数字，还有26个大写字母（不包含小写字母），符号 <code>$</code>、<code>%</code>、<code>*</code>、<code>+</code>、<code>-</code>、<code>.</code>、<code>/</code>、<code>:</code>、<code></code> (空格)</p>
+</li>
+<li><p>字节模式（<strong>Byte Mode</strong>）</p>
+<p><strong>Byte Mode</strong>默认采用<strong>ISO-8859-1</strong>字符集中的字符</p>
+<blockquote>
+<p>可以在<a href="https://www.htmlhelp.com/reference/charset/latin1.gif" target="_blank" rel="noopener">https://www.htmlhelp.com/reference/charset/latin1.gif</a>中查看<strong>ISO-8859-1</strong>的所有字符</p>
+</blockquote>
+<p>事实上，<strong>UTF</strong>编码是兼容<strong>ISO-8859-1</strong>的</p>
+<p>因此当待编码的信息中出现了中文字符，那么会转变使用<strong>UTF-8</strong>编码</p>
+</li>
+<li><p>日文模式（<strong>Kanji Mode</strong>）</p>
+</li>
+</ul>
+<blockquote>
+<p>还有其它的<strong>编码模式</strong>，如ECI模式(Extended Channel Interpretation)、结构化附加模式(Structed Append Mode)、FNC1模式</p>
+<p>但最常用的是上面的 $4$ 种</p>
+</blockquote>
+<p>每种<strong>编码模式</strong>都对应一个4 bits的指示符(indicator)：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Mode Name</th>
+<th align="center">Mode Indicator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Numeric Mode</td>
+<td align="center"><code>0001</code></td>
+</tr>
+<tr>
+<td align="center">Alphanumeric Mode</td>
+<td align="center"><code>0010</code></td>
+</tr>
+<tr>
+<td align="center">Byte Mode</td>
+<td align="center"><code>0100</code></td>
+</tr>
+<tr>
+<td align="center">Kanji Mode</td>
+<td align="center"><code>1000</code></td>
+</tr>
+</tbody></table>
+<p>在编码之前，会先把待编码的字符扫描一遍，选择更合适的<strong>编码模式</strong></p>
+<hr>
+<h4 id="计数-Count"><a href="#计数-Count" class="headerlink" title="计数(Count)"></a>计数(Count)</h4><p>一张指定规格的QR Code是有容纳字符上限的</p>
+<p>假如某种规格的QR Code最多只能容纳20个字符，那么如果要把一个长度为30的字符串变成QR Code，就一定不会选择这种规格</p>
+<p>但是如果字符串的长度是19，那么很可能选择这种规格</p>
+<p>在这种情况下，有1个字符的位置是空缺的，那么就需要标识出来，以免过度解码；这就是需要<strong>计数器(Count Indicator)</strong>了</p>
+<p><strong>Count Indicator</strong>就是待编码字符串的长度，转换成二进制数</p>
+<img src="/images/qrcode/count.png" style="zoom: 55%;" />
+
+<blockquote>
+<p>上图是从<a href="https://www.thonky.com/qr-code-tutorial/data-encoding" target="_blank" rel="noopener">https://www.thonky.com/qr-code-tutorial/data-encoding</a>中摘录的<strong>Count Indicator</strong>转换成二进制数的位数，不同Version、不同编码模式都会导致不同的位数</p>
+</blockquote>
+<p>QR Code中空余的地方依次存放 <code>11101100 00010001</code>，直到到达QR Code的最大存储限制为止</p>
+<hr>
+<p>我们来演示一下<strong>编码模式指示(Mode Indicator)</strong>和<strong>计数器(Count Indicator)</strong>的实际使用过程</p>
+<blockquote>
+<p>举例将 <code>examine</code> 编码，首先根据<strong>Byte Mode</strong>的规则，将每个字符转换成8 bit二进制数：</p>
+<p><code>e</code> → <code>01100101</code>；<code>x</code> → <code>01111000</code>；<code>a</code> → <code>01100001</code>；<code>m</code> → <code>01101101</code>；<code>i</code> → <code>01101001</code>；<code>n</code> → <code>01101110</code>；<code>e</code> → <code>01100101</code></p>
+<p>然后拼接成：<code>01100101011110000110000101101101011010010110111001100101</code></p>
+<p>此时，需要加上两部分内容：<strong>模式对应指示(Mode Indicator)</strong>和<strong>计数(Count Indicator)</strong></p>
+<p><strong>Byte Mode</strong> 对应的Indicator是 <code>0100</code>，而字符串 <code>examine</code> 长度为 $7$，转换成8 bit二进制数 <code>00000111</code></p>
+<p>最后把这三部分拼接起来：</p>
+<p><code>01000000011101100101011110000110000101101101011010010110111001100101</code></p>
+<p>这也就是最终将 <code>examine</code> 按照<strong>Byte Mode</strong>编码得到的结果</p>
+</blockquote>
+<hr>
+<h3 id="QR-Code-Test"><a href="#QR-Code-Test" class="headerlink" title="QR Code Test"></a>QR Code Test</h3><p>我们以一道CTF的题目来验证我们所学的，格式为Flag{xxx}</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/12hFjZqCmsWynjdUt1gyJtg" target="_blank" rel="noopener">https://pan.baidu.com/s/12hFjZqCmsWynjdUt1gyJtg</a><br>提取码：m8ul </p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>下载得到一张只有一半的QR Code图片</p>
+<p>发现大小为$29 × 29$，Version 3，而Version 3的格式图为：</p>
+<img src="/images/qrcode/data_format.png" style="zoom: 50%;" /> 
+
+<p>恰好我们得到的是<strong>右半边</strong>，也就是说，我们并没有丢失<strong>数据</strong>（<code>D</code> 区），丢失的只是部分<strong>纠错字码</strong>（<code>E</code> 区）</p>
+<p><strong>纠错字码</strong>的存在只是为了保证<strong>数据</strong>的正确读出，在丢失了一半QR Code这么极端的情况下，我们仍可以只从 <code>D</code> 区中读取出数据</p>
+<p>首先，这残缺的QR Code给予了我们部分的<strong>格式信息</strong>：</p>
+<img src="/images/qrcode/last_8_format_info.png" style="zoom: 33%;" /> 
+
+<p>这里存储着<strong>格式信息</strong>的后8 bits，<code>11100111</code></p>
+<p>我们到<a href="https://www.thonky.com/qr-code-tutorial/format-version-tables#list-of-all-format-information-strings" target="_blank" rel="noopener">list-of-all-format-information-strings</a>这个网站上查阅，发现只有字符串 <code>001110011100111</code> 的后8 bits符合上图的情况</p>
+<p>因此，这张QR Code的<strong>格式信息</strong>就是 <code>001110011100111</code>，它告诉我们，<strong>纠错等级</strong> <code>00</code> 为H级、<strong>掩码</strong> <code>111</code> 为Mask 2</p>
+<p>有了<strong>掩码</strong>，我们可以将这张残缺的QR Code进行Xor运算，就能得到真正的数据了</p>
+<p>我们借助工具网站<a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a> 来继续</p>
+<p>按照残缺QR Code的右边绘制上去，并选定<strong>纠错等级</strong>为H、<strong>掩码</strong>为Mask 2：</p>
+<img src="/images/qrcode/qrazybox_info.png" style="zoom:50%;" /> 
+
+<img src="/images/qrcode/ctf_draw_1.png" style="zoom: 25%;" /> 
+
+<p>点击右上方的<kbd> Tools</kbd> ，再选择<kbd> Data Masking</kbd> ，选择Mask 2与上图进行Xor，得到真正的数据：</p>
+<img src="/images/qrcode/ctf_draw_2.png" style="zoom:25%;" /> 
+
+<p>还记得将数据填充进QR Code的顺序吗？$Z$字型</p>
+<p>单独看看右下方，按照$Z$字型读取出每个<strong>区域</strong>的数据：</p>
+<img src="/images/qrcode/zzz.png" style="zoom:50%;" /> 
+
+<p>读取出<strong>区域1</strong>的数据为 <code>01000001</code>，在Version 3中，<strong>区域1</strong>上面的是<strong>区域14</strong>，它的数据为 <code>01000100</code></p>
+<p>由于<strong>数据( <code>D</code> 区)</strong>没有损坏，因此能够读出所有的 <code>D</code> 区信息，按<strong>区域</strong>顺序把读取出来的信息拼接起来，得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0100000101110100011001101100011000010110011101111011010011110101000101010111010010010100001101011111001101000100010001010011001100010100000101011111010100110011000000110011001101000101001101111101000011101100</span><br></pre></td></tr></table></figure>
+
+<p>这里就是包含flag的信息了</p>
+<p>首先根据最前面的 <code>0100</code> 判断出<strong>编码模式</strong>为<strong>Byte Mode</strong>，Version 3的<strong>Byte Mode</strong>的<strong>Count Indicator</strong>为8 bits，也就是 <code>00010111</code>，转换成十进制就是 $23$</p>
+<p>这表明QR Code中的信息字符共有 $23$ 个</p>
+<p>$23 × 8 = 184$，我们只需在剩下的二进制数中截取前 $184$ bits，每8 bits解码成对应字符即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">"0100011001101100011000010110011101111011010011110101000101010111010010010100001101011111001101000100010001010011001100010100000101011111010100110011000000110011001101000101001101111101000011101100"</span></span><br><span class="line">str = str[:<span class="number">23</span>*<span class="number">8</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(str), <span class="number">8</span>):</span><br><span class="line">	print(chr(int(str[i:i+<span class="number">8</span>], <span class="number">2</span>)), end=<span class="string">""</span>)</span><br><span class="line"><span class="comment"># Flag&#123;OQWIC_4DS1A_S034S&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;</p>
+<p>我们可以借助工具来强行解码(<strong>Force Decode</strong>)，这个工具就是打开的网站<a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a> </p>
+<blockquote>
+<p><strong>Force Decode</strong>指不理会<strong>E区</strong>数据，直接从<strong>D区</strong>中提取出数据</p>
+</blockquote>
+<p>先把之前的Xor撤销掉，回到图片：</p>
+<img src="/images/qrcode/ctf_draw_1.png" style="zoom: 25%;" /> 
+
+<p>点击右上方的<kbd> Tools</kbd> ，然后选择<kbd> Extract QR Information</kbd> </p>
+<p>下方的注释也有说了，该功能是&quot;强制解码，尽可能地从当前QR Code中得到信息&quot;，就我们这张QR Code而言，它并未丢失 <code>D</code> 区的<strong>数据</strong>，所以它理所应当能够得到完整的信息：</p>
+<img src="/images/qrcode/ctf_ans.png" style="zoom:50%;" /> 
+
+<p>反汇的信息十分齐全，可以亲自检验一下<strong>Data blocks</strong>和<strong>Final data bits</strong>部分，体会下QR Code中的<strong>区域</strong>是不连续的</p>
+<hr>
+<p>还有一道类似的题，格式为SECCON{xxx}</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1VfTqVDdw8fvB_DSDa6B-HQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1VfTqVDdw8fvB_DSDa6B-HQ</a><br>提取码：2hb9</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>【以上参考】</p>
+<p>联图网 生成二维码 <a href="https://www.liantu.com/" target="_blank" rel="noopener">https://www.liantu.com/</a> </p>
+<p>酷壳 &quot;二维码原理&quot;文章 <a href="https://coolshell.cn/articles/10590.html" target="_blank" rel="noopener">https://coolshell.cn/articles/10590.html</a> </p>
+<p>博客文章 <a href="https://yous.be/2014/12/07/seccon-ctf-2014-qr-easy-write-up/" target="_blank" rel="noopener">https://yous.be/2014/12/07/seccon-ctf-2014-qr-easy-write-up/</a> </p>
+<p>QR Code英文教程 <a href="https://www.thonky.com/qr-code-tutorial/introduction" target="_blank" rel="noopener">https://www.thonky.com/qr-code-tutorial/introduction</a> </p>
+<p>夏风 博客文章 <a href="https://blog.xiafeng2333.top/ctf-13/" target="_blank" rel="noopener">https://blog.xiafeng2333.top/ctf-13/</a> </p>
+<p>QRazyBox 二维码在线绘制工具 <a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a> </p>
+</blockquote>
+</blockquote>
+<hr>
+<p>还有一道与二维码有关的题目，随手放这了，跟文章内容没什么关系</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1-Ea2FTbgGZLMbDaSmQU3Jw" target="_blank" rel="noopener">https://pan.baidu.com/s/1-Ea2FTbgGZLMbDaSmQU3Jw</a><br>提取码：xexx</p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>得到 <code>qrcode.txt</code>，发现里面是二进制数据</p>
+<p>复制到Python中，<code>len()</code> 一下，长度为625，恰好是$25^2$，猜测是一张二维码的数据</p>
+<blockquote>
+<p>二维码的每个module都可以对应一个比特位</p>
+</blockquote>
+<p>使用Python的pillow模块写脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">str = <span class="string">"111111100010..."</span></span><br><span class="line">pic = Image.new(<span class="string">"RGB"</span>, (<span class="number">25</span>,<span class="number">25</span>))</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">        <span class="keyword">if</span> str[i] == <span class="string">'1'</span>:</span><br><span class="line">            pic.putpixel((x,y), (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            pic.putpixel((x,y), (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">pic.show()</span><br></pre></td></tr></table></figure>
+
+<p>运行代码发现的确是一张二维码，扫描得flag</p>
+<blockquote>
+<p>嫌弃生成的二维码太小的话可以改用函数 <code>paste()</code></p>
+</blockquote>
+<hr>
+<h3 id="收集的其它题目"><a href="#收集的其它题目" class="headerlink" title="收集的其它题目"></a>收集的其它题目</h3><ol>
+<li><p>由日本队TokyoWesterns主办的2015年首届<a href="https://ctftime.org/event/234" target="_blank" rel="noopener">MMA CTF</a></p>
+<img src="/images/qrcode/temp_1.png" style="zoom: 50%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="https://www.robertxiao.ca/hacking/ctf-writeup/mma2015-qrcode/" target="_blank" rel="noopener">https://www.robertxiao.ca/hacking/ctf-writeup/mma2015-qrcode/</a></p>
+</blockquote>
+</li>
+<li><p>残缺的左边二维码</p>
+<img src="/images/qrcode/temp_2.png" style="zoom:67%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="http://eleclog.quitsq.com/2014/12/seccon-ctf-2014-online-forensics-400.html" target="_blank" rel="noopener">http://eleclog.quitsq.com/2014/12/seccon-ctf-2014-online-forensics-400.html</a></p>
+</blockquote>
+</li>
+<li><p>20180915_trendmicro</p>
+<img src="/images/qrcode/temp_3.png" style="zoom: 25%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="https://github.com/pberba/ctf-solutions/tree/master/20180915_trendmicro/forensics_crypto_1_100" target="_blank" rel="noopener">https://github.com/pberba/ctf-solutions/tree/master/20180915_trendmicro/forensics_crypto_1_100</a></p>
+</blockquote>
+</li>
+<li><p>SECCON CTF 2013</p>
+<img src="/images/qrcode/temp_4.png" style="zoom:67%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="http://eleclog.quitsq.com/2014/01/seccon-ctf-2013-online-forensics-400.html" target="_blank" rel="noopener">http://eleclog.quitsq.com/2014/01/seccon-ctf-2013-online-forensics-400.html</a></p>
+</blockquote>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/02/12/png%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/" rel="next" title="png图片格式">
+                  <i class="fa fa-chevron-left"></i> png图片格式
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二维码"><span class="nav-number">1.</span> <span class="nav-text">二维码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#QR-Code"><span class="nav-number">1.1.</span> <span class="nav-text">QR Code</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Version-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">Version 1</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定位标识"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">定位标识</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定时标识"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">定时标识</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Version-2"><span class="nav-number">1.1.2.</span> <span class="nav-text">Version 2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#校正标识"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">校正标识</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能性数据"><span class="nav-number">1.1.3.</span> <span class="nav-text">功能性数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#格式信息-Format-Information"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">格式信息(Format Information)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#版本信息-Version-Information"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">版本信息(Version Information)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#纠错等级"><span class="nav-number">1.1.4.</span> <span class="nav-text">纠错等级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据、纠错字码"><span class="nav-number">1.1.5.</span> <span class="nav-text">数据、纠错字码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#掩码-Mask"><span class="nav-number">1.1.6.</span> <span class="nav-text">掩码(Mask)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码模式-Mode"><span class="nav-number">1.1.7.</span> <span class="nav-text">编码模式(Mode)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计数-Count"><span class="nav-number">1.1.8.</span> <span class="nav-text">计数(Count)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QR-Code-Test"><span class="nav-number">1.2.</span> <span class="nav-text">QR Code Test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集的其它题目"><span class="nav-number">1.3.</span> <span class="nav-text">收集的其它题目</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/none.ico">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">50k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:23</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'AcnzIAQVbbnuGkhPPb8cjbgW-gzGzoHsz',
+    appKey: 'TLbccV8U8hEzCr7sXQrbouRU',
+    placeholder: "Welcome to comment.",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
