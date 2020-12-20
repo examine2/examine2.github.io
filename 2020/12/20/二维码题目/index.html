@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="&amp;emsp;">
+<meta name="keywords" content="CTF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二维码题目">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;index.html">
+<meta property="og:site_name" content="examine2&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_3_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_3_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_4_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_4_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_1_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_1_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;ver2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_1_3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;reedsolo_github.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;xman_qrcode.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_2_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_2_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;examine_qr.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;cat.gif">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;img_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;img_2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;cat_qr.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;cat_red_2.png">
+<meta property="og:updated_time" content="2020-12-20T07:09:29.482Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;12&#x2F;20&#x2F;%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE&#x2F;images&#x2F;qrcode&#x2F;temp_3.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/20/%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>二维码题目 | examine2's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">examine2's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/20/%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/none.ico">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="examine2's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二维码题目
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-12-20 15:09:00 / Modified: 15:09:29" itemprop="dateCreated datePublished" datetime="2020-12-20T15:09:00+08:00">2020-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/12/20/%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/20/%E4%BA%8C%E7%BB%B4%E7%A0%81%E9%A2%98%E7%9B%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>23 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;</p>
+<a id="more"></a>
+
+<blockquote>
+<p>本文承接上一篇文章《二维码》，主要介绍下CTF中涉及二维码的各种题目</p>
+</blockquote>
+<hr>
+<h2 id="残缺的二维码"><a href="#残缺的二维码" class="headerlink" title="残缺的二维码"></a>残缺的二维码</h2><h3 id="1-TMCTF"><a href="#1-TMCTF" class="headerlink" title="1 TMCTF"></a>1 TMCTF</h3><blockquote>
+<p><strong>没想到的是，<a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a> 这个网站有集成对里所码的解码功能，于是不必去了解里所码；「只有二维码左边」的题目也变成套路题了...</strong></p>
+</blockquote>
+<img src="images/qrcode/temp_3.png" style="zoom: 25%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="https://github.com/pberba/ctf-solutions/tree/master/20180915_trendmicro/forensics_crypto_1_100" target="_blank" rel="noopener">https://github.com/pberba/ctf-solutions/tree/master/20180915_trendmicro/forensics_crypto_1_100</a></p>
+</blockquote>
+<p>前往 <a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a>，将残缺的二维码填涂上（注意别忘了填涂<strong>灰色</strong>）：</p>
+<img src="images/qrcode/temp_3_1.png" style="zoom:50%;" />
+
+<p>依次点击右上方的<kbd>Tools</kbd> → <kbd>Reed-Solomon Decoder</kbd> → <kbd>Decode</kbd>，得到结果：</p>
+<img src="images/qrcode/temp_3_2.png" style="zoom:50%;" />
+
+<hr>
+<h3 id="2-SECCON-2013"><a href="#2-SECCON-2013" class="headerlink" title="2 SECCON 2013"></a>2 SECCON 2013</h3><img src="images/qrcode/temp_4.png" style="zoom:67%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="http://eleclog.quitsq.com/2014/01/seccon-ctf-2013-online-forensics-400.html" target="_blank" rel="noopener">http://eleclog.quitsq.com/2014/01/seccon-ctf-2013-online-forensics-400.html</a></p>
+</blockquote>
+<p>与前面用来做示例的题目一样，只有D区数据，强行读取即可：</p>
+<img src="images/qrcode/temp_4_1.png" style="zoom:35%;" />
+
+<blockquote>
+<p>这里的<strong>灰色</strong>可以全填充为白色，因为是强行读取，不要紧</p>
+</blockquote>
+<p><kbd>Tools</kbd> → <kbd>Extract QR Information</kbd>：</p>
+<img src="images/qrcode/temp_4_2.png" style="zoom:50%;" />
+
+<hr>
+<h3 id="3-MMA-CTF"><a href="#3-MMA-CTF" class="headerlink" title="3 MMA CTF"></a>3 MMA CTF</h3><p>由日本队TokyoWesterns主办的2015年首届<a href="https://ctftime.org/event/234" target="_blank" rel="noopener">MMA CTF</a></p>
+<img src="images/qrcode/temp_1.png" style="zoom: 50%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="https://www.robertxiao.ca/hacking/ctf-writeup/mma2015-qrcode/" target="_blank" rel="noopener">https://www.robertxiao.ca/hacking/ctf-writeup/mma2015-qrcode/</a></p>
+</blockquote>
+<blockquote>
+<p>这道不属于「只剩左边」和「只剩右边」的套路题，特此根据Writeup记录解法</p>
+<p>前排提示，需要详细了解Reed-Solomon编码的可以参考文章：<a href="http://article.iotxfd.cn/RFID/Reed%20Solomon%20Codes" target="_blank" rel="noopener">http://article.iotxfd.cn/RFID/Reed%20Solomon%20Codes</a></p>
+</blockquote>
+<p>首先我们还是借助网站，根据格式信息补齐，并绘制上去：</p>
+<img src="images/qrcode/temp_1_1.png" style="zoom:40%;" />
+
+<p>强行读取，会发现：</p>
+<img src="images/qrcode/temp_1_2.png" style="zoom: 50%;" />
+
+<p>坑人的是前面的数据对应着 <code>FLAG IS</code>，后面就断了</p>
+<p>由于里所码也丢失了部分，因此不能通过直接解码获得内容</p>
+<p>&emsp;</p>
+<p>手动解决它，首先将上图中的<strong>Data blocks</strong>复制下来，网站已经帮我们解决了「去掩码」、「读取数据」等步骤，<strong>Data blocks</strong>中的内容就是摘掉掩码后的各个块的数据</p>
+<p>首先，这是一张Version 2的QR Code，搜索得到它的结构图为：</p>
+<img src="images/qrcode/ver2.png" style="zoom:60%;" />
+
+<p>可以看到，D区数据和E区数据都是依次放置的，因此我们无需像之前提到的Version 3那样进行排序</p>
+<p>并且可知这张QR Code的纠错等级为Q，再次查阅官方文档可以知道：</p>
+<img src="images/qrcode/temp_1_3.png" style="zoom: 50%;" />
+
+<blockquote>
+<p>该图表从 <a href="https://wenku.baidu.com/view/ef77275f312b3169a451a4a4.html?pn=50" target="_blank" rel="noopener">https://wenku.baidu.com/view/ef77275f312b3169a451a4a4.html?pn=50</a> 处得到</p>
+</blockquote>
+<p>Version 2的QR Code如果纠错等级为Q，那么44块总码字中，有22块纠错码字</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>上上张Version 2的QR Code结构图只是为了说明Version 2的码字都是顺序存放的，但那张结构图并不是所有Version 2的QR Code的通用结构图，它只是纠错等级为M的Version 2 QR Code结构图</p>
+<p>我一直容易误认为同一个等级的QR Code的结构图都是一样的，其实不然，相同等级使得总码字数一样，但不同<strong>纠错等级</strong>导致了对总码字数的分配不同；纠错等级越高，纠错码字占总码字的比率就越高</p>
+<p>具体还要查表，不能只看图</p>
+</blockquote>
+<p>我们先将已有的QR Code数据罗列一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">00100000  10100010  10111000  00111010</span><br><span class="line">01011001  10011010  10001000  ????????</span><br><span class="line">????????  ????????  ????????  ????????</span><br><span class="line">????????  ????????  ????????  ??00000?</span><br><span class="line">1???????  ????????  ????????  ????????</span><br><span class="line">????????  ??010001  00100100  1???????</span><br><span class="line">????????  ????????  ?????010  11000011</span><br><span class="line">10000000  10101100  00010000  11100100</span><br><span class="line">10101010  10011001  01100110  ????????</span><br><span class="line">????????  ?????0?0  0000000?  ????????</span><br><span class="line">????????  ????????  ????????  ????????</span><br></pre></td></tr></table></figure>
+
+<p>QR Code中的每个块表示8 Bits（<strong>码字</strong>）的数据，也就是1 Byte，而我们只有16 Bytes的数据是完整的</p>
+<p>纠错等级为Q的QR Code的最多能够容纳25%的字节损坏，同时，由于我们并不太了解Reed-Solomon算法，其实在知道损坏的字节的位置时，Reed-Solomon算法的纠错能力能够增强至两倍！</p>
+<blockquote>
+<p>Writeup中的原文是：</p>
+<blockquote>
+<p>until you look carefully at Reed-Solomon’s error correcting capabilities and realize that it can correct up to <em>twice</em> as many <em>erasures</em> – that is, if it <em>knows</em> where the errors are, the error correction capabilities are much stronger.</p>
+</blockquote>
+</blockquote>
+<p>同时参考我们接下来要使用的Python中的一个库reedsolo，在它的<a href="https://github.com/tomerfiliba/reedsolomon" target="_blank" rel="noopener">Github演示说明</a>中，有下面的举例：</p>
+<img src="images/qrcode/reedsolo_github.png" style="zoom:67%;" />
+
+<p>首先它为字符串 <code>hello world</code> 创建了长度为 $12$ 的纠错码，按理说只能容纳6个错误；但是将错误的位置传递进 <code>decode()</code> 后，能够解码出12个错误的字符串，错误容纳程度翻倍！</p>
+<p>它的解释是在不指明错误位置的情况下，Reed-Solomon算法会花费“成本”去检测错误位置</p>
+<hr>
+<p>从我们上面的数据来看，我们当然知道损坏的字节在哪 —— 所有带 <code>?</code> 的字节都损坏了；因此这时最多能容纳50%的字节损坏</p>
+<p>Version 2的QR Code共有44 Bytes的内容，也就是说允许我们最多丢失22 Bytes；而我们现在只有完整的16 Bytes，超出了范围</p>
+<p>庆幸的是，QR Code最前面的数据没有丢失，而最前面的数据包含两个内容：<strong>编码模式(Mode)</strong>和<strong>计数器(Count Indicator)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0010 [查表可知，编码模式为字母数字模式(Alphanumeric Mode)]</span><br><span class="line">000010100 [查表并分析，QR Code中的信息长度为20字节]</span><br><span class="line">01010111000 [&quot;FL&quot;]</span><br><span class="line">00111010010 [&quot;AG&quot;]</span><br><span class="line">11001100110 [&quot; I&quot;]</span><br><span class="line">1010001000? [&quot;S?&quot;]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以前往 <a href="https://www.thonky.com/qr-code-tutorial/alphanumeric-mode-encoding" target="_blank" rel="noopener">https://www.thonky.com/qr-code-tutorial/alphanumeric-mode-encoding</a> 学习QR Code的字母数字模式(Alphanumeric Mode)</p>
+</blockquote>
+<p>上面的分析可知，这张QR Code中共有20个字符，根据Alphanumeric Mode，每两个字符占据11 Bits，因此这20个字符共需要110 Bits；再加上前面4 Bits的编码模式和9 Bits的计数器，总共占据4 + 9 + 110 = 123 Bits</p>
+<p>这123 Bits就是这张QR Code的必要信息</p>
+<p>我们知道，QR Code中将123 Bits的信息存放后，如果后面还有空位，需要添加 <code>0000</code> 表示<strong>结束</strong>，然后再添加若干个 <code>0</code> 补全为8的倍数；最后再添加无意义的占位符 <code>11101100 00010001</code></p>
+<p>由于$123 ÷ 8 = 15 ... 3$，因此在第16 Bytes的数据中，前3 Bits是必要数据，然后会紧接一串 <code>0000</code>，最后再添加一个 <code>0</code> 补全为8的倍数；再最后的17 - 22 Byte会是占位符 <code>11101100 00010001</code></p>
+<p>我们查看回我们的D区数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">00100000  10100010  10111000  00111010  01011001  10011010</span><br><span class="line">10001000  ????????  ????????  ????????  ????????  ????????</span><br><span class="line">????????  ????????  ????????  ??00000?  1???????  ????????</span><br><span class="line">????????  ????????  ????????  ??010001</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，第16 Byte的数据前3 Bits是必要数据，之后的确紧跟着一串 <code>0000</code>，表明我们的分析正确，随后添加上填充的 <code>0</code> 和占位符，变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">00100000  10100010  10111000  00111010  01011001  10011010</span><br><span class="line">10001000  ????????  ????????  ????????  ????????  ????????</span><br><span class="line">????????  ????????  ????????  ??000000  11101100  00010001</span><br><span class="line">11101100  00010001  11101100  00010001</span><br></pre></td></tr></table></figure>
+
+<p>恢复了6 Bytes的内容后，我们已知的块数从16增加到了22，刚好是纠错等级为Q的Reed-Solomon算法的极限！</p>
+<hr>
+<p>由于不熟悉Reed-Solomon算法，下面借助Python的reedsolo库来进行计算</p>
+<blockquote>
+<p>Python的reedsolo库的安装和使用请参考 <a href="https://github.com/tomerfiliba/reedsolomon" target="_blank" rel="noopener">https://github.com/tomerfiliba/reedsolomon</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> reedsolo</span><br><span class="line">reedsolo.init_table(<span class="number">0x11d</span>)</span><br><span class="line"></span><br><span class="line">qr_bytes = [<span class="string">'00100000'</span>, <span class="string">'10100010'</span>, <span class="string">'10111000'</span>, <span class="string">'00111010'</span>, <span class="string">'01011001'</span>, <span class="string">'10011010'</span>, <span class="string">'10001000'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'??000000'</span>, <span class="string">'11101100'</span>, <span class="string">'00010001'</span>, <span class="string">'11101100'</span>, <span class="string">'00010001'</span>, <span class="string">'11101100'</span>, <span class="string">'00010001'</span>, <span class="string">'00100100'</span>, <span class="string">'1???????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'?????010'</span>, <span class="string">'11000011'</span>, <span class="string">'10000000'</span>, <span class="string">'10101100'</span>, <span class="string">'00010000'</span>, <span class="string">'11100100'</span>, <span class="string">'10101010'</span>, <span class="string">'10011001'</span>, <span class="string">'01100110'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'?????0?0'</span>, <span class="string">'00000000'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>, <span class="string">'????????'</span>]</span><br><span class="line"></span><br><span class="line">b = bytearray()</span><br><span class="line">erasures = []</span><br><span class="line"><span class="keyword">for</span> i, bits <span class="keyword">in</span> enumerate(qr_bytes):</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'?'</span> <span class="keyword">in</span> bits:</span><br><span class="line">        erasures.append(i)</span><br><span class="line">        b.append(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        b.append(int(bits, <span class="number">2</span>)) </span><br><span class="line"></span><br><span class="line">mes = reedsolo.rs_correct_msg(b, <span class="number">22</span>, erase_pos=erasures)</span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> mes[<span class="number">0</span>]:</span><br><span class="line">    print(<span class="string">"&#123;08b&#125;"</span>.format(c))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>首行的 <code>reedsolo.init_table(0x11d)</code> 是旨在初始化<strong>预计算表</strong>，至于为什么传入值 <code>0x11d</code>，不清楚...</p>
+</blockquote>
+<p>代码中，我们首先将我们手动恢复自完整22 Bytes的数据存放在列表 <code>qr_bytes</code> 中，列表中的元素都是长度为8的字符串</p>
+<p>然后对列表进行遍历，如果元素中有 <code>?</code>，表示它是丢失的，将它的位置存放入列表 <code>erasures</code> 中，然后向<strong>bytearray</strong>类型的 <code>b</code> 列表中添加 <code>0</code>，表示缺失（也可以添加其它数表示，无关紧要，因为已经在 <code>erasures</code> 中标识了）；如果元素中没有 <code>?</code>，表示它是完整的，直接将这个元素从二进制转换成十进制数，添加进<strong>bytearray</strong>中</p>
+<blockquote>
+<p>十进制数值添加进<strong>bytearray</strong>，会自动转换成<strong>bytes</strong>类型数据</p>
+</blockquote>
+<p>最后，我们拥有了装载原先 <code>qr_bytes</code> 数据的 <code>b</code> 列表，只是它是<strong>bytearray</strong>类型的；还拥有了丢失字节的位置 <code>erasures</code></p>
+<p>直接将这些信息传入函数 <code>rs_correct_msg</code>，其中指定了要处理的信息 <code>b</code>，纠错码的字节数 $22$、丢失的字节的位置 <code>erasures</code>；得到 <code>mes</code></p>
+<p>变量 <code>mes</code> 的是一个列表，它是Reed-Solomon算法对传入的信息 <code>b</code> 进行恢复的结果；<code>mes[0]</code> 是Reed-Solomon计算出的原始信息（类似QR Code中的D区），而 <code>mes[1]</code> 则是Reed-Solomon计算出的纠错信息（类似QR Code中的E区）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mes</span><br><span class="line"><span class="comment"># (bytearray(b' \xa2\xb8:Y\x9a\x88/\x86\xe2\xb6\x99J\xc3\x15\x00\xec\x11\xec\x11\xec\x11'), bytearray(b'$\xca\xfcq\xa2\xc3\x80\xac\x10\xe4\xaa\x99f:d:\x00\xe2~\xeb\xdc\x0e'), [7, 8, 9, 10, 11, 12, 13, 14, 15, 23, 24, 25, 26, 35, 36, 37, 39, 40, 41, 42, 43])</span></span><br></pre></td></tr></table></figure>
+
+<p><code>mes[2]</code> 则是之前传入的 <code>erasures</code>，表示丢失字节的位置</p>
+<p>也就是说，我们成功恢复了数据，整个数据中，原始数据部分在 <code>mes[0]</code>，纠错码数据在 <code>mes[1]</code>；随后我们将 <code>mes[0]</code> 中的数值都转换成8 Bits二进制数，打印输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">00100000</span><br><span class="line">10100010</span><br><span class="line">10111000</span><br><span class="line">00111010</span><br><span class="line">01011001</span><br><span class="line">10011010</span><br><span class="line">10001000</span><br><span class="line">00101111</span><br><span class="line">10000110</span><br><span class="line">11100010</span><br><span class="line">10110110</span><br><span class="line">10011001</span><br><span class="line">01001010</span><br><span class="line">11000011</span><br><span class="line">00010101</span><br><span class="line">00000000</span><br><span class="line">11101100</span><br><span class="line">00010001</span><br><span class="line">11101100</span><br><span class="line">00010001</span><br><span class="line">11101100</span><br><span class="line">00010001</span><br></pre></td></tr></table></figure>
+
+<p>上面便是这张QR Code中D区的数据；对它进行分析：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0010 [查表可知，编码模式为字母数字模式(Alphanumeric Mode)]</span><br><span class="line">000010100 [查表并分析，QR Code中的信息长度为20字节]</span><br><span class="line">01010111000 [&quot;FL&quot;]</span><br><span class="line">00111010010 [&quot;AG&quot;]</span><br><span class="line">11001100110 [&quot; I&quot;]</span><br><span class="line">10100010000 [&quot;S &quot;]</span><br><span class="line">01011111000 [&quot;G+&quot;]</span><br><span class="line">01101110001 [&quot;JQ&quot;]</span><br><span class="line">01011011010 [&quot;GA&quot;]</span><br><span class="line">01100101001 [&quot;H:&quot;]</span><br><span class="line">01011000011 [&quot;FW&quot;]</span><br><span class="line">00010101000 [&quot;3X&quot;]</span><br><span class="line">0000 [结束符]</span><br><span class="line">0 [向8的整数倍填充]</span><br><span class="line">11101100 00010001 [填充字节]</span><br><span class="line">11101100 00010001</span><br><span class="line">11101100 00010001</span><br></pre></td></tr></table></figure>
+
+<p>最终得到QR Code中的信息：<code>FLAG IS G+JQGAH:FW3X</code></p>
+<hr>
+<p>此外，<a href="https://www.xctf.org.cn/library/details/8ad0f5b6ac740ec0930e948a40f34a67b3d4f565/" target="_blank" rel="noopener">XMAN选拔赛</a>中也有类似的题目：</p>
+<img src="images/qrcode/xman_qrcode.png" style="zoom:50%;" />
+
+<p>很明显就是之前的解题步骤，脚本可套用</p>
+<hr>
+<h3 id="4-SECCON-2014"><a href="#4-SECCON-2014" class="headerlink" title="4 SECCON 2014"></a>4 SECCON 2014</h3><img src="images/qrcode/temp_2.png" style="zoom:67%;" />
+
+<blockquote>
+<p>Write-ups网站：<a href="http://eleclog.quitsq.com/2014/12/seccon-ctf-2014-online-forensics-400.html" target="_blank" rel="noopener">http://eleclog.quitsq.com/2014/12/seccon-ctf-2014-online-forensics-400.html</a></p>
+</blockquote>
+<p>前往 <a href="https://merricx.github.io/qrazybox/" target="_blank" rel="noopener">https://merricx.github.io/qrazybox/</a>，将残缺的二维码填涂上（注意别忘了填涂<strong>灰色</strong>）：</p>
+<img src="images/qrcode/temp_2_1.png" style="zoom:50%;" />
+
+<p>依次点击右上方的<kbd>Tools</kbd> → <kbd>Reed-Solomon Decoder</kbd> → <kbd>Decode</kbd>，得到结果：</p>
+<img src="images/qrcode/temp_2_2.png" style="zoom:50%;" />
+
+<hr>
+<blockquote>
+<p><strong>失败记录</strong></p>
+<p>这道题目的Writeup是手撕Reed-Solomon算法的，但是我不了解算法、也不想借助QrazyBox这个工具，而是用Python的reedsolo库解决，前面的SECCON 2013已经有成果了</p>
+<p>首先这张QR Code的必要信息是：纠错等级H，也就是说有30%的纠错能力；Version 3的QR Code共有70个块，而纠错等级为H则意味着其中有26个数据块、44个纠错码块</p>
+<p>QR Code只剩左边的纠错信息，而读取它的信息并不困难，得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, </span><br><span class="line">&apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, </span><br><span class="line">&apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, </span><br><span class="line">&apos;????????&apos;, &apos;????????&apos;, &apos;01011010&apos;, &apos;01011111&apos;, &apos;00110101&apos;, &apos;10101111&apos;, &apos;10110101&apos;, &apos;10001111&apos;, </span><br><span class="line">&apos;00100011&apos;, &apos;00110100&apos;, &apos;01100100&apos;, &apos;00110100&apos;, &apos;10101101&apos;, &apos;00100010&apos;, &apos;10011011&apos;, &apos;10011111&apos;, </span><br><span class="line">&apos;01000011&apos;, &apos;00001111&apos;, &apos;01110000&apos;, &apos;10110110&apos;, &apos;01100100&apos;, &apos;11111011&apos;, &apos;10111111&apos;, &apos;00000111&apos;, </span><br><span class="line">&apos;11001100&apos;, &apos;11001001&apos;, &apos;01110101&apos;, &apos;10111111&apos;, &apos;11100110&apos;, &apos;11100011&apos;, &apos;11100001&apos;, &apos;01011110&apos;, </span><br><span class="line">&apos;10000000&apos;, &apos;11010001&apos;, &apos;01100011&apos;, &apos;00001100&apos;, &apos;00101011&apos;, &apos;01000101&apos;, &apos;10100010&apos;, &apos;10111101&apos;, </span><br><span class="line">&apos;00000101&apos;, &apos;01101001&apos;, &apos;01100001&apos;, &apos;00111110&apos;, &apos;10100111&apos;, &apos;11110100&apos;</span><br></pre></td></tr></table></figure>
+
+<p>前面的26个数据块全部丢失，所以全用 <code>????????</code> 替代</p>
+<p>然后按照之前的脚本，执行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mes = reedsolo.rs_correct_msg(b, <span class="number">44</span>, erase_pos=erasures)</span><br></pre></td></tr></table></figure>
+
+<p>始终出现 <code>reedsolo.ReedSolomonError: Too many (or few) errors found by Chien Search for the errata locator polynomial!</code> 的错误</p>
+<p>&emsp;</p>
+<p>翻看Writeup，发现竟然有“猜”这一步骤：（原文是日文，所以记录的可能不准确）</p>
+<ul>
+<li><p>假设开头的 <code>SECCON</code> 是字母数字模式，之后的 <code>{...}</code> 是8 Bits字节模式；也就是说，它采用QR Code中的<strong>混合模式</strong></p>
+</li>
+<li><p>混合模式中，第一个模式可以根据 <code>SECCON</code> 直接猜测，得到前面块的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0010[假设&quot;SECCON&quot;是字母数字模式，所以标识码为0010]</span><br><span class="line">000000110[这里的Count Indicator就是6]</span><br><span class="line">10011111010[&quot;SE&quot; = 45 × 28 + 14 = 1274，转二进制]</span><br><span class="line">01000101000[&quot;CC&quot; = 45 × 12 + 12 = 552，转二进制]</span><br><span class="line">10001001111[&quot;ON&quot; = 45 × 24 + 23 = 1103，转二进制]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>混合模式中，第二个模式它说是 <code>{...}</code>，其中 <code>...</code> 是长度为16的字符串</p>
+<blockquote>
+<p>我实在不知道 $16$ 是怎么知道的，可能是原题给出了</p>
+</blockquote>
+<p>继续推测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0010[8 Bits字节模式的标识码]</span><br><span class="line">00010010[十进制数18的二进制表示，表示&quot;&#123;...&#125;&quot;中的省略号有16个字符]</span><br><span class="line">01111011[字符&quot;&#123;&quot;ASCII码为123，转二进制]</span><br></pre></td></tr></table></figure>
+
+<p>最后根据计算，前面的字母数字模式占用46 Bits，而8 Bits字节模式中，按理说会占用4 + 8 + 8 × 18 = 156 Bits，所以主要的数据会占用46 + 156 = 202 Bits；再者，这张纠错等级为H的Version 3 QR Code能够容纳26 × 8 = 208 Bits的数据，所以最后的208 - 202 = 6 Bits会是无意义的填充</p>
+<p>又因为flag最后以 <code>}</code> 结尾，而 <code>} = 125 = 01111101</code>，所以有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">??011111[第25个D区数据块]</span><br><span class="line">01000000[第26个D区数据块]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>原先我们的D区数据全是 <code>????????</code>，现在一通猛如虎的分析下来，变成了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&apos;00100000&apos;, &apos;00110100&apos;, &apos;11111010&apos;, &apos;01000101&apos;, &apos;00010001&apos;, &apos;00111101&apos;, &apos;00000100&apos;, &apos;10011110&apos;, </span><br><span class="line">&apos;11??????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, </span><br><span class="line">&apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, &apos;????????&apos;, </span><br><span class="line">&apos;??011111&apos;, &apos;01000000&apos;</span><br></pre></td></tr></table></figure>
+
+<p>哪怕经过这样的工作，在执行代码时还是会出现 <code>reedsolo.ReedSolomonError: Too many (or few) errors found by Chien Search for the errata locator polynomial!</code> 错误</p>
+<p>:broken_heart:</p>
+<p>也花了很多时间在这题上，所以失败了也记录下来，也该结束QR Code的学习了</p>
+<p>按理说一定是可以解的，但是代码仍错误；并且这种“猜”的思路有可能是错的，因为把QR Code扔QrazyBox上能直接解码Reed-Solomon，QrazyBox可不会猜测内容是 <code>SECCON{...}</code>！</p>
+<blockquote>
+<p>艰难，俺果然只会用工具:cry:，还是封装好那种</p>
+</blockquote>
+</blockquote>
+<hr>
+<h2 id="01字符串"><a href="#01字符串" class="headerlink" title="01字符串"></a>01字符串</h2><p>QR Code由黑白两色的码元组成，因此可以分别代表0和1；所以一张QR Code有时候也被转换成01字符串</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1-Ea2FTbgGZLMbDaSmQU3Jw" target="_blank" rel="noopener">https://pan.baidu.com/s/1-Ea2FTbgGZLMbDaSmQU3Jw</a><br>提取码：xexx</p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>得到 <code>qrcode.txt</code>，发现里面是二进制数据</p>
+<p>复制到Python中，<code>len()</code> 一下，长度为625，恰好是$25^2$，猜测是一张二维码的数据</p>
+<blockquote>
+<p>二维码的每个module都可以对应一个比特位</p>
+</blockquote>
+<p>使用Python的pillow模块写脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">str = <span class="string">"111111100010..."</span></span><br><span class="line">pic = Image.new(<span class="string">"RGB"</span>, (<span class="number">25</span>,<span class="number">25</span>))</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">        <span class="keyword">if</span> str[i] == <span class="string">'1'</span>:</span><br><span class="line">            pic.putpixel((x,y), (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            pic.putpixel((x,y), (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">pic.show()</span><br></pre></td></tr></table></figure>
+
+<p>运行代码发现的确是一张二维码，扫描得flag</p>
+<p>&emsp;</p>
+<p>嫌弃生成的二维码太小的话可以改用函数 <code>paste()</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">str = <span class="string">"111111100010..."</span></span><br><span class="line">pic = Image.new(<span class="string">"RGB"</span>, (<span class="number">250</span>,<span class="number">250</span>))</span><br><span class="line">Black = Image.new(<span class="string">"L"</span>, (<span class="number">10</span>, <span class="number">10</span>), <span class="number">255</span>)</span><br><span class="line">White = Image.new(<span class="string">"L"</span>, (<span class="number">10</span>, <span class="number">10</span>), <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">        <span class="keyword">if</span> str[i] == <span class="string">'1'</span>:</span><br><span class="line">            pic.paste(White, (<span class="number">10</span>*x, <span class="number">10</span>*y))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            pic.paste(Black, (<span class="number">10</span>*x, <span class="number">10</span>*y))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">pic.show()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="自动扫描"><a href="#自动扫描" class="headerlink" title="自动扫描"></a>自动扫描</h2><p>有时候，直接用手机扫描二维码可能会有安全隐患；而Python的第三方库pyzbar支持直接读取以图片形式呈现的QR Code</p>
+<h3 id="pyzbar"><a href="#pyzbar" class="headerlink" title="pyzbar"></a>pyzbar</h3><p>安装直接就是：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyzbar</span><br></pre></td></tr></table></figure>
+
+<p>但是它需要另一个库的协助：<strong>PIL</strong>或者<strong>pillow</strong>，借助其中的 <code>Image</code> 对象</p>
+<hr>
+<p>常规使用方法是，假设我们有一张QR Code的图片，名为 <code>examine_qr.png</code>：</p>
+<img src="images/qrcode/examine_qr.png" style="zoom:50%;" />
+
+<p>想要获得其中的内容，代码为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyzbar.pyzbar <span class="keyword">as</span> pyzbar</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">"examine_qr.png"</span>)</span><br><span class="line">barcodes = pyzbar.decode(img)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> barcode <span class="keyword">in</span> barcodes:</span><br><span class="line">    barcodeData = barcode.data.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    print(barcodeData)</span><br><span class="line"><span class="comment">#	examine</span></span><br></pre></td></tr></table></figure>
+
+<p>我们主要使用的是<strong>pyzbar</strong>库中的 <code>decode()</code> 函数，它需要接收一个 <code>Image</code> 对象，然后读取解码其中的条形码</p>
+<p>如果是QR Code，那么调用 <code>pyzbar.decode()</code> 函数将会得到一个列表(<strong>list</strong>)，其中的元素都是 <code>pyzbar.pyzbar.Decoded</code> 对象</p>
+<blockquote>
+<p>因为一张图片中有可能包含多张QR Code，所以用list承接；该list中会依次存放每张QR Code的数据</p>
+</blockquote>
+<p>获得的 <code>pyzbar.pyzbar.Decoded</code> 对象通常有以下属性：</p>
+<ul>
+<li><p><strong><code>data</code></strong></p>
+<p>就是该二维码的内容</p>
+<p>上面代码中，遍历每一张二维码，然后获得它的 <code>data</code> 字段；<code>data</code> 字段的内容都是<strong>Bytes</strong>类型的，因此需要解码</p>
+</li>
+<li><p><strong><code>type</code></strong></p>
+<p>如果扫描的是QR Code，那么 <code>type</code> 字段的值就是 <code>QRCODE</code></p>
+<blockquote>
+<p>由于我们现在主攻QR Code，因此暂时不管其它二维码</p>
+</blockquote>
+</li>
+<li><p><strong><code>rect</code></strong></p>
+<p>从图片最左上角的像素开始建系，<code>rect</code> 字段的值是一个 <code>Rect</code> 对象，该对象分别用 <code>left</code>、<code>top</code>、<code>width</code>、<code>height</code> 4个属性值来描绘QR Code在这张图片中的位置</p>
+<p><code>left</code> 和 <code>top</code> 分别表示QR Code的最左上角的像素离原点的距离、<code>weight</code> 和 <code>height</code> 表示整张QR Code的宽度和高度（单位都是像素）</p>
+</li>
+<li><p><strong><code>polygon</code></strong></p>
+<p>该字段的意思是&quot;多边形&quot;，它的值是一个list，其中存储着QR Code 4个角的坐标，表现形式为：<code>polypgon = [Point(x=8, y=10), Point(x=8, y=325)]</code></p>
+</li>
+</ul>
+<p>我们最主要的用法就是 <strong><code>print(Decoded.data.decode(&#39;utf-8&#39;))</code></strong></p>
+<hr>
+<p>此外，当QR Code不清晰时，能够通过图像处理来增强识别效果；主要依靠<strong>PIL</strong>库：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageEnhance</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">"examine_qr.png"</span>)</span><br><span class="line"><span class="comment"># img = ImageEnhance.Brightness(img).enhance(2.0) #增加亮度</span></span><br><span class="line"><span class="comment"># img = ImageEnhance.Sharpness(img).enhance(17.0) #锐利化</span></span><br><span class="line"><span class="comment"># img = ImageEnhance.Contrast(img).enhance(4.0) #增加对比度</span></span><br><span class="line"><span class="comment"># img = img.convert('L') #灰度化</span></span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考文章：<a href="https://www.cnblogs.com/xushengming/p/9872061.html" target="_blank" rel="noopener">https://www.cnblogs.com/xushengming/p/9872061.html</a></p>
+</blockquote>
+<p>而QR Code由于定位图案的存在，定位效果是非常好的，哪怕倾斜的QR Code也能读取</p>
+<p>CTF题目中可能给出大量的QR Code图，这时通过脚本读取能大幅加快速度</p>
+<hr>
+<h2 id="码元替换"><a href="#码元替换" class="headerlink" title="码元替换"></a>码元替换</h2><p>普通的QR Code的码元由黑白两色组成，在CTF中，有时候会将这两种码元分别用两种图片替代，我们需要识别出来，并转换成QR Code</p>
+<p>参考DASCTF 5月赛 &amp; BJDCTF 3rd的Misc题目「/bin/cat 2」</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1nwOATM1T6YLNws6WOXDkUw" target="_blank" rel="noopener">https://pan.baidu.com/s/1nwOATM1T6YLNws6WOXDkUw</a><br>提取码：79z5</p>
+</blockquote>
+<p>下载得到 <code>cat.gif</code>：</p>
+<img src="images/qrcode/cat.gif" style="zoom: 25%;" />
+
+<p>模糊上看，这的确是一张QR Code</p>
+<p>将上图转换成可扫描的QR Code，主要有两种方法：</p>
+<h3 id="图像识别"><a href="#图像识别" class="headerlink" title="图像识别"></a>图像识别</h3><p>首先数一数，宽有58张小图、高有29张小图；而 <code>cat.gif</code> 的分辨率是2900×1450，因此每张小图的分辨率为50×50</p>
+<p>QR Code都是正方形矩阵，但是 <code>cat.gif</code> 的宽度是高度的两倍，因此可以知道图片的宽度被放大了两倍，应该缩短；编写代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">"cat.gif"</span>)</span><br><span class="line">img_1 = img.crop((<span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">50</span>))</span><br><span class="line">img_2 = img.crop((<span class="number">100</span>+<span class="number">0</span>, <span class="number">100</span>+<span class="number">0</span>, <span class="number">100</span>+<span class="number">50</span>, <span class="number">100</span>+<span class="number">50</span>))</span><br><span class="line"></span><br><span class="line">width, height = img_1.size</span><br><span class="line">dif = []</span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(height):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(width):</span><br><span class="line">        <span class="keyword">if</span> img_1.getpixel((x, y)) != img_2.getpixel((x, y)):</span><br><span class="line">            dif.append((x, y))</span><br><span class="line">mark = dif[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">data = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">0</span>, img.size[<span class="number">1</span>], <span class="number">50</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, img.size[<span class="number">0</span>], <span class="number">100</span>):</span><br><span class="line">        <span class="keyword">if</span> img.getpixel((x+mark[<span class="number">0</span>], y+mark[<span class="number">1</span>])) == img_1.getpixel(mark):</span><br><span class="line">            data += <span class="string">"1"</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data += <span class="string">"0"</span></span><br><span class="line"></span><br><span class="line">pic = Image.new(<span class="string">"RGB"</span>, (<span class="number">290</span>,<span class="number">290</span>))</span><br><span class="line">Black = Image.new(<span class="string">"L"</span>, (<span class="number">10</span>, <span class="number">10</span>), <span class="number">255</span>)</span><br><span class="line">White = Image.new(<span class="string">"L"</span>, (<span class="number">10</span>, <span class="number">10</span>), <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">29</span>):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">29</span>):</span><br><span class="line">        <span class="keyword">if</span> data[i] == <span class="string">'1'</span>:</span><br><span class="line">            pic.paste(White, (<span class="number">10</span>*x, <span class="number">10</span>*y))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            pic.paste(Black, (<span class="number">10</span>*x, <span class="number">10</span>*y))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">pic.show()</span><br></pre></td></tr></table></figure>
+
+<p>代码中，首先导入 <code>cat.gif</code> 为 <code>img</code> 对象（由于Python无法处理动态图，所以这时的 <code>img</code> 是Gif动图的第一帧）</p>
+<p>然后使用 <code>Image</code> 的 <code>crop()</code> 裁剪函数，该函数接收一个tuple，分别是 <code>(左上角横坐标, 左上角纵坐标, 右上角横坐标, 右上角纵坐标)</code>；随便选定两个位置进行裁剪，其中 <code>img_1</code> 是：</p>
+<p><img src="images/qrcode/img_1.png" alt=""></p>
+<p><code>img_2</code> 则是：</p>
+<p><img src="images/qrcode/img_2.png" alt=""></p>
+<p>随后一个二重循环，遍历两种小图的每个像素，将它们像素值不同的位置存放入数组 <code>dif</code> 中；<code>dif</code> 中的每个元素都可以作为判断是哪种小图的依据</p>
+<p>随便取 <code>mark = dif[0]</code>，然后对 <code>cat.gif</code> 进行遍历，由于 <code>cat.gif</code> 的宽度是高度的两倍，所以纵向遍历的步长是50，而横向遍历的步长是100；比较 <code>cat.gif</code> 中每个小图的第 <code>mark</code> 个像素是否与 <code>img_1</code> 的相同，相同则在 <code>data</code> 中添加 <code>1</code>、不同则添加 <code>0</code></p>
+<p>有了 <code>data</code> 后，题目转换成前面的<strong>01字符串</strong>类型，套用代码将QR Code绘制出来即可；最终得到：</p>
+<img src="images/qrcode/cat_qr.png" style="zoom:50%;" />
+
+<p>再套上pyzbar的脚本自动读取也可以</p>
+<hr>
+<h3 id="图像处理"><a href="#图像处理" class="headerlink" title="图像处理"></a>图像处理</h3><p>另外一种方法，<code>img_1</code> 和 <code>img_2</code> 虽然看上去相似，但可能在某个颜色通道上的数值有较大的差异</p>
+<p>将 <code>cat.gif</code> 截图保存为 <code>cat.png</code>，然后扔进<strong>StegSolve</strong>，浏览各个通道发现，在R通道2上，图像显示为：</p>
+<img src="images/qrcode/cat_red_2.png" style="zoom:33%;" />
+
+<p>直接扫描即可</p>
+<blockquote>
+<p>支付宝扫码能力更强，站远一点可以扫</p>
+</blockquote>
+<p>如果不能扫描，可以进行下一步的处理，如提升对比度等</p>
+<hr>
+<p>end</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/04/25/%E4%BA%8C%E7%BB%B4%E7%A0%81/" rel="next" title="二维码">
+                  <i class="fa fa-chevron-left"></i> 二维码
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#残缺的二维码"><span class="nav-number">1.</span> <span class="nav-text">残缺的二维码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-TMCTF"><span class="nav-number">1.1.</span> <span class="nav-text">1 TMCTF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SECCON-2013"><span class="nav-number">1.2.</span> <span class="nav-text">2 SECCON 2013</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-MMA-CTF"><span class="nav-number">1.3.</span> <span class="nav-text">3 MMA CTF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-SECCON-2014"><span class="nav-number">1.4.</span> <span class="nav-text">4 SECCON 2014</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#01字符串"><span class="nav-number">2.</span> <span class="nav-text">01字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动扫描"><span class="nav-number">3.</span> <span class="nav-text">自动扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pyzbar"><span class="nav-number">3.1.</span> <span class="nav-text">pyzbar</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#码元替换"><span class="nav-number">4.</span> <span class="nav-text">码元替换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像识别"><span class="nav-number">4.1.</span> <span class="nav-text">图像识别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像处理"><span class="nav-number">4.2.</span> <span class="nav-text">图像处理</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/none.ico">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">64k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:46</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'AcnzIAQVbbnuGkhPPb8cjbgW-gzGzoHsz',
+    appKey: 'TLbccV8U8hEzCr7sXQrbouRU',
+    placeholder: "Welcome to comment.",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
