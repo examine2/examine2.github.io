@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="&amp;emsp;">
+<meta name="keywords" content="CTF,Misc,Picture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF中的Gif">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;01&#x2F;25&#x2F;CTF%E4%B8%AD%E7%9A%84gif&#x2F;index.html">
+<meta property="og:site_name" content="examine2&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;format.webp">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;sign.webp">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;logical_screen_descriptor.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;global_color_table.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;rgb.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;data.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;graphic_control_extension.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;graphic_control_extension_format.webp">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image_descriptor_format.webp">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;header_example.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;identify_example.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;identify_example2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;identify_example.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;identify_example3.png">
+<meta property="og:updated_time" content="2021-03-01T03:15:23.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;format.webp">
+
+<link rel="canonical" href="http://yoursite.com/2021/01/25/CTF%E4%B8%AD%E7%9A%84gif/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CTF中的Gif | examine2's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">examine2's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/25/CTF%E4%B8%AD%E7%9A%84gif/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/none.ico">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="examine2's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTF中的Gif
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-25 21:05:51" itemprop="dateCreated datePublished" datetime="2021-01-25T21:05:51+08:00">2021-01-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-01 11:15:23" itemprop="dateModified" datetime="2021-03-01T11:15:23+08:00">2021-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/01/25/CTF%E4%B8%AD%E7%9A%84gif/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/25/CTF%E4%B8%AD%E7%9A%84gif/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>16 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;</p>
+<a id="more"></a>
+
+<blockquote>
+<p>部分参考：<a href="https://www.jianshu.com/p/4fabac6b15b3" target="_blank" rel="noopener">https://www.jianshu.com/p/4fabac6b15b3</a>，讲解很详细</p>
+</blockquote>
+<hr>
+<h2 id="Gif"><a href="#Gif" class="headerlink" title="Gif"></a>Gif</h2><h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p><strong>Gif</strong>图像整体上来看由11个块组成：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/format.webp" style="zoom: 80%;" />
+
+<p>其中有8个块是必备的：</p>
+<p><code>Header</code> （文件头）、<code>Logical Screen Descriptor</code>（逻辑屏幕描述符）、<code>Image Descriptor</code>（图像描述符）、<code>Image Data</code>（图像数据流）、<code>Plain Text Extension</code>（文本扩展）、<code>Application Extension</code>（应用扩展）、<code>Comment Extension</code>（注释扩展）、<code>Trailer</code>（尾部标记）</p>
+<p>此外还有可选的3个块：<code>Global Color Table</code>（全局颜色表）、<code>Graphic Control Extension</code>（图形控制扩展）、<code>Local Color Table</code>（本地颜色表）</p>
+<p>我们暂时只学习一些常见的块，随便借用一张Gif：</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1m-LcmVGzfMfPKFmLdZDE0g" target="_blank" rel="noopener">https://pan.baidu.com/s/1m-LcmVGzfMfPKFmLdZDE0g</a><br>提取码：frd3 </p>
+</blockquote>
+<hr>
+<h4 id="文件头-Header"><a href="#文件头-Header" class="headerlink" title="文件头 Header"></a>文件头 Header</h4><p><strong>Gif</strong>的文件头有两种：</p>
+<ul>
+<li><strong><code>47 49 46 38 37 61</code></strong>，dump为 <strong><code>GIF87a</code></strong></li>
+<li><strong><code>47 49 46 38 39 61</code></strong>，dump为 <strong><code>GIF89a</code></strong></li>
+</ul>
+<p>之所以有两种，是因为<strong>Gif</strong>的文件头中，前3 Bytes才是真正的<strong>签名(signature)</strong>、后3 Bytes表示版本：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/sign.webp" style="zoom:80%;" />
+
+<p>目前有 87a 和 89a 两个版本</p>
+<hr>
+<h4 id="Logical-Screen-Descriptor"><a href="#Logical-Screen-Descriptor" class="headerlink" title="Logical Screen Descriptor"></a>Logical Screen Descriptor</h4><p>文件头有6 Bytes，而Logical Screen Descriptor也才只有7 Bytes</p>
+<p>它负责告诉Gif解码器一些关于Gif图像的格式信息，包括：</p>
+<ul>
+<li><p><strong>宽度</strong>（2 Bytes，小端序）</p>
+</li>
+<li><p><strong>高度</strong>（2 Bytes，小端序）</p>
+</li>
+<li><p><strong>包装字段(Packed Field)</strong>（1 Byte）</p>
+<p>将包装字段的1 Byte展开成8 Bits，下标分别为[7, 0]，分别有：</p>
+<ul>
+<li><p>最高位，[7]，<code>Global Color Table Flag</code>，块开启标志</p>
+<p>前面有提 <code>Global Color Table</code> 这个块在Gif中是可选的，如果这里的 <code>Global Color Table</code> 为 1，则表示存在 <code>Global Color Table</code> 这个块；为 0 则表示不存在</p>
+</li>
+<li><p>[6, 4]，<code>Color Resolution</code>，色彩分辨率</p>
+<p>这3位构成的数值如果是 s，则表示图片中最多有 $2^{s+1}$ 种颜色</p>
+<blockquote>
+<p>更确切的概念是，该Gif的像素的颜色最多只需用 $s+1$ Bits来表示</p>
+</blockquote>
+</li>
+<li><p>[3]，<code>Sort Flag</code>，排序标志</p>
+<p>如果为 1，表示 <code>Global Color Table</code> 中的颜色会按照出现频率进行排序，由高到低；为 0 则表示不排序</p>
+</li>
+<li><p>[2, 0]，<code>Size Of Global Color Table</code>，颜色表中颜色的数目</p>
+<p>如果其值为 $s$，则表示有 $2^{s+1}$ 种颜色</p>
+</li>
+</ul>
+</li>
+<li><p><strong>背景色索引(Background Color Index)</strong></p>
+<p>Gif图的背景色在Global Color Table中的索引</p>
+</li>
+<li><p>Pixel Aspect Ratio</p>
+<p>通常为 0，不作了解</p>
+</li>
+</ul>
+<hr>
+<p>以给定的Gif图为例：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/logical_screen_descriptor.png" style="zoom:67%;" />
+
+<p>可以计算得到：</p>
+<ul>
+<li>宽度 = 高度 = 0x0140 = 320，所以图像分辨率为 320 × 320</li>
+<li>将包装字段 <code>F6</code> 展开成 <code>11110110</code>，最高位的 <code>1</code> 表示存在Global Color Table；然后的 <code>111</code> 值为 7，则表示每种颜色可以由8 Bits来表示；接下来的 <code>0</code> 表示Global Color Table中的颜色不排序；最后的 <code>110</code> 值为 6，表示Global Color Table中有 $2^{6+1} = 128$ 种颜色</li>
+<li>0x49 = 73，Gif图的背景色的下标为 73</li>
+</ul>
+<hr>
+<h4 id="Global-Color-Table"><a href="#Global-Color-Table" class="headerlink" title="Global Color Table"></a>Global Color Table</h4><p>全局颜色表，如果存在的话，Gif中的每一种颜色都会表示成<strong>RGB</strong>模式下的3 Bytes</p>
+<p>例如，从前面的 <code>Size Of Global Color Table</code> 可知该Gif有128种颜色，所以应该占据 128 × 3 = 384 Bytes，而从010 Editor中可以看到，Global Color Table的大小的确是384 Bytes：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/global_color_table.png" style="zoom:67%;" />
+
+<p>并且从010 Editor的Gif模板中可以看到，Global Color Table中的数据都是以<strong>RGB三元组</strong>为基本单位的：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/rgb.png" style="zoom:67%;" />
+
+<hr>
+<p>前面都都是一张Gif比较全局的配置信息，接下来就进入了详细的数据部分</p>
+<hr>
+<h4 id="帧-Frame"><a href="#帧-Frame" class="headerlink" title="帧(Frame)"></a>帧(Frame)</h4><p>再次借助010 Editor，可以看到：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/data.png" style="zoom:67%;" />
+
+<p>除了最前面的 <code>Application Extension</code> 外，数据部分又可以划分为一个个的<strong>子块</strong>，其中每个子块的内容有：</p>
+<ul>
+<li><code>Graphic Control Extension[x]</code></li>
+<li><code>Image Descriptor[x]</code></li>
+<li><code>Image Data[x]</code></li>
+</ul>
+<p>我们知道，普通的视频就是一连串快速切换的图像，它利用人眼的<strong>视觉暂留现象</strong>，将静态的多张图画转变成动态的视频；而Gif图在这一方面与视频是一样的</p>
+<blockquote>
+<p><strong>视觉暂留现象</strong></p>
+<p>指人眼看到的影像消失后，仍能继续保留其影像0.1 - 0.5秒左右</p>
+</blockquote>
+<p>Gif动图由许多图像组成，每个图像的快速播放构成了Gif图的「动态」，而Gif图中的每一张静态图都被称之为<strong>帧(Frame)</strong></p>
+<p>回到上面，我们可以看到数据区域被划分为许多拥有共同属性的<strong>子块</strong>，其实每个子块就对应一<strong>帧</strong>，在数据区域中，每一帧的数据都是对某张图片的描述</p>
+<blockquote>
+<p>其中，<code>Application Extension</code> 就跟表示<strong>注释</strong>的 <code>Comment Extension</code> 一样，并不会对Gif图本身的渲染产生任何影响，所以这里不理会</p>
+</blockquote>
+<hr>
+<h4 id="Graphic-Control-Extension"><a href="#Graphic-Control-Extension" class="headerlink" title="Graphic Control Extension"></a>Graphic Control Extension</h4><p>我们前面提到了 <code>Plain Text Extension</code>（文本扩展）、<code>Application Extension</code>（应用扩展）、<code>Comment Extension</code>（注释扩展）、<code>Graphic Control Extension</code>（图形控制扩展）</p>
+<p>它们都被称之为<strong>扩展</strong>，为了区分它们，Gif在格式中引入了<strong>Extension Introducer（扩展入口）</strong>的概念，它类似于<strong>文件头</strong>，用不同的数值去标识每个扩展：</p>
+<table>
+<thead>
+<tr>
+<th align="center">扩展名称</th>
+<th align="center">标识(Label)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Plain Text Extension</td>
+<td align="center"><code>21 01</code></td>
+</tr>
+<tr>
+<td align="center">Application Extension</td>
+<td align="center"><code>21 FF</code></td>
+</tr>
+<tr>
+<td align="center">Comment Extension</td>
+<td align="center"><code>21 FE</code></td>
+</tr>
+<tr>
+<td align="center">Graphic Control Extension</td>
+<td align="center"><code>21 F9</code></td>
+</tr>
+</tbody></table>
+<p><strong>Extension Introducer</strong>的值就是 <code>21</code>，它标识接下来的一段数据是某个扩展的数据；<code>21</code> 的下一个字节是该扩展的<strong>标识(Label)</strong></p>
+<p>此外，每个扩展的数据除了用<strong>长度</strong>去表示自身的数据范围外，扩展的最后一个数据字节一定是 <code>00</code>（<strong>Block Terminator</strong>）</p>
+<hr>
+<p>而Graphic Control Extension算上前两个字节 <code>21 F9</code>，总共有8 Bytes：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/graphic_control_extension.png" style="zoom:67%;" />
+
+<p>最后1 Byte <code>00</code> 是Graphic Control Extension的<strong>Block Terminator</strong>，下面来介绍下中间的5 Bytes的实际意义：</p>
+<ul>
+<li><p>第3 Byte表示<strong>扩展大小(Block Size)</strong></p>
+<p>从上图可以看到，<strong>Block Size</strong>为 <code>04</code>，而刚好截止到后面的<strong>Block Terminator</strong>，共有4 Bytes的数据</p>
+</li>
+<li><p>第4 Byte又是一个<strong>包装字段(Packed Field)</strong></p>
+<p>照常将包装字段展开为8 Bits，下标为[7, 0]，分别有：</p>
+<ul>
+<li><p>[7, 5] 保留，暂不做使用</p>
+</li>
+<li><p>[4, 2] 表示展示方法(<strong>Display Method</strong>)</p>
+<blockquote>
+<p>我们需要记住的是，无论是视频还是Gif，都是由许许多多的<strong>图片帧</strong>组成；而在实际存储的时候，是不会完整地存储每一<strong>图片帧</strong>的完整数据的，因为视频和Gif可能在某时刻变动的范围不大</p>
+<p>上一帧和下一帧只有细微地改变时，往往是存储下一帧的<strong>改变量</strong>，然后在渲染时，直接在上一帧的数据中进行更改，节省空间</p>
+</blockquote>
+<p><strong>Display Method</strong>表示在进行逐帧渲染时，对前一帧留下的图形如何处理，其中：</p>
+<ul>
+<li><code>0</code>：不做任何处理</li>
+<li><code>1</code>：保留前一帧，在前一帧的图像的基础上进行渲染</li>
+<li><code>2</code>：渲染前将图像设置为背景色</li>
+<li><code>3</code>：下一帧直接覆盖掉</li>
+</ul>
+<blockquote>
+<p>通常的<strong>Display Method</strong>值为 <code>1</code>，因为这样最节省空间；当Gif图像下一刻发生大幅度地改变时，才会用到其它<strong>Display Method</strong></p>
+<p>而且暂时不知道为什么<strong>Display Method</strong>只有4种，却预留了3 Bits的空间，可能以后会扩展</p>
+</blockquote>
+</li>
+<li><p>[1] 是用户输入标识(<strong>User Input Flag)</strong></p>
+<p>如果此标识置 <code>1</code>，那么在渲染到这一帧时，需要得到用户的输入才能进行下一帧的渲染</p>
+<blockquote>
+<p>很少见，具体的「用户输入」指什么，要视应用而定</p>
+</blockquote>
+</li>
+<li><p>[0] 为透明标识(<strong>Transparent Flag</strong>)</p>
+<p>取值为 <code>0</code> 或 <code>1</code>，作用下面谈</p>
+</li>
+</ul>
+<blockquote>
+<p>上图中，包装字段的值为 <code>04</code>，展开为 <code>00000100</code></p>
+<p>由上面的分析可知，<strong>Display Method</strong>为 <code>001</code>，也就是 <code>1</code>，表示在上一帧的基础上进行渲染；而<strong>User Input Flag</strong>和<strong>Transparent Flag</strong>都是 <code>0</code>，表示关闭</p>
+</blockquote>
+</li>
+<li><p>第5、6 Bytes表示下一帧之间的间隔时间(<strong>Delay Time</strong>)</p>
+<p><strong>Delay Time</strong>由2 Bytes组成，意味着最大取值为 0xFFFF = 65535，而它的单位是<strong>百分之一秒</strong>；也就是说在Gif动态图中，上一帧和下一帧的间隔最多是655.35秒，也就是约11分钟</p>
+<p>此外，当<strong>Delay Time</strong>为 0 时，时间间隔将会由Gif的解码器决定</p>
+<blockquote>
+<p>上图中，<strong>Delay Time</strong>的值为 0x000A = 10，所以0.1秒后进行下一帧的渲染</p>
+</blockquote>
+</li>
+<li><p>第7 Byte为透明颜色索引(<strong>Transparent Color Index</strong>)</p>
+<p>只有上面包装字段中的<strong>Transparent Flag</strong>为 <code>1</code> 时，<strong>Transparent Color Index</strong>才生效，它表示在Global Color Index中对应索引的颜色会被当作<strong>透明色</strong>来处理</p>
+<p>当<strong>Transparent Flag</strong>为 <code>0</code> 时，该字节的数值无效</p>
+<blockquote>
+<p>上图中的<strong>Transparent Color Index</strong>取了一个较大的值 0xFF，明显超出了Global Color Table的大小，可能是由于<strong>Transparet Flag</strong>为 <code>0</code>，就随意取了一个值</p>
+</blockquote>
+</li>
+</ul>
+<p>总的<strong>Graphic Control Extension</strong>可以概括为：</p>
+<p><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/graphic_control_extension_format.webp" alt=""></p>
+<p>综上，<strong>Graphic Control Extension</strong>存储的更多是当前图片帧的一些控制信息，如「如何处理上一帧留下的图像」、「是否有用户输入中断」、「是否有透明色」、「当前图片帧保留多长时间后开启下一帧的渲染」</p>
+<hr>
+<h4 id="Image-Descriptor"><a href="#Image-Descriptor" class="headerlink" title="Image Descriptor"></a>Image Descriptor</h4><p>前面的Graphic Control Extension是当前图片帧的控制信息，而接下来的<strong>Image Descriptor</strong>则是图片帧的一些属性了</p>
+<p>与「扩展」拥有标识符 <code>21</code> 一样，<strong>Image Descriptor</strong>也有自己的标识符：<strong><code>2C</code></strong>；包括标识符 <code>2C</code>，<strong>Image Descriptor</strong>一般有10 Bytes的空间：</p>
+<p><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image_descriptor_format.webp" alt=""></p>
+<p>标识符 <code>2C</code> 之后分别是：</p>
+<ul>
+<li><p><code>Image Left</code>（图片距离画布左边的距离）、<code>Image Top</code>（图片距离画布上边的距离）、<code>Image Width</code>（图片的宽度）、<code>Image Height</code>（图片的高度），每个占2 Bytes，共8 Bytes</p>
+<p>一般图像的建系都是在<strong>左上角</strong>设置原点的，而采用 <strong>[图像左上角横坐标, 图像左上角纵坐标, 图像宽度, 图像高度]</strong> 这一四元组就能够确定一张图像的位置；往往也是采用这种方式表示，而不是分别给出左上角的坐标和右下角的坐标</p>
+<p>事实上，图片的宽度和高度在前面的<strong>Logical Screen Descriptor</strong>已经定义过了，之所以再次给出每个图片帧的宽和高，就是因为Gif并不是存储每一帧的完整数据的，就像前面<strong>Display Method</strong>为 <code>1</code> 时，下一帧是在前一帧的图像上进行处理的，所以存储的只是下一帧相当于上一帧的改变量</p>
+<p>如果Gif图中只有中间某个区域是动的、四周是静止不变的，那么就只需要存储中间那部分的数据即可；而<strong>Image Descriptor</strong>的4个属性值，就是存储该改变图像的位置的</p>
+</li>
+<li><p>再一个包装字段(<strong>Packed Field)</strong>，仍然是1 Byte的空间</p>
+<p>展开为[7, 0]的8 Bits，有：</p>
+<ul>
+<li><p>[7]，<code>Local Color Table Flag</code></p>
+<p><code>Local Color Table</code> 也是前面提到的Gif的11个块中，3个可选块的其中一个，表示<strong>局部独立的颜色表</strong></p>
+<p>如果该Flag为 <code>1</code>，则会在后面开辟一个 <code>Local Color Table</code>，对这一帧图像的渲染将不使用Global Color Table，而是使用 <code>Local Color Table</code></p>
+</li>
+<li><p>[6]，<code>Interlace Flag</code>，隔行扫描标识</p>
+<p>为 <code>1</code> 标识需要进行隔行扫描</p>
+</li>
+<li><p>[5]，<code>Sort Flag</code></p>
+<p>与之前的一样，如果启动Local Color Table的话，当中的RGB值是否需要按照出现频率来排序</p>
+</li>
+<li><p>[4, 3]，闲置保留位</p>
+</li>
+<li><p>[2, 0]，<code>Size Of Local Color Table</code></p>
+<p>与Global Color Table一样，值为 $s$ 表示Local Color Table中有 $2^{s+1}$ 种颜色</p>
+</li>
+</ul>
+<p>总的来看，这一<strong>Packed Field</strong>就是为可选的<strong>Local Color Table</strong>服务的，而前面也有一个<strong>Packed Field</strong>也是为<strong>Global Color Table</strong>服务的</p>
+</li>
+</ul>
+<p>所以<strong>Image Descriptor</strong>总共有10 Bytes，首字节是其标识符，固定为 <code>2C</code>；然后是当前图片帧的位置信息，占8 Bytes；最后是<strong>Local Color Table</strong>的包装字段</p>
+<hr>
+<h4 id="Image-Data"><a href="#Image-Data" class="headerlink" title="Image Data"></a>Image Data</h4><p>既有了图片的控制信息(<strong>Graphic Control Extension</strong>)，也有了图片的相关属性(<strong>Image Descriptor</strong>)后，就到了一张图片的真正数据部分</p>
+<p>Gif文件的图像数据采用了<strong>可变长度的LZW压缩算法（Variable-Length LZW Compression）</strong>，该算法从<strong>LZW算法（Lempel Ziv Welch Compression）</strong>压缩算法演变而来</p>
+<p>在这里并不学习具体的算法原理，也正是因为这个原因，我们只需将<strong>Image Data</strong>看作是一个整体，它就代表Gif中某一帧图片的数据</p>
+<p>此外，<strong>Image Data</strong>也把 <code>00</code> 作为结束符(<strong>Terminator</strong>)</p>
+<hr>
+<h4 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h4><p>这个其实就是Gif格式的<strong>文件尾</strong>，并且这个文件尾很简洁，只有1 Byte：<code>3B</code>，它的dump是 <code>;</code></p>
+<p>因此它可以产生类似 <code>.jpg</code> <strong>图种</strong>的效果，也就是在Gif后面附加其它文件数据</p>
+<hr>
+<h3 id="格式概述"><a href="#格式概述" class="headerlink" title="格式概述"></a>格式概述</h3><p>总体来看，Gif的文件格式由以下部分组成：</p>
+<ol>
+<li><p><strong>Header</strong></p>
+<p>固定6 Bytes，为 <code>47 49 46 38 37 61</code>（<code>GIF87a</code>）或 <code>47 49 46 38 39 61</code>（<code>GIF89a</code>）</p>
+</li>
+<li><p><strong>Logical Screen Descriptor</strong></p>
+<p>固定7 Bytes，包含一些提供给解码器的Gif图信息，如分辨率、背景色等</p>
+</li>
+<li><p><strong>Global Color Table</strong></p>
+<p>可选的全局颜色表，以{R, G, B}三元组的形式存储每一种颜色</p>
+</li>
+<li><p><strong>Frame</strong></p>
+<p>Gif中每一张图片帧对应的数据</p>
+<ul>
+<li><p><strong>Graphic Control Extension</strong></p>
+<p>图片帧的控制信息，包含如何「处理上一帧留下的图像」、「是否有用户输入中断」、「是否有透明色」、「当前图片帧保留多长时间后开启下一帧的渲染」</p>
+</li>
+<li><p><strong>Image Descriptor</strong></p>
+<p>基于“不完整存储每一帧的图像数据，只存储改变部分”的思想，这里的数据包含当前图片帧的位置（由 <code>ImageLeft</code>、<code>ImageTop</code>、<code>Width</code>、<code>Height</code> 给出），以及Local Color Table的设置</p>
+</li>
+<li><p><strong>Image Data</strong></p>
+<p>对图片帧的数据信息进行<strong>可变长的LZW压缩算法</strong>压缩</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Trailer</strong></p>
+<p>文件尾，固定是 <code>3B</code>（<code>;</code>）</p>
+</li>
+</ol>
+<hr>
+<h3 id="CTF应用"><a href="#CTF应用" class="headerlink" title="CTF应用"></a>CTF应用</h3><hr>
+<h4 id="文件头修复"><a href="#文件头修复" class="headerlink" title="文件头修复"></a>文件头修复</h4><p>这种题目故意将Gif的文件头 <code>GIF87a</code> 或 <code>GIF89a</code> 删除，使得无法检测出这是一个 <code>.gif</code> 文件</p>
+<blockquote>
+<p>举例，BUUCTF中的Misc题 <a href="https://files.buuoj.cn/files/d026072c6c97b4a0d38ebfb09fbc4f1d/attachment.rar?token=eyJ1c2VyX2lkIjo3MDA0LCJ0ZWFtX2lkIjpudWxsLCJmaWxlX2lkIjoxMzY2fQ.Xxg3rQ.ICkNBjxoT3LT1TqyqYjLULRw7MY" target="_blank" rel="noopener">鸡你太美</a></p>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>下载后解压，得到 <code>篮球.gif</code> 和 <code>篮球副本.gif</code></p>
+<p>首先检查 <code>篮球.gif</code>，用010 Editor检查数据，并没有发现什么问题；然后检查 <code>篮球副本.gif</code>，发现它丢失了部分Gif的文件头：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/header_example.png" style="zoom:67%;" />
+
+<p>在最前面插入 <code>47 49 46 38</code> 即可修复文件头，正常显示Gif，获得flag</p>
+</blockquote>
+<hr>
+<h4 id="宽度隐藏、高度隐藏"><a href="#宽度隐藏、高度隐藏" class="headerlink" title="宽度隐藏、高度隐藏"></a>宽度隐藏、高度隐藏</h4><p>在<strong>Logical Screen Descriptor</strong>中记录了Gif图的宽度和高度，倘若我们将宽度和高度减小，那么在打开的Gif图中会只显示部分</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/19sVIvle3BS6VqybKY_561A" target="_blank" rel="noopener">https://pan.baidu.com/s/19sVIvle3BS6VqybKY_561A</a><br>提取码：fojv</p>
+</blockquote>
+<p>下载得到 <code>hhh.gif</code>，只要将宽度和高度都修改到500就可以显示出flag了</p>
+<p>&emsp;</p>
+<p>留意到，打开 <code>hhh.gif</code> 有明显的图片缩小的过程，这是因为<strong>Logical Screen Descriptor</strong>中的宽度和高度是Gif显示软件显示的宽度和高度，我们修改它只是将显示的范围改小了，但是每一帧的图片仍然是原始大小</p>
+<p>而且略缩图是取自第一帧的图像的，上面的 <code>hhh.gif</code> 的flag是隐藏在第4帧，因此修改完后查看flag，flag会一闪一闪；如果flag写入的是第1帧，那么在略缩图的时候就会显现</p>
+<p>这就要求我们如果要修改Gif的宽度、高度，并且第一帧有flag的话，就必须修改第一帧图片的宽度和高度（而且第一帧图片的<strong>Display Method</strong>一定是 <code>0</code> 而不是 <code>1</code>，因为它没有“前一帧”的基础可以去修改）</p>
+<p>然后又引申出一个问题，就像我们直接修改 <code>.jpg</code> 或 <code>.png</code> 图片的宽度和高度一样，<strong>我们只能修改高度</strong>，而不能修改宽度；因为在解析这些图片的数据时，都是一个一个像素逐个显示的，如果修改了宽度，那每一行减少的像素就会堆积到下一行，导致整张图片的毁坏；而如果修改<strong>高度</strong>，每一行的像素还是正常的，只是最后几行的像素不会被解析</p>
+<p>基于此，如果我们是出题人，在Gif的「修改宽度、高度」的题型中，有两种：</p>
+<ul>
+<li><p>flag在单独的某一帧宽度或高度缩减的部分</p>
+<p>这时可以只修改<strong>Logical Screen Descriptor</strong>的宽度和高度；但是由于第一帧未修改，可能从略缩图中观察到一些被修改了宽高的线索；而在打开Gif时会有明显的图片缩小的痕迹</p>
+</li>
+<li><p>flag出现在第一帧 or flag出现在所有帧</p>
+<p>同时修改<strong>Logical Screen Descriptor</strong>和<strong>第一帧</strong>，并且只能修改高度</p>
+</li>
+</ul>
+<blockquote>
+<p>事实上，这种修改宽度、高度进行隐写的方法还没在CTF中出现过，我写在这里只是提供一种出题和解题的可能性，毕竟这种「修改宽高」的套路在 <code>.jpg</code> 和 <code>.png</code> 也出现过</p>
+<p>而且修改了宽高的Gif只是在普通的显示软件中会缩小显示范围，但是在比较专业的显示软件中还是会直接显示出原分辨率</p>
+</blockquote>
+<hr>
+<h4 id="Gif播放速度"><a href="#Gif播放速度" class="headerlink" title="Gif播放速度"></a>Gif播放速度</h4><h5 id="极快"><a href="#极快" class="headerlink" title="极快"></a>极快</h5><p>一般的Gif中，每一帧的停留时间只有0.1秒，便切换到下一帧</p>
+<p>在CTF中，通常会将flag隐藏在 <code>.gif</code> 的某一帧中，而在播放时会极快地闪过去，导致难以捕捉到flag</p>
+<p>通常只需将 <code>.gif</code> 用特定的工具打开，逐帧浏览即可；我一般使用的是<a href="http://www.caesum.com/handbook/Stegsolve.jar" target="_blank" rel="noopener">StegSolve</a>的<kbd>Frame Browser</kbd>功能，它就能提供<strong>逐帧浏览</strong>的功能</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1In2sn7Ty2Ztk4AhGqwx_Rw" target="_blank" rel="noopener">https://pan.baidu.com/s/1In2sn7Ty2Ztk4AhGqwx_Rw</a><br>提取码：2yih</p>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>下载得到 <code>lovely_dog.gif</code>，打开发现flag一闪而逝，用StegSolve打开逐帧浏览，在最后一帧中出现flag</p>
+</blockquote>
+<p>此外还可以借助网上在线的Gif分解网站，把Gif中的所有图片帧提取出来，观察每一张图片即可</p>
+<p>&emsp;</p>
+<p>可以借助Linux终端的图片处理工具<strong>convert</strong>将Gif分离；安装为：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install imagemagick</span><br></pre></td></tr></table></figure>
+
+<p><strong>ImageMagick</strong>是图片处理的工具集和开发包，其中包含了<strong>convert</strong>这个子命令；而子命令<strong>convert</strong>是可以直接作为单独的命令使用的，安装成功后查看其版本号：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -version</span><br></pre></td></tr></table></figure>
+
+<p>只需1条指令就能将Gif所有的图片帧分离：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert temp.gif *.png</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="极慢"><a href="#极慢" class="headerlink" title="极慢"></a>极慢</h5><p>在每一帧的<strong>Graphic Control Extension</strong>中有<strong>Delay Time</strong>这一属性，来决定当前帧延迟多长时间后才进行下一帧的渲染</p>
+<p>由于<strong>Delay Time</strong>占据2 Bytes，最大取值为 0xFFFF = 65535，而<strong>Delay Time</strong>的单位是<strong>百分之一秒</strong>，所以单帧最长的停留时间可以达到655.35秒，也就是约11分钟</p>
+<p>在CTF中，可以人为地将某一帧的<strong>Delay Time</strong>修改为较大值，使得Gif图呈现「卡住」的现象，需要等待较长时间才能看到下一帧；这种题目也是用工具直接浏览每一帧、或者将Gif的所有图片帧进行分离即可</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1VDRM_lCqxwbvwoaWM14-2A" target="_blank" rel="noopener">https://pan.baidu.com/s/1VDRM_lCqxwbvwoaWM14-2A</a><br>提取码：0pi1 </p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>下载得到的 <code>lovely_dog2.gif</code> 中，flag在最后一帧的图片上，但是倒数第二帧的图片的<strong>Delay Time</strong>被修改为 0xFFFF，用StegSolve可以直接查看最后一帧</p>
+<hr>
+<h4 id="时间规律"><a href="#时间规律" class="headerlink" title="时间规律"></a>时间规律</h4><p>这种题目是将信息隐写到Gif的每一帧的时间间隔上，由于时间间隔通常在0.1 - 0.2秒，所以稍微修改可以不会引起发觉</p>
+<p>首先介绍同属于<strong>ImageMagick</strong>子命令的<strong>identify</strong>，与<strong>convert</strong>的「处理图片」的功能不同，它的主要功能是「检测图片」</p>
+<h5 id="identify"><a href="#identify" class="headerlink" title="identify"></a>identify</h5><p>对于一张图片，使用<strong>identify</strong>去检测：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/identify_example.png" style="zoom:67%;" />
+
+<p>可以得到一张图片的「名称」、「图片格式」、「分辨率」、「位深度」、「色彩模式」、「大小」等信息</p>
+<p>这是<strong>identify</strong>最直接的用法，还可以添加 <code>-verbose</code> 参数查看更详细的信息：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/identify_example2.png" style="zoom:67%;" />
+
+<p>其它具体参数可以通过 <code>man identify</code> 查看</p>
+<p>除了 <code>-verbose</code>，比较常用的还有 <code>-format</code> 参数，它能够以自定义的输出方式将图像的信息输出出来</p>
+<p>例如，直接使用<strong>identify</strong>获得一张图片的信息：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/identify_example.png" style="zoom:67%;" />
+
+<p>如果我们想只获取图片的宽度和高度，并且输出形式是 <code>Height=xx, Weight=xx</code>，那么可以键入指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format "Height=%h, Weight=%w\n" temp.png</span><br></pre></td></tr></table></figure>
+
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/identify_example3.png" style="zoom:67%;" />
+
+<p>其中的 <code>%h</code>、<code>%w</code> 等格式化字符串可以在官方文档 <a href="https://imagemagick.org/script/escape.php" target="_blank" rel="noopener">https://imagemagick.org/script/escape.php</a> 中查询学习</p>
+<hr>
+<h5 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h5><p>比较有代表性的题目是2017年XMAN选拔赛的Misc题：[SimpleGif]，但是搜寻了一番实在没有找到原文件，因此这里就不贴解法了，可以参考别人的Writeup：<a href="https://www.sqlsec.com/2018/01/ctfimg.html#toc-heading-1" target="_blank" rel="noopener">https://www.sqlsec.com/2018/01/ctfimg.html#toc-heading-1</a></p>
+<p>然后自己出了一道题目：</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1GfgmRQbkDWmivJQ0uFf-1Q" target="_blank" rel="noopener">https://pan.baidu.com/s/1GfgmRQbkDWmivJQ0uFf-1Q</a><br>提取码：73ug</p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>打开下载得到的 <code>heart.gif</code>，发现动图有明显的卡顿，怀疑修改了帧与帧之间的<strong>Delay Time</strong>，于是用<strong>identify</strong>提取出每一帧图片的耗时：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">identify -format "%T " heart.gif</span><br><span class="line"><span class="meta">	#</span><span class="bash"> 0 102 108 97 103 123 101 120 64 109 109 49 110 101 95 71 49 102 95 116 49 109 99 125 0 0 0 0 0 0 0 0</span></span><br></pre></td></tr></table></figure>
+
+<p>发现有奇怪的数值，将所有的非0数值转换为对应的ASCII码，获得flag：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"102 108 97 103 123 101 120 64 109 109 49 110 101 95 71 49 102 95 116 49 109 99 125"</span></span><br><span class="line">s = s.split(<span class="string">" "</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">    print(chr(int(i)), end=<span class="string">""</span>)</span><br><span class="line">	<span class="comment"># flag&#123;ex@mm1ne_G1f_t1mc&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于是自己随便出的题，所以没考虑到修改后的<strong>Delay Time</strong>较大，直接影响到了Gif动图的播放效果；如果像上面提到的那题[SimpleGif]，把每个字符转化成由「10」和「20」构成的序列，这样每帧播放流畅、效果就很好，也很难找到flag</p>
+</blockquote>
+<p>从这里也可以知道，<strong>identify</strong>的 <code>%T</code> 参数对于Gif而言，其实就是直接提取帧与帧之间的<strong>Delay Time</strong></p>
+<hr>
+<h4 id="拆分、拼接"><a href="#拆分、拼接" class="headerlink" title="拆分、拼接"></a>拆分、拼接</h4><p>参考TWCTF的Misc题：[glance]</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/13_ItWC76dP1eisHgdjQS7w" target="_blank" rel="noopener">https://pan.baidu.com/s/13_ItWC76dP1eisHgdjQS7w</a><br>提取码：n9d2 </p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答</strong></p>
+<p>下载得到的 <code>glance.gif</code> 很窄、宽度很小，直接尝试将它分离：（在 <code>glance.gif</code> 同目录下新建一个 <code>temp</code> 文件夹，用来存放分离出的图片，避免太多太乱）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert glance.gif temp/*.png</span><br></pre></td></tr></table></figure>
+
+<p>分解得到201张图片，然后由于它们的宽度都很小，尝试将它们横向拼接起来：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert temp/*.png +append result.png</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数 <code>+append</code> 表示横向拼接、<code>-append</code> 表示纵向拼接，更多<strong>convert</strong>的用法参考网上教程</p>
+</blockquote>
+<p>拼接后的图片中出现flag</p>
+<hr>
+<p>end</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/Misc/" rel="tag"># Misc</a>
+              <a href="/tags/Picture/" rel="tag"># Picture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/01/12/CTF%E4%B8%AD%E7%9A%84zip%EF%BC%88%E4%B8%8B%EF%BC%89/" rel="next" title="CTF中的zip（下）">
+                  <i class="fa fa-chevron-left"></i> CTF中的zip（下）
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/02/07/Memory%20Forensics/" rel="prev" title="内存取证（一）">
+                  内存取证（一） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gif"><span class="nav-number">1.</span> <span class="nav-text">Gif</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件格式"><span class="nav-number">1.1.</span> <span class="nav-text">文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件头-Header"><span class="nav-number">1.1.1.</span> <span class="nav-text">文件头 Header</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Logical-Screen-Descriptor"><span class="nav-number">1.1.2.</span> <span class="nav-text">Logical Screen Descriptor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Color-Table"><span class="nav-number">1.1.3.</span> <span class="nav-text">Global Color Table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帧-Frame"><span class="nav-number">1.1.4.</span> <span class="nav-text">帧(Frame)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Graphic-Control-Extension"><span class="nav-number">1.1.5.</span> <span class="nav-text">Graphic Control Extension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Image-Descriptor"><span class="nav-number">1.1.6.</span> <span class="nav-text">Image Descriptor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Image-Data"><span class="nav-number">1.1.7.</span> <span class="nav-text">Image Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trailer"><span class="nav-number">1.1.8.</span> <span class="nav-text">Trailer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式概述"><span class="nav-number">1.2.</span> <span class="nav-text">格式概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CTF应用"><span class="nav-number">1.3.</span> <span class="nav-text">CTF应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件头修复"><span class="nav-number">1.3.1.</span> <span class="nav-text">文件头修复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#宽度隐藏、高度隐藏"><span class="nav-number">1.3.2.</span> <span class="nav-text">宽度隐藏、高度隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gif播放速度"><span class="nav-number">1.3.3.</span> <span class="nav-text">Gif播放速度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#极快"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">极快</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#极慢"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">极慢</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时间规律"><span class="nav-number">1.3.4.</span> <span class="nav-text">时间规律</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#identify"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">identify</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例题"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">例题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拆分、拼接"><span class="nav-number">1.3.5.</span> <span class="nav-text">拆分、拼接</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/none.ico">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">139k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">3:51</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'AcnzIAQVbbnuGkhPPb8cjbgW-gzGzoHsz',
+    appKey: 'TLbccV8U8hEzCr7sXQrbouRU',
+    placeholder: "Welcome to comment.",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

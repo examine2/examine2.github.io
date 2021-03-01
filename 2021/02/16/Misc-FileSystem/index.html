@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="&amp;emsp;">
+<meta name="keywords" content="CTF,Misc,FileSystem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件系统 —— Ext2">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;02&#x2F;16&#x2F;Misc-FileSystem&#x2F;index.html">
+<meta property="og:site_name" content="examine2&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20201220211454991.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20201220211431540.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20201220214148674.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20201222104736061.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;disk.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210123175815010.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210123180438630.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210123181055173.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210126191408044.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210126201048436.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127205820699.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127210316380.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210123182538927.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127214211746.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127214256784.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127214356076.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210127214814596.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210126191408044.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210123220028616.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210126201048436.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210128221002777.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210128221045938.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129004048874.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210128171654441.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210128172845799.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210128173030093.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129185327645.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129203812502.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129203113678.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129210705761.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131182219618.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131182443816.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131182546192.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131183002410.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131183138038.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131183240406.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131183359713.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131184042642.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221246850.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129150014896.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131194115131.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131112626769.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131115821451.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131203255402.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210129150014896.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221246850.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210131112626769.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;loader.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221346670.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202094702812.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202094050255.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202165011232.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221626311.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203103706038.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203104358143.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203104857597.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203105326012.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203111012222.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221346670.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221626311.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203103706038.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203165841344.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210204002852084.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203170350240.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210202221626311.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203171121789.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203182311846.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210204002852084.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203103706038.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210203170350240.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210204100221828.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210204100746818.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20210204101009392.png">
+<meta property="og:updated_time" content="2021-03-01T03:17:44.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;image-20201220211454991.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/16/Misc-FileSystem/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>文件系统 —— Ext2 | examine2's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">examine2's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/16/Misc-FileSystem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/none.ico">
+      <meta itemprop="name" content="examine">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="examine2's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          文件系统 —— Ext2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-16 18:17:21" itemprop="dateCreated datePublished" datetime="2021-02-16T18:17:21+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-01 11:17:44" itemprop="dateModified" datetime="2021-03-01T11:17:44+08:00">2021-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/02/16/Misc-FileSystem/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/16/Misc-FileSystem/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>28k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>46 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;</p>
+<a id="more"></a>
+
+<h2 id="Learn-File-System"><a href="#Learn-File-System" class="headerlink" title="Learn File System"></a>Learn File System</h2><h3 id="Disk-Structure"><a href="#Disk-Structure" class="headerlink" title="Disk Structure"></a>Disk Structure</h3><p>首先区分「<strong>磁盘</strong>」和「<strong>硬盘</strong>」的区别</p>
+<p>「硬盘(Hard Disk)」的全称其实是「硬磁盘」，也就是说「硬盘」属于「磁盘」</p>
+<p>「磁盘(Disk)」可以细分为「硬盘」和「软盘」，现如今「软盘(Floppy Disk)」已经被淘汰，因此通常所说的「磁盘」就是指「硬盘」</p>
+<p>而「硬盘」又可以细分为「固态硬盘」和「机械硬盘」</p>
+<hr>
+<p>然后放两张磁盘的结构图：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20201220211454991.png" alt="image-20201220211454991" style="zoom:50%;" />
+
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20201220211431540.png" alt="image-20201220211431540" style="zoom: 50%;" />
+
+<p><strong>磁盘(Disk)</strong>是「磁质硬盘」的缩写，它内部包含一组圆形磁片，每个磁片都有两个<strong>磁盘面(Platter)</strong></p>
+<p>磁片的数量是受限制的，通常在5片以内；而对磁片的编号从下往上开始，最下面的磁片有0面和1面，然后上一个磁片就编号为2面和3面，以此类推</p>
+<p>每个磁盘的表面都被划分为多个同心圆盘，称为<strong>磁道(Track)</strong>，通常一个面有上万条磁道；而磁道同样是从外向内开始编号，最外边缘的磁道为「0磁道」</p>
+<p>每条磁道上同样被划分为多个用于存储信息的<strong>扇区(Sector)</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20201220214148674.png" alt="image-20201220214148674" style="zoom:67%;" />
+
+<p>扇区的容量通常是512 Bytes - 4096 Bytes；对于硬盘而言，扇区可能的字节数是 $128 × 2^n$，在大多数情况下 $n = 2$，也就是512 Bytes大小</p>
+<blockquote>
+<p>注意相邻磁道之间不是紧挨着的，而是各个磁道之间间隔出一定的空间：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20201222104736061.png" alt="image-20201222104736061" style="zoom:50%;" />
+
+<p>这是因为磁化单元相隔太近时，磁性会产生相互影响，同时给磁头的读写带来困难</p>
+</blockquote>
+<p>在众多圆形磁片的旁边，有一根固定的机械臂杆，上面同样固定着许多的<strong>磁臂(Boom)</strong>，磁臂的尽头是用于读取扇区数据的<strong>磁头(Head)</strong></p>
+<p>完整的磁盘读取数据的流程是：</p>
+<ol>
+<li><p><strong>寻道</strong></p>
+<p>磁臂通过伸长或缩短，将磁头移动到将要读取的磁道之上</p>
+<p>「寻道时间」：将磁头移动到目标磁道所需的时间</p>
+</li>
+<li><p><strong>旋转</strong></p>
+<p>当磁头到达正确的磁道后，就需要等待将要访问的扇区转动到磁头下面</p>
+<p>「旋转延时」：磁头等待扇区的时间</p>
+</li>
+<li><p><strong>读取</strong></p>
+<p>定位成功后，开始进行扇区数据的传递；传输时间是扇区大小、旋转速度、磁道信息密度的一个函数</p>
+<blockquote>
+<p>注意，磁盘在计算机启动后就持续保持高速旋转的状态，而磁头的移动是<strong>径向移动</strong>，只能沿着磁盘的半径方向走</p>
+</blockquote>
+</li>
+</ol>
+<p>此外还有一个概念 —— <strong>柱面(Cylinder)</strong>，它表示<strong>不同磁片相同半径</strong>的磁道构成的集合；有时候它与概念「磁道」混用，因为它们都表示不同半径的圆</p>
+<blockquote>
+<p>所有磁头都是连在一起协调运动的，因此每个磁盘面上的磁头都位于相同位置的扇区</p>
+</blockquote>
+<p>最后放一张磁盘的物理图：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/disk.png" alt="image-20201222104736061" style="zoom:70%;" />
+
+<hr>
+<p>整个磁盘的存储容量 = 磁头数(磁盘面数) × 磁道数 × 每个磁道的扇区数 × 每个扇区存储的字节数</p>
+<h4 id="CHS-Parameter"><a href="#CHS-Parameter" class="headerlink" title="CHS Parameter"></a>CHS Parameter</h4><p>一般情况下每个扇区可以存储的字节数是已知的、固定的，因此一块磁盘通常会给出其余3个参数，以供买家计算容量</p>
+<p>而这三个参数「柱面(Cylinder)数」、「磁头(Head)数」、「扇区(Sector)数」就构成了磁盘的CHS参数</p>
+<p>CHS默认<strong>每个磁道上扇区的数量是一样的</strong>（也就是Sector参数），早期的磁盘也的确是这样，但后来为了增大磁盘容量采用了新技术，使得越往外面，磁道上的扇区数量越多</p>
+<p>但仍可以采用CHS的方式来定位和计算，因为磁盘自身做了内部转换</p>
+<hr>
+<h4 id="CHS-Addressing-Mode"><a href="#CHS-Addressing-Mode" class="headerlink" title="CHS Addressing Mode"></a>CHS Addressing Mode</h4><p>CHS除了作为容量计算的参数外，还通常用于<strong>定位</strong></p>
+<blockquote>
+<p>例如CHS = 0/0/1，则表示磁头为0、柱面为0上的扇区1</p>
+</blockquote>
+<p>值得一提的是，柱面(C)、磁头(H)都是从0开始编码，但扇区(S)则是从1开始编码；因此地址CHS = 0/0/0是不合法的</p>
+<p>具体可以参考StackExchange上的讨论 <a href="https://superuser.com/questions/974952/why-does-sector-number-addressing-in-chs-start-at-sector-1-and-not-0" target="_blank" rel="noopener">Why does sector-number addressing in CHS start at sector 1 and not 0?</a>，我们直接将「<strong>扇区从1开始编号</strong>」作为约定俗成即可</p>
+<hr>
+<h4 id="LBA-Addressing-Mode"><a href="#LBA-Addressing-Mode" class="headerlink" title="LBA Addressing Mode"></a>LBA Addressing Mode</h4><p>CHS寻址模式必须以硬盘上某个柱面、磁头、扇区的硬件位置来合成对应的地址，以此来指定区块；而更常见的LBA寻址模式将硬盘的细节封装，只需提供一个LBA编号，即可寻址到对应的硬盘区块</p>
+<p>与CHS直接提供物理地址不同，「<strong>LBA（Logical Block Address，逻辑区块地址）</strong>」则是提供了逻辑地址</p>
+<p>例如：</p>
+<ul>
+<li>「LBA = 0」表示磁头0、柱面0上的扇区1，也就是CHS = 0/0/1</li>
+<li>「LBA = 1」表示磁头0、柱面1上的扇区2，也就是CHS = 0/0/2</li>
+</ul>
+<p>LBA寻址模式取代了像CHS这样的必须面对存储设备硬件构造的寻址方式，但实际上硬件控制器还是使用CHS来寻址区块，两者有如下的转换关系：<br>$$<br>LBA = (C × H_{per} + H) × S_{per} + S - 1<br>$$<br>其中 $H_{per}$ 表示每个柱面的磁头数，也就是<strong>总的盘面数</strong>；$S_{per}$ 表示每个磁道的扇区数</p>
+<p>留意到LBA的编号分配是先分配第一个柱面，分配完之后再分配第二个柱面，以此类推，因此先根据 $C × H_{per}$ 求得外部柱面的所有扇区、然后加上 $H$ 表示当前柱面的磁头编号，得到总磁道数</p>
+<p>结果乘以 $S_{per}$ 得到总的扇区数，最后加上 $S - 1$ 得到确切的扇区地址</p>
+<blockquote>
+<p>由于CHS以 0/0/1 开始，所以在公式中有 $-1$ 的偏移量</p>
+</blockquote>
+<p>同理可得：<br>$$<br>C = LBA  ÷ (S_{per} × H_{per})\<br>H = (LBA ÷ S_{per})\ %\ H_{per}\<br>S = (LBA\ %\ S_{per}) + 1<br>$$<br>其中的 $÷$ 是整数除法</p>
+<blockquote>
+<p>例如，CHS参数为{600, 10, 84}，则LBA = 1234对应的CHS编号为：<br>$$<br>S = (LBA\ %\ S_{per}) + 1 = (1234\ %\ 84) + 1 = 59\<br>H = (LBA ÷ S_{per})\ %\ H_{per} = (1234 ÷ 84)\ %\ 10 = 4\<br>C = LBA  ÷ (S_{per} × H_{per}) = 1234 ÷ (10 × 84) = 1<br>$$<br>CHS = 1/4/59</p>
+</blockquote>
+<hr>
+<p>最后推荐好文：</p>
+<ul>
+<li><p><a href="https://www.cnblogs.com/kerrycode/p/12701772.html" target="_blank" rel="noopener">https://www.cnblogs.com/kerrycode/p/12701772.html</a></p>
+<p>「扇区的大小是固定的吗？」—— 默认情况下扇区大小就是512 Bytes，虽然2009年就开发出了4 KB扇区的硬盘，但至今未普及</p>
+<p>「每个磁道上的扇区数量是一样的吗？」—— 涉及到CLV、CAV、ZBR技术，旧式的非ZBR区位记录不同磁道上的扇区数相同，而新式的ZBR区位记录则不同了</p>
+<p>「扇区在磁道上的面积大小是固定的吗？」—— 非ZBR区位记录不是，但ZBR区位记录则是</p>
+</li>
+</ul>
+<hr>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p>CHS详细到各个数据存储的扇区位置，但在实际的文件操作中，我们并不需要了解“扇区”、“柱面”等术语，这是因为在应用程序和磁盘之间，存在<strong>文件系统</strong>和<strong>操作系统</strong>来作为中介，将细节封装，将扇区抽象成<strong>文件</strong>！</p>
+<p>在文件系统的帮助下，只需传入路径名和文件名，就可以自动在磁盘中定位到所需的数据起始地址、以及数据的长度；而不是“取磁盘中磁头编号为2、柱面编号为3的第5个扇区的数据，连续取4个”这样去访问数据</p>
+<p>因而<strong>文件</strong>也是操作系统中最小的操作单位</p>
+<p>下面我们来学习文件系统，主要是基于开源的Linux操作系统，闭源的Windows就暂时算了；后面会讲解Linux的Ext2、Ext3等文件系统</p>
+<hr>
+<h4 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h4><p>硬盘的最小存储单位是扇区(Sector)，每个扇区的大小通常是512 Bytes（0.5 KB），操作系统在读取硬盘时，通常不会一次只读取一个扇区，这样太慢了，而是一次性连续读取多个扇区（称之为一个<strong>块(Block)</strong>）；通常8个扇区组成1个块，即1个块 = 4 KB</p>
+<p>硬盘最小的存储单位是「扇区」，而<strong>文件存取</strong>的最小单位是「块」</p>
+<blockquote>
+<p>以下部分内容整理自刘欣《码农翻身》—— <a href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&mid=2665513289&idx=1&sn=ab19dcad7b1dc217463f155fe106091a#rd" target="_blank" rel="noopener">我是一块硬盘</a></p>
+</blockquote>
+<p>一个文件可能占用多个硬盘块，因此需要规划如何在硬盘中存放完整的文件数据；存放方式有：</p>
+<ol>
+<li><p><strong>连续存储</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210123175815010.png" alt="image-20210123175815010" style="zoom:50%;" />
+
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="center">起始块</th>
+<th align="center">块数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Hello.java</td>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">World.java</td>
+<td align="center">8</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">Temp.java</td>
+<td align="center">15</td>
+<td align="center">6</td>
+</tr>
+</tbody></table>
+<p>连续存储的顺序访问速度快、随机访问的速度也快，但是缺点是容易产生碎片，例如当前有一个长度为5块的文件数据需要存放，上图的位置都不合适</p>
+</li>
+<li><p><strong>链式存储</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210123180438630.png" alt="image-20210123180438630" style="zoom:50%;" />
+
+<p>采用链表的形式，每个数据块都存储下一个数据块的编号</p>
+<p>链式存储的顺序访问速度还好，但随机访问速度很慢</p>
+</li>
+<li><p><strong>索引存储</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210123181055173.png" alt="image-20210123181055173" style="zoom:50%;" />
+
+<p>为每个文件单独使用一个硬盘块（称之为<strong>索引节点(Index Node，简称inode)</strong>）来存放文件的元数据和该文件依次占用的硬盘块的信息</p>
+<p>元数据也就是文件属性，包含权限、所有者、时间戳等信息</p>
+<p>索引存储的顺序访问速度和随机访问速度都很快，并且不会产生碎片，唯一的缺点是需要占用额外的空间(inode)</p>
+</li>
+</ol>
+<p>就目前而言，广泛采用索引存储的方式来存放文件数据</p>
+<p>因此，用户所接触到的“文件”本质上是<strong>一个指向相应inode的链接</strong></p>
+<p>如果文件的体积特别大，那么可以通过「inode指向inode」的方式来扩展有限的inode；inode中除了文件属性外，剩余的索引区域可以划分为<strong>直接块</strong>和<strong>间接块</strong> —— 直接块指向数据块、间接块指向另一个inode</p>
+<hr>
+<h4 id="Index-Node"><a href="#Index-Node" class="headerlink" title="Index Node"></a>Index Node</h4><blockquote>
+<p>以下内容参考自阮一峰前辈的 <a href="http://www.ruanyifeng.com/blog/2011/12/inode.html" target="_blank" rel="noopener">理解inode</a></p>
+</blockquote>
+<p>inode是特殊的磁盘块，用于存放一个文件的元信息，每个文件都有一个对应的inode，在Linux下可以通过 <code>stat</code> 命令来查看对应的inode：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210126191408044.png" alt="image-20210126191408044" style="zoom:67%;" />
+
+<p>每个inode包含的信息有：</p>
+<ul>
+<li><p><code>Size</code> ：文件的字节数</p>
+</li>
+<li><p><code>Block</code> ：块数</p>
+</li>
+<li><p><code>IO Blocks</code> ：IO块大小</p>
+</li>
+<li><p><code>regualr file</code> ：文件类型（常规文件）</p>
+</li>
+<li><p><code>Device</code> ：设备号码</p>
+</li>
+<li><p><code>Inode</code> ：inode编号，文件数据块的位置</p>
+</li>
+<li><p><code>Links</code> ：链接数（有多少文件名指向该inode）</p>
+</li>
+<li><p><code>Access</code> ：文件权限，包括读、写、执行</p>
+</li>
+<li><p><code>Uid</code> ：文件拥有者的User ID</p>
+</li>
+<li><p><code>Gid</code> ：文件的Group ID</p>
+</li>
+<li><p><code>Access</code> —— 上次打开文件的时间；<code>Modify</code> —— 上次改变文件内容的时间；<code>Change</code> —— 上次改变inode的时间</p>
+<p>如果是一次普通的访问操作，那么只会修改 <code>Access</code> 时间戳；而如果是一次普通的修改操作，那么会同时修改 <code>Access</code>、<code>Modify</code> 和 <code>Change</code> 这三个时间戳，因为修改文件需要打开文件，首先修改了 <code>Access</code>，修改后文件内容以及inode的信息（例如 <code>Size</code>、<code>Access</code> 等）也发生了改变，所以 <code>Modify</code> 和 <code>Change</code> 也会改变</p>
+<p>参考文章 <a href="https://blog.csdn.net/pointer_y/article/details/54347968" target="_blank" rel="noopener">https://blog.csdn.net/pointer_y/article/details/54347968</a>，使用 <code>chmod</code> 命令修改文件的访问权限，那么只修改了文件的元数据，<code>Change</code> 会发生改变，而 <code>Access</code> 和 <code>Modify</code> 则不会</p>
+<p>文章同样提到，使用 <code>touch</code> 命令配合 <code>-a</code>、<code>-m</code> 参数可以直接修改文件元数据中的 <code>Access</code> 和 <code>Modify</code>；但是在修改这两者的同时，<code>Change</code> 也会自动改变，因为inode记载的元数据发生了改变</p>
+</li>
+</ul>
+<blockquote>
+<p>更多有关 <code>stat</code> 命令可以参考 <a href="https://blog.csdn.net/paicmis/article/details/60479639" target="_blank" rel="noopener">https://blog.csdn.net/paicmis/article/details/60479639</a></p>
+</blockquote>
+<p>inode本身也会占用硬盘空间，因此在硬盘格式化时，操作系统就将硬盘分为了两个区域：</p>
+<ol>
+<li>数据区 —— 存放文件数据</li>
+<li>inode区 —— 又称之为<strong>inode table</strong>，存放inode所包含的信息</li>
+</ol>
+<p>与硬盘块通常为8个扇区（4 KB）的大小不同，inode通常是128 Bytes或256 Bytes；因为一个inode对应一个文件，因此在文件未创建时，会默认为每1 KB或2 KB设置一个inode，如果创建的文件大于预先分配的inode大小，那么就采用前面提到了“间接块”的方式，确保一个inode对应一个文件</p>
+<hr>
+<p>我们可以使用 <code>df</code> 命令来查看每个硬盘分区的inode总数和已经使用的数量，通过 <code>-i</code> 参数显示inode：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210126201048436.png" alt="image-20210126201048436" style="zoom:67%;" />
+
+<blockquote>
+<p><code>df</code> 是「Disk Free」的缩写，用于显示Linux系统上文件系统磁盘的使用情况统计</p>
+</blockquote>
+<p>如上图所示，罗列了 <code>udev</code>、<code>/dev/vda1</code>、<code>tmpfs</code> 等多个文件系统，其中：</p>
+<ul>
+<li><p>「tmpfs」主要存储暂存的文件</p>
+</li>
+<li><p>「udev」和「/dev/vda1」的了解，可以参考 <a href="https://zhidao.baidu.com/question/315932412.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/315932412.html</a></p>
+<blockquote>
+<p>类似Windows系统上的本地磁盘、U盘、光驱等设备，Linux访问这些设备需要将这些设备挂载到 <code>/dev</code> 目录下，<strong>映射成文件</strong>才能访问</p>
+<p>早期Linux的 <code>/dev</code> 目录下有一大堆设备文件，每个文件相当于提供一个标准接口，比如 <code>/dev/sda</code> 一般表示SCSI盘的第一块磁盘；但即使你的主机上没有这种磁盘，<code>/dev/sda</code> 还是存在</p>
+<p><code>/dev</code> 目录下其实并不需要那么多文件，尽管这些文件占用不了多少空间</p>
+<p>后来Linux只在 <code>/dev</code> 上保留了一些必要的设备，比如 <code>/dev/console</code>（表示控制台）等，其它的由 <code>udev</code> (user device)在系统启动时检测并加载</p>
+<p>比如扫描到你有SCSI设备（包括U盘），就在 <code>/dev</code> 目录下增加一个设备文件，比如 <code>/dev/sda</code>；因此，在有 <code>udev</code> 的前提下，<code>/dev</code> 下的设备文件表示你的主机<strong>真的有这个设备</strong></p>
+</blockquote>
+</li>
+</ul>
+<p>因此可以知道，上图中的 <code>/dev/vda1</code> 是我们磁盘对应的文件系统，它支持的inode数量高达3276800，而当前只使用了107133个，占总数的4%，inode table空间充足；而由于是磁盘对应的文件系统，因此它被挂载(Mount)在根目录 <code>/</code> 下，我们平常对文件的访问都是借助这个文件系统</p>
+<p>此外，我们可以使用 <code>dumpe2fs</code> 命令获得文件系统的各个参数，从其中获取inode的大小：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127205820699.png" alt="image-20210127205820699" style="zoom:67%;" />
+
+<p>由此可知在该文件系统中，每个inode占用256 Bytes</p>
+<blockquote>
+<p>命令 <code>dumpe2fs</code> 本意是&quot;Dump Ext2 File System&quot;，但随着改进，已经能够获取Ext2、Ext3、Ext4等文件系统的基本信息</p>
+</blockquote>
+<hr>
+<h4 id="File-Name"><a href="#File-Name" class="headerlink" title="File Name"></a>File Name</h4><p>每个inode都有一个编号，因而每个文件也有对应的inode编号，可以通过 <code>ls</code> 命令添加 <code>-i</code> 参数来查看：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127210316380.png" alt="image-20210127210316380" style="zoom:67%;" />
+
+<p>目录可以视为特殊的文件，在磁盘中也有对应的inode，inode中存放着目录的属性和磁盘块，指向的磁盘块中存储着该目录下的内容（一般文件的磁盘块存储的是文件数据）</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210123182538927.png" alt="image-20210123182538927" style="zoom:67%;" />
+
+<p>目录指向的磁盘块中，存储的是{文件名:inode编号}的键值对</p>
+<hr>
+<p>普通用户操作文件通过文件名，但在Unix/Linux系统内部则不使用文件名，而是使用inode编号来识别文件 —— 对于系统而言，文件名只是inode编号便于识别的别称</p>
+<p>表面上，用户通过文件名打开文件的内部过程为：</p>
+<ol>
+<li>系统根据文件名找到对应的inode编号</li>
+<li>通过inode编号，在inode table中定位到inode，获取其中的信息</li>
+<li>根据inode中记录的信息，找到文件数据对应的块，读出数据</li>
+</ol>
+<p>Unix/Linux系统运行多个文件名指向同一个inode编号，这意味着，可以通过不同的文件名对文件进行访问，对文件内容的修改会影响所有的文件名；但是删除一个文件名，只是切断了这个文件名到对应inode编号的映射，不影响另一个文件名的访问</p>
+<p>这种情况就被称为<strong>硬链接(Hard Link)</strong></p>
+<p>基于这个原理，在Unix/Linux系统中误删文件后，还有挽回的余地</p>
+<hr>
+<h5 id="File-Deletion"><a href="#File-Deletion" class="headerlink" title="File Deletion"></a>File Deletion</h5><p>文件本质上是一个指向相应inode的硬链接，当我们删除某个文件时，实际上是把「<strong>文件 → inode</strong>」的链接给切断了，使得该inode无法通过文件符来定位</p>
+<p>但是如果我们还有其它方式定位到该inode，那么这个文件就没有被彻底删除；只有某个inode没有任何访问的途径，存储在磁盘中的数据才算是真正被“清除”了</p>
+<p>我们可以尝试在Linux中删除文件后，通过inode来恢复</p>
+<blockquote>
+<p><kbd>Ctrl</kbd> + <kbd>z</kbd></p>
+<p>在Linux中，我们通常使用 <kbd>Ctrl</kbd> + <kbd>c</kbd> 来强制结束程序；而相似的，快捷键 <kbd>Ctrl</kbd> + <kbd>z</kbd> 会中断当前的程序，但是却没有结束程序，它会将程序维持在<strong>挂起</strong>的状态</p>
+<p>当通过 <kbd>Ctrl</kbd> + <kbd>z</kbd> 挂起程序后，可以通过Linux的 <code>jobs</code> 命令查看所有挂起的程序，每个被挂起的程序前都有一个编号</p>
+<p>Linux中的命令 <code>fg</code> 可以将挂起的程序搬到前台(<strong>Foreground</strong>)继续运行，该命令可以指定挂起程序的编号，例如 <code>fg 2</code>；默认恢复编号为1的挂起的程序</p>
+<p>Linux中的命令 <code>bg</code> 则可以将挂起的程序搬到后台(<strong>Background</strong>)运行，同样可以指定编号来恢复挂起的程序，如 <code>bg 2</code>；通常在Linux终端中，如果一个程序的运行需要很长时间，要想把它设置为后台自动运行，那么就可以 <kbd>Ctrl</kbd> + <kbd>z</kbd> 中止程序，然后通过命令 <code>bg</code> 来设置后台运行</p>
+<p>命令 <code>jobs</code> 除了罗列挂起程序的编号外，添加参数 <code>-l</code> 还可以显示这些程序的进程号，知道了进程号，就可以通过 <code>kill</code> 命令结束任意一个进程</p>
+</blockquote>
+<p>Linux的 <code>/proc</code> 目录包含了正在运行的所有进程的信息，除了一些特殊的进程外，其它大部分进程都是通过<strong>进程号(PID)</strong>来创建一个目录，然后在目录中存放相应的数据</p>
+<p>进程可能会使用文件资源，每打开一个文件，进程都会在对应的 <code>/proc/PID</code> 目录下的子目录 <code>fd</code> 中添加一个<strong>文件描述符(File Descriptor)</strong>，例如 <code>/proc/1038/fd/1</code> 就表示PID为1038的进程访问了inode编号为1的文件资源，它本质是一个符号连接，以inode编号命名，存放在对应进程的 <code>fd</code> 目录下</p>
+<p>前面有提，“文件”本质上也是一个指向inode的连接，那么在删除了文件的情况下，如果知道对应的inode，那么就可以恢复文件</p>
+<p>首先我们创建一个文件 <code>Data.txt</code>，其中填充任意的数据：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127214211746.png" alt="image-20210127214211746" style="zoom:67%;" />
+
+<p>然后我们键入命令 <code>more Data.txt</code> 来查看文件中的内容；<code>more</code> 命令会以一页一页的形式来呈现文件内容，我们的 <code>Data.txt</code>要稍微大一点，使得进入 <code>more</code> 的状态页；太小会导致直接 <code>cat</code> 文件内容</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127214256784.png" alt="image-20210127214256784" style="zoom:67%;" />
+
+<p>键入 <code>more Data.txt</code> 后，如果文件体积足够大，<code>more</code> 会等待你的翻页操作</p>
+<p>这时我们通过 <kbd>Ctrl</kbd> + <kbd>z</kbd> 挂起 <code>more</code> 进程，然后直接通过 <code>rm</code> 命令将 <code>Data.txt</code>删除</p>
+<p>Linux终端并没有类似Windows回收站的工具，因此一般这个时候很难找回被删除的文件 <code>Data.txt</code></p>
+<p>虽然通过文件名找到inode的方式「<strong>文件 → inode</strong>」被删除了，但是我们前面有提，进程在使用到某些文件时，会在对应的 <code>/proc/PID/fd</code> 中添加文件资源的inode</p>
+<p>于是我们先通过 <code>lsof</code> 命令查看所有的文件资源使用情况，<code>lsof</code> 是List Open Files的意思，可以查看所有进程打开的文件资源；按理说在删除 <code>Data.txt</code>之前，我们使用 <code>more</code> 打开过，并且到目前为止都处于<strong>挂起</strong>状态，文件资源仍被打开中，我们通过 <code>grep</code> 检索下：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127214356076.png" alt="image-20210127214356076" style="zoom:67%;" />
+
+<p>发现在打开的文件资源中，的确有 <code>more</code> 进程访问 <code>Data.txt</code>；虽然这时 <code>Data.txt</code>已经被标识为 <code>deleted</code> 了，但 <code>more</code> 进程对原始的 <code>Data.txt</code> 的数据访问仍在，删除的只是原始的 <code>Data.txt</code>文件名</p>
+<p>命令 <code>lsof</code> 罗列出来的各个字段分别对应：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Command</th>
+<th align="center">PID</th>
+<th align="center">User</th>
+<th align="center">FD</th>
+<th align="center">Type</th>
+<th align="center">Device</th>
+<th align="center">Size</th>
+<th align="center">Node</th>
+<th align="center">Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">more</td>
+<td align="center">12006</td>
+<td align="center">ubuntu</td>
+<td align="center">3r</td>
+<td align="center">REG</td>
+<td align="center">252,1</td>
+<td align="center">10518</td>
+<td align="center">262963</td>
+<td align="center"><code>/home/ubuntu/Data.txt</code></td>
+</tr>
+</tbody></table>
+<p>所以我们直接复制这个符号链接（本质上是对inode的指向），重命名为 <code>Data.txt.recover</code>：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210127214814596.png" alt="image-20210127214814596" style="zoom:67%;" />
+
+<p>打开 <code>Data.txt.recover</code> 发现是原来的 <code>Data.txt</code>的数据</p>
+<p>基于上面这个实验可以知道，“文件”本质上只是硬链接，删除文件只是切断了「<strong>文件 → inode</strong>」这条获取数据的途径，但如果还存在其它方式访问数据（例如通过 <code>/proc/PID/fd</code> 下记载的文件描述符获得inode），那么就能恢复对数据的访问</p>
+<hr>
+<h5 id="Hard-Link"><a href="#Hard-Link" class="headerlink" title="Hard Link"></a>Hard Link</h5><p>在创建文件时，就自动定义了「文件名 → inode」的硬链接，而在Linux中，我们可以通过 <code>ln</code> 命令来创建一个硬链接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ln 源文件 目标文件</span></span><br></pre></td></tr></table></figure>
+
+<p>前面我们使用 <code>stat</code> 命令显示文件对应inode的情况：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210126191408044.png" alt="image-20210126191408044" style="zoom:67%;" />
+
+<p>其中的 <code>Links</code> 字段就表示有多少个文件名链接到了该inode</p>
+<p>通过 <code>ln</code> 指令为一个文件创建硬链接，那么 <code>Links</code> 数就会增加；反之，删除一个文件名，<code>Links</code> 数就会减少；当 <code>Links</code> 为0时，就表明没有文件名指向这个inode，当确保没有进程访问该资源后，系统就会回收这个inode号码，以及其对应的块区域</p>
+<p>此外，关于目录的 <code>Links</code>，在创建目录时，都会默认创建①表示当前目录的 <code>.</code>；②表示上级目录的 <code>..</code>；前者相当于当前目录的硬链接，而后者等同于父目录对当前目录的硬链接，因此任何一个目录的硬链接总数 = 2 + 子目录总数(含隐藏目录)</p>
+<hr>
+<h5 id="Soft-Link"><a href="#Soft-Link" class="headerlink" title="Soft Link"></a>Soft Link</h5><p>与硬链接(Hard Link)不同的是<strong>软链接(Soft Link)</strong>，它又被称之为<strong>符号链接(Symbolic Link)</strong></p>
+<p>文件A与文件B的inode编号不同，但其实文件A的内容是文件B的路径；当读取文件A时，系统会自动<strong>导向</strong>文件B，因此无论打开哪个文件，其实最终读取的都是文件B的数据 —— 这时文件A就被称为文件B的<strong>软链接</strong></p>
+<p>这就导致，文件A依赖于文件B，如果删除了文件B，打开文件A就会报错：&quot;No such file or directory&quot;</p>
+<p><code>ln</code> 命令可以通过添加 <code>-s</code> 参数来创建软链接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ln -s 源文件或目录 目标文件或目录</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>由于每个文件都必须有一个inode，因此当创建的文件数目过多时，inode有可能被用完，这时哪怕硬盘空间足够，也无法创建新文件</p>
+<p>造成inode耗尽通常是因为有大量的小字节缓存文件，其占用的Block不多，但占用了大量的inode；例如 <a href="http://zyan.cc/post/295/2/1/" target="_blank" rel="noopener">http://zyan.cc/post/295/2/1/</a></p>
+<hr>
+<h4 id="Inode-Usage"><a href="#Inode-Usage" class="headerlink" title="Inode Usage"></a>Inode Usage</h4><ul>
+<li><p><strong>删除</strong></p>
+<p>有时候文件名包含特殊字符，无法正常删除，这时可以直接删除inode节点，也能起到删除文件的效果</p>
+</li>
+<li><p><strong>平滑升级</strong></p>
+<p>打开一个文件后，系统就以inode编号去识别这个文件，不再考虑文件名；这也表示，系统无法从inode中获悉文件名</p>
+<p>软件可以在不关闭的情况下进行更新，这也得益于inode机制：更新的时候，新版文件以相同的文件名生成一个inode，不影响正在运行中的文件；等到下次运行这个文件时，系统就将文件名指向新的inode中，旧inode被回收，完成更新</p>
+</li>
+</ul>
+<hr>
+<h4 id="Manage-Empty-Block"><a href="#Manage-Empty-Block" class="headerlink" title="Manage Empty Block"></a>Manage Empty Block</h4><p>在采用索引存储来管理磁盘块后，一个问题是如果管理未使用的空闲数据块；主要方法有：</p>
+<ul>
+<li><p>「链表法」</p>
+<p>将每个未使用的磁盘块的编号使用链表存放，每次有新数据生成时，就从链表头取下一个磁盘块，分配空间；如果一个磁盘块号用32 Bits来表示，那么这种方式就有可能造成大量空间的浪费</p>
+</li>
+<li><p>「<strong>位图(Bitmap)法</strong>」</p>
+<p>在磁盘中创建一张位图，位图上的每个比特位都指向一个磁盘块，用0表示空闲块、1表示已占用的数据块</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210123220028616.png" alt="image-20210123220028616" style="zoom:67%;" />
+
+<p>位图法中，每个磁盘块只占用1 Bit的额外空间</p>
+</li>
+</ul>
+<p>目前广泛使用的是位图法，而磁盘块按照作用被分为数据块和inode(索引块)，因此通常有对应的<strong>inode位图</strong>和<strong>磁盘块位图</strong>，分别用于管理空闲的inode和空闲的磁盘块</p>
+<hr>
+<h2 id="dev"><a href="#dev" class="headerlink" title="dev"></a>dev</h2><p>前面我们在介绍inode的时候，使用 <code>df -i</code> 命令查看了当前硬盘分区的情况：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210126201048436.png" alt="image-20210126201048436" style="zoom:67%;" />
+
+<p>这里再介绍一下</p>
+<p>Windows操作系统上的本地磁盘、U盘、光驱等设备能够直接访问，但在Linux上，这些设备需要挂载到一个目录中，<strong>映射成文件</strong>才能访问；通常我们将设备文件挂载(Mount)到 <code>/dev</code> 目录下，该目录是「设备(Device)」的含义，其中的每个子目录都表示一个设备</p>
+<p>「tmpfs」主要存储暂存的临时文件，全称为Temporary File System；从上图可以看到，磁盘中有许多tmpfs，分别被挂载到不同的位置</p>
+<p>早期Linux的 <code>/dev</code> 目录有一大堆设备文件，每个文件相当于提供一个标准接口，比如 <code>/dev/sda</code> 一般表示SCSI盘的第一块磁盘；但即使你的主机上没有这种磁盘，<code>/dev/sda</code> 也还是存在</p>
+<p>为了减少空间浪费，Linux后来只在 <code>/dev</code> 上保留一些必要的设备，比如 <code>/dev/console</code>（表示控制台），其它设备由 <code>udev</code>（user device）在系统启动时检测并加载</p>
+<p>比如当扫描到你有SCSI设备（包括U盘），就在 <code>/dev</code> 目录下增加一个设备文件，比如 <code>/dev/sda</code>；因此，在有 <code>udev</code> 的前提下，<code>/dev</code> 下的设备文件表示你的主机<strong>真的有这个设备</strong></p>
+<p>参考 <a href="https://blog.csdn.net/qq_43211632/article/details/104186368" target="_blank" rel="noopener">https://blog.csdn.net/qq_43211632/article/details/104186368</a> 可知，硬盘接口主要分为两类：</p>
+<ul>
+<li><p>① <strong>IDE接口</strong></p>
+<p>Integrated Drive Electronics</p>
+</li>
+<li><p>② <strong>SCSI接口</strong></p>
+<p>Small Computer System Interface，使用50针接口</p>
+</li>
+</ul>
+<blockquote>
+<p>具体涉及到硬件知识，这里略过</p>
+</blockquote>
+<p>IDE接口的硬盘前缀为<strong>hd</strong>，例如，系统第一块IDE接口的硬盘命名为 <code>/dev/hda</code>、第二块为 <code>/dev/hdb</code> ...硬盘中存在不同的分区，用数字表示，例如，系统第一块IDE接口硬盘的第1个分区称为 <code>/dev/hda1</code>、第4个分区则为 <code>/dev/hda4</code> ...</p>
+<p>SCSI接口的硬盘前缀为<strong>sd</strong>，同理，第二块SCSI接口硬盘的第1个分区称为 <code>/dev/sdb1</code>、第3个分区则为 <code>/dev/sdb3</code> ...</p>
+<p>除此之外，还有表示软驱的「<strong>fd</strong>」、Terminals的「<strong>tty</strong>」、virtio磁盘的「<strong>vd</strong>」等</p>
+<hr>
+<h3 id="Pseudo-Device"><a href="#Pseudo-Device" class="headerlink" title="Pseudo Device"></a>Pseudo Device</h3><p><code>/dev</code> 目录下未必都是硬件设备，也存在一些特殊的软件设备，称之为「<strong>伪设备(Pseudo Device)</strong>」</p>
+<p> 主要的伪设备有：</p>
+<ul>
+<li><p><strong><code>/dev/null</code></strong></p>
+<p>传说中的空设备，又被称之为<strong>黑洞</strong>，它会丢弃一切写入的数据，写入的数据会永远丢失，而且没有任何可以读取的内容</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210128221002777.png" alt="image-20210128221002777" style="zoom:67%;" />
+
+<p>有时候，我们会将 <code>/dev/null</code> 用作清除文件内容：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210128221045938.png" alt="image-20210128221045938" style="zoom:67%;" />
+</li>
+<li><p><strong><code>/dev/zero</code></strong></p>
+<p>该设备与 <code>/dev/null</code> 类似，它会尽可能地提供 <code>\x00</code> 字符（不是字符 <code>&quot;0&quot;</code>，而是NULL）</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129004048874.png" alt="image-20210129004048874" style="zoom:67%;" />
+
+<p>NULL字符很多时候会有特殊的作用，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/zero of=/dev/hda7</span></span><br></pre></td></tr></table></figure>
+
+<p>这是条<strong>危险</strong>的指令，它的作用就是初始化IDE接口的第一块磁盘第7个分区，将其数据全部用NULL代替</p>
+<p>同样，任何写入 <code>/dev/zero</code> 都无用，等效于写入 <code>/dev/null</code></p>
+</li>
+<li><p><strong><code>/dev/random</code></strong></p>
+<p>特殊文件，用于产生随机数据流</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210128171654441.png" alt="image-20210128171654441" style="zoom:67%;" />
+
+<p>由于产生的是二进制流数据，因此可能有许多不可打印字符，很难阅读，可以通过 <code>od</code> 命令将其转换为Hex再输出：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210128172845799.png" alt="image-20210128172845799" style="zoom:67%;" />
+</li>
+<li><p><strong><code>/dev/urandom</code></strong></p>
+<p>与 <code>/dev/random</code> 的作用相同，都是产生随机数据流</p>
+<p>两个设备的差异在于，<code>/dev/random</code> 的随机池依赖于系统中断，如果系统的中断数不足，会导致 <code>/dev/random</code> 一直处于封锁状态，呈现为“卡住”；尽管慢，但 <code>/dev/random</code> 设备可以确保数据的随机性</p>
+<p><code>/dev/urandom</code> 不依赖于系统中断，输出很快，但数据的随机性不高</p>
+<p>鉴于 <code>/dev/urandom</code> 产生随机数的速度很快，因此要想通过 <code>cat</code> 查看，可以借助 <code>head</code> 命令查看前n行的随机数据：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210128173030093.png" alt="image-20210128173030093" style="zoom:67%;" />
+
+</li>
+</ul>
+<blockquote>
+<p><code>/dev/urandom</code> 设备的用途广泛，例如：</p>
+<ol>
+<li><p>产生随机数据文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/urandom of=1KBfile bs=1 count=1024</span></span><br></pre></td></tr></table></figure>
+
+<p>上面通过 <code>dd</code> 指令产生一个1 KB大小的随机数据文件 <code>1KBfile</code></p>
+</li>
+<li><p>用作加密函数的随机初始向量</p>
+<p>例如，PHP 5.6.0以上的版本中，函数 <code>mcrypt_create_iv(int $size [, int $source = MCRYPT_DEV_RANDOM])</code> 的参数 <code>MCRYPT_DEV_RANDOM</code> 默认从 <code>/dev/random</code> 中获取；但由于 <code>/dev/random</code> 太慢，在PHP 5.6.0+版本中，已改为默认从 <code>/dev/urandom</code> 中获取随机数据</p>
+</li>
+</ol>
+</blockquote>
+<p>更多可以参考 <a href="https://www.cnblogs.com/sammyliu/p/5729026.html" target="_blank" rel="noopener">https://www.cnblogs.com/sammyliu/p/5729026.html</a></p>
+<hr>
+<h2 id="File-System"><a href="#File-System" class="headerlink" title="File System"></a>File System</h2><p>前面有提，得益于文件系统和操作系统的底层封装，我们可以单凭一个LBA编号即可定位到磁盘块的位置</p>
+<p>总的来说，文件系统的作用就是在存储设备组织文件，其全称可以认为是「负责管理和存储文件信息的软件」</p>
+<p>文件系统的种类很多，例如：</p>
+<ul>
+<li><p>「<strong>FAT</strong> —— <strong>文件分配表(File Allocation Table)</strong>」</p>
+<p>为小磁盘以及简单的目录结构而设计的文件系统，最早为FAT12，随后发展为FAT 16、FAT 32</p>
+</li>
+<li><p>「<strong>NTFS</strong> —— <strong>新技术文件系统(New Technology File System)</strong>」</p>
+<p>Windows NT采用的独特的文件系统结果，基于保护文件和目录数据的基础，并且尽可能地节省资源</p>
+</li>
+<li><p>「<strong>exFAT</strong> —— <strong>扩展文件分配表(Extended File Allocation Table)</strong>」</p>
+<p>Microsoft在Windows Embeded 5.0以上引入的新文件系统；解决了FAT 32不支持4G及更大文件的缺陷，适合于闪存</p>
+</li>
+<li><p>「<strong>Ext</strong> —— <strong>Linux扩展文件系统(Linux Extended File System)</strong>」</p>
+<ul>
+<li><p><strong>Ext2</strong></p>
+<p>GNU/Linux系统中的标准文件系统，存取文件性能好</p>
+</li>
+<li><p><strong>Ext3</strong></p>
+<p>在兼容Ext2的前提下，添加了日志功能</p>
+</li>
+<li><p><strong>Ext4</strong></p>
+<p>Ext3的改进版，修改了Ext3中部分重要的数据结构，提供更高的性能和可能性</p>
+</li>
+</ul>
+</li>
+<li><p>「<strong>HFS</strong> —— <strong>分层文件系统(Hierarchical File System)</strong>」</p>
+<p>使用在Mac OS上的文件系统</p>
+</li>
+</ul>
+<p>不同的文件系统对文件的管理规则不同，全部深入学习需要一定的时间</p>
+<p>Ext2/Ext3是Linux上应用最为广泛的文件系统，网络上对文件系统的学习也大多基于Ext2，而Ext3只是在Ext2的基础上添加了日志功能，因此我们对文件系统的学习也从Ext2开始</p>
+<hr>
+<h3 id="dd-amp-losetup-amp-mke2fs"><a href="#dd-amp-losetup-amp-mke2fs" class="headerlink" title="dd &amp; losetup &amp; mke2fs"></a><code>dd</code> &amp; <code>losetup</code> &amp; <code>mke2fs</code></h3><p>工欲善其事，必先利其器</p>
+<p>我们的学习打算从Ext2文件系统开始，但是光从理论下手是枯燥的，最好我们可以拥有一个Ext2文件系统 —— 于是我们借助Linux下的 <code>mkfs</code> 命令，来创建一个Ext2文件系统</p>
+<ol>
+<li><p>创建文件</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129185327645.png" alt="image-20210129185327645" style="zoom:67%;" />
+
+<p>这里借助 <code>dd</code> 命令，生成5 MB大小的全0数据</p>
+</li>
+<li><p>将文件虚拟成块设备</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129203812502.png" alt="image-20210129203812502" style="zoom:67%;" />
+
+<p>生成的5 MB文件 <code>Ext2</code> 其实是充当一块硬盘，下一步我们会通过 <code>mke2fs</code> 命令将这5 MB的硬盘格式化为Ext2格式，但 <code>mke2fs</code> 只能格式化设备，现在我们的 <code>Ext2</code> 还只是一个普通的数据文件</p>
+<p>借助命令 <code>losetup</code>，它会将 <code>Ext2</code> 虚拟成一个块设备，然后就能模拟整个文件系统，使得用户可以将被虚拟化的文件视为硬盘；在 <code>/dev</code> 目录下有着 <code>/dev/loop0</code>、<code>/dev/loop1</code> 等循环设备，就是为了进行虚拟化而设置的</p>
+<p>通过 <code>losetup -f</code> 命令可以查看目前空闲的循环设备是哪个，然后直接选用这个来虚拟化我们的 <code>Ext2</code> 即可；由于一些原因，<code>/dev/loop0</code> 被占用，所以上图中我使用 <code>/dev/loop1</code> 来虚拟化，效果相同</p>
+</li>
+<li><p><code>mke2fs</code> 格式化为Ext2文件系统：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129203113678.png" alt="image-20210129203113678" style="zoom:67%;" />
+
+<p><code>mke2fs</code> 的全称是Make Ext2 File System，能够将一个设备文件格式化为Ext2；上面的截图中，我们格式化的是 <code>/dev/loop1</code>，其实本质上格式化的是我们的 <code>Ext2</code>；这时查看 <code>Ext2</code> 的文件类型，可以得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ext2: Linux rev 1.0 ext2 filesystem data, UUID=2fa8e6bf-8735-4e3d-a2ab-6badf5b3402a (large files)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>网上的文章有可能用的是命令 <code>mkfs.ext2</code>，但其实 <code>mkfs.ext2</code> 是一个指向 <code>mke2fs</code> 命令的链接：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129210705761.png" alt="image-20210129210705761" style="zoom:67%;" />
+
+<p>从上图可以看到，<code>mkfs.ext2</code> 指向 <code>mke2fs</code>，不仅如此，<code>mkfs.ext3</code>、<code>mkfs.ext4</code> 都指向它；这些指令本质上都是 <code>mke2fs</code>，只不过传递的参数不同</p>
+<p>所以 <code>mkfs.ext2</code> == <code>mke2fs</code></p>
+</blockquote>
+<p>最后结束虚拟化，卸载设备：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo losetup -d /dev/loop1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>基于上面的三步操作，我们的 <code>Ext2</code> 文件已经从全0的普通文件变成了Ext2文件，可以通过 <code>mount</code> 命令挂载，然后进入该文件系统中，存放其它文件</p>
+<p>这时的 <code>Ext2</code> 文件就相当于一块虚拟硬盘，倘若能够将它变成真正的硬盘、并装入计算机中，那么计算机开机后，就直接通过Ext2文件系统来访问各种数据</p>
+</li>
+</ol>
+<blockquote>
+<p>可以下载我的 <code>Ext2</code> 文件：<a href="https://wws.lanzous.com/iA6LIl4z7eb" target="_blank" rel="noopener">https://wws.lanzous.com/iA6LIl4z7eb</a></p>
+<p>在创建完成后，我在该文件系统中添加了一个 <code>Data.txt</code> 文件，并在里面添加了一行文本；此外通过命令 <code>mke2fs</code> 创建文件系统会自动生成一个 <strong><code>lost+found</code></strong> 目录，具体可以参考 <a href="http://blog.sina.com.cn/s/blog_879e61a00102vy36.html" target="_blank" rel="noopener">mke2fs进行的操作</a></p>
+</blockquote>
+<p>但是在后面，我们还需要学习Ext2的结构，这里构建的Ext2其实是有缺失了，不利于完整学习其结构；为了后面的讲解，我们还计划创建另外一个文件系统 —— FAT</p>
+<ol>
+<li><p>键入 <kbd>Windows</kbd> + <kbd>x</kbd> 键，点击其中的 <kbd>磁盘管理(K)</kbd></p>
+</li>
+<li><p>在下方点击常用的盘符，然后点击上方的 <kbd>操作(A)</kbd> → <kbd>创建 VHD</kbd></p>
+</li>
+<li><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131182219618.png" alt="image-20210131182219618" style="zoom:67%;" />
+
+<p>指定创建的位置后，添加VHD的大小为10 MB，然后点击 <kbd>确定</kbd></p>
+</li>
+<li><p>新建后，下方会出现一个未分配的磁盘标识；右键点击，然后 <kbd>初始化磁盘(I)</kbd></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131182443816.png" alt="image-20210131182443816" style="zoom:67%;" />
+</li>
+<li><p>磁盘的分区形式选择MBR：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131182546192.png" alt="image-20210131182546192" style="zoom:67%;" />
+
+<p>这时会显示我们的磁盘1已分配，剩余空间从之前的10 MB减少到了9 MB，正是因为其中的0.5 MB被用作生成MBR</p>
+</li>
+<li><p>右键点击未分配的9 MB空间，点击 <kbd>新建简单卷(I)</kbd></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131183002410.png" alt="image-20210131183002410" style="zoom:67%;" />
+
+<p>在打开的向导中，我们暂时为该卷分配5 MB空间的大小，然后分配驱动器号为 Z：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131183138038.png" alt="image-20210131183138038" style="zoom:67%;" />
+
+<p>最后选择文件系统为 FAT：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131183240406.png" alt="image-20210131183240406" style="zoom:67%;" />
+</li>
+<li><p>点击 <kbd>完成</kbd> 后，会看到我们新建的VHD文件被挂载到Z盘上：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131183359713.png" alt="image-20210131183359713" style="zoom:67%;" />
+
+</li>
+</ol>
+<p>于是我们就创建了一个<strong>虚拟硬盘文件(Virtual Hard Disk，VHD)</strong>，与真实的实物硬盘相比，VHD是使用软件的形式实现的硬盘，可以视为它是对实物硬盘的一种模拟</p>
+<blockquote>
+<p>毕竟有时候很难找到一块硬盘用作学习</p>
+</blockquote>
+<p>VHD有着诸多的优点：</p>
+<ul>
+<li><p>维护简单、备份轻松</p>
+<p>可以对VHD进行分区、格式化、压缩、删除等操作，但并不影响真正的物理分区，适合初学者</p>
+<p>在备份VHD时，只需将VHD文件复制一份即可</p>
+</li>
+<li><p>加载、迁移方便</p>
+<p>它能够像U盘一样挂载到设备上，也像U盘一样容易卸载</p>
+<p>在上面创建了Z卷后，默认就挂载到了我们的电脑上，这时就可以等价于插入了一个U盘，在Z盘中添加文件（文件总大小不超过分配的5 MB）：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131184042642.png" alt="image-20210131184042642" style="zoom:67%;" />
+
+<p>卸载该设备只需右键点击，然后 <kbd>弹出(J)</kbd></p>
+</li>
+</ul>
+<p>同样在挂载VHD后，可以向其中新建一些文件</p>
+<blockquote>
+<p>可以下载我的FAT文件：<a href="https://wws.lanzous.com/i6FV7l4z7fc" target="_blank" rel="noopener">https://wws.lanzous.com/i6FV7l4z7fc</a></p>
+</blockquote>
+<hr>
+<h3 id="Ext2"><a href="#Ext2" class="headerlink" title="Ext2"></a>Ext2</h3><p>Ext2文件系统的结构图为：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221246850.png" alt="image-20210202221246850" style="zoom:67%;" />
+
+<p>其中我们首先着重学习Ext2文件系统对磁盘空间划分的第一块扇区，它被称为<strong>主引导记录</strong></p>
+<hr>
+<h3 id="MBR"><a href="#MBR" class="headerlink" title="MBR"></a>MBR</h3><p>Ext2文件系统中，扇区的大小是512 Bytes，而它的首个扇区（位于CHS = 0/0/1的位置，也就是LEA = 0）被称为<strong>主引导记录(Master Boot Record，MBR)</strong>，也被称之为<strong>主引导扇区</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129150014896.png" alt="image-20210129150014896" style="zoom:67%;" />
+
+<p>主引导记录的512 Bytes中，可以划分为三部分：</p>
+<ul>
+<li><p>446 Bytes的「<strong>主引导程序（Boot Loader）</strong>」</p>
+</li>
+<li><p>46 Bytes的「<strong>硬盘分区表（Disk Partition Table，DPT）</strong>」</p>
+<blockquote>
+<p>似乎应该译作“磁盘分区表”，但鉴于软盘的消亡、中文互联网上普遍使用「硬盘分区表」这一术语，因此这里的Disk就表示硬盘(Hard Disk)</p>
+</blockquote>
+</li>
+<li><p>2 Bytes的Magic Number <code>55 AA</code></p>
+</li>
+</ul>
+<blockquote>
+<p>由于前面创建的 <code>Ext2</code> 文件MBR处为全 <code>00</code>，因此这里使用 <code>FAT.vhd</code> 文件的数据来进行解析；两者在MBR处的概念通用</p>
+</blockquote>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131194115131.png" alt="image-20210131194115131" style="zoom:67%;" />
+
+<hr>
+<h4 id="DPT"><a href="#DPT" class="headerlink" title="DPT"></a>DPT</h4><p>硬盘分区表（Disk Partition Table）主要是提供分区功能，所谓「分区」就是我们在Windows中常见的盘符：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131112626769.png" alt="image-20210131112626769" style="zoom:67%;" />
+
+<p>在64 Bytes的DPT中，分为四项，每项的16 Bytes都表示一个分区；也因为64 Bytes总大小的限制，最多只能有4个分区</p>
+<p>基于此，我们将这4个分区命名为「主分区」，当想要分区的数量 ≥ 5时，就将其中的一个主分区设置为「扩展分区」，在扩展分区中继续划分「逻辑分区」，以实现分区数量的突破（逻辑分区的数量没有限制）</p>
+<p>因此在硬盘中，最多有四个主分区，或者三个主分区、一个扩展分区；一般情况下都采用后者，在扩展分区中再按需划分</p>
+<p>DPT中每一项（16 Bytes）的定义如下：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131115821451.png" alt="image-20210131115821451" style="zoom:60%;" />
+
+<p>我们以上面的截图中，DPT的第一项为例：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131203255402.png" alt="image-20210131203255402" style="zoom:67%;" />
+
+<blockquote>
+<p>注意这里的数据全都是按照<strong>小端序</strong>存储</p>
+</blockquote>
+<ul>
+<li><p>红色下划线为 <code>00</code>，表示非活动分区</p>
+</li>
+<li><p>黑色下划线为 <code>02 03 00</code>，表示C = 0、S = 0b000011 = 3、H = 0x02 = 2，所以第一个分区数据的起始位置为 CHS = 0/2/3</p>
+</li>
+<li><p>紫色下划线为 <code>0E</code>，这个在上面的表中没有记录，其实表示的是exFAT16</p>
+</li>
+<li><p>白色下划线为 <code>A4 24 00</code>，表示C = 0、S = 0b100100 = 36、H = 0xA4 = 164，所以第一个分区数据结束的位置为 CHS = 0/164/36</p>
+</li>
+<li><p>橙色下划线为 <code>80 00 00 00</code>，小端序表示的数值为 0x80 = 128，即LBA = 128</p>
+</li>
+<li><p>棕色下划线为 <code>00 78 01 00</code>，小端序表示的数值为 0x2800 = 10240</p>
+<p>也就是说，从 CHS = 0/2/3 到 CHS = 20/254/39 共有10240个扇区，由于默认一个扇区大小为0.5 KB，因此可以计算得该分区共占用 10240 / 2 / 1024 = 5 MB，恰好就是我们前面为该FAT创建初始卷时分配的空间大小</p>
+</li>
+</ul>
+<p>剩余3项DPT中的记录也可以像这样分析</p>
+<p>在4项DPT记录中，活跃分区只能被唯一设置，它涉及到「多系统」这个概念</p>
+<p>我们的电脑不仅可以设置一个操作系统，如果性能允许，有时会安装双系统；双系统的安装需要选择一个分区，安装对应的操作系统，那么在电脑启动的时候，电脑会直接根据哪个分区为活跃分区，直接启动该操作系统</p>
+<blockquote>
+<p>留意到，后面3项分区记录都为全 <code>00</code>，表示非分区，唯一的第一项记录才有有意义的数据；并且DPT中4个分区记录都是非活跃的，这与VHD本身的属性有关，VHD无需开机引导</p>
+</blockquote>
+<hr>
+<h4 id="55-AA"><a href="#55-AA" class="headerlink" title="55 AA"></a><code>55 AA</code></h4><p>由于小端序的原因，这里的数值其实是0xAA55</p>
+<p>这是一个标志MBR的Magic Number，在读取硬盘的MBR时，首先检查该位置的2 Bytes，如果不为 <code>55 AA</code>，那么则舍弃该MBR（具体作用结合下面的讲解）</p>
+<hr>
+<h4 id="Boot-Loader"><a href="#Boot-Loader" class="headerlink" title="Boot Loader"></a>Boot Loader</h4><p>首先明确概念</p>
+<p>「MBR」其实一直有两种说法：</p>
+<ul>
+<li><p>「<strong>广义MBR</strong>」表示CHS = 0/0/1的整个扇区（512 Bytes），其中包含Boot Loader、DPT和 <code>55 AA</code></p>
+<p>我们这篇文章就采用这个概念</p>
+</li>
+<li><p>「<strong>狭义MBR</strong>」表示CHS = 0/0/1扇区中的主引导程序（446 Bytes），也就是广义MBR中的 Boot Loader</p>
+<p>在狭义MBR中没有Boot Loader这个概念，反而是使用了<strong>Boot Sector</strong>表示硬盘的第一个扇区</p>
+</li>
+</ul>
+<blockquote>
+<p>也就是说：广义MBR = 狭义Boot Sector、广义Boot Loader = 狭义MBR</p>
+</blockquote>
+<p>为了区分清楚，这篇文章就是按「MBR中包含Boot Loader、DPT和 <code>55 AA</code>」来进行演示的</p>
+<p>Boot Loader是一段<strong>程序</strong>，众所周知程序由许多指令组成，因而它通常是不可读的，要想直接分析Boot Loader，就需要了解各个指令的功能</p>
+<p>而要了解Boot Loader的作用，就涉及到「<strong>电脑是如何启动</strong>」这个很少有人主动去了解的话题</p>
+<hr>
+<h5 id="How-Our-Computer-Start"><a href="#How-Our-Computer-Start" class="headerlink" title="How Our Computer Start"></a>How Our Computer Start</h5><p>硬件的运行需要软件的配合，没有执行软件的硬件是没有用的</p>
+<blockquote>
+<p>除了会电人之外... —— 鸟哥</p>
+</blockquote>
+<p>因而诞生了操作系统，操作系统会控制所有的硬件并提供核心功能，进一步读取硬盘中的软件数据、执行该软件等</p>
+<p>问题是，操作系统本身就是一个软件，它被执行之前也需要被调用</p>
+<p>在主机板上存在固件「<strong>BIOS（Basic Input/Output System）</strong>」，电脑在启动时，第一个执行的程序就是BIOS！</p>
+<blockquote>
+<p>所谓「固件」，就是写入到硬件上的软件程序</p>
+</blockquote>
+<p>参考 <a href="https://mp.weixin.qq.com/s/HtyJNrwpL2fQkbszM7nvAg" target="_blank" rel="noopener">按下开机键后的4.98秒</a> 可知，计算机在刚开机时只有1 MB的内存可用，内存地址从0x0000 到 0xFFFFF，其中BIOS程序的入口地址是0xFFFF0（固定），在开机的一瞬间，CPU会将段基址寄存器CS初始化为0xF000、偏移地址寄存器IP初始化为0xFFF0，计算得到物理地址0xFFFF0</p>
+<blockquote>
+<p>也有一种说法是CS初始化为0xFFFF、IP初始化为0x0000，这可能是由于硬件不同导致的初始化不同，但最终形成的入口地址就是0xFFFF0</p>
+</blockquote>
+<p>开机瞬间计算得到物理地址0xFFFF0，CPU就从这个地址开始，加载指令运行</p>
+<p>而前面有提，计算机在刚开始时只有1 MB的内存可用，最大地址为0xFFFFF，那么CPU跳转到0xFFFF0处后，只有少的可怜的空间能够存放指令</p>
+<p>事实上，0xFFFF0 - 0xFFFFF这16 Bytes的空间的确只有1条跳转指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmp far f000:e05b</span><br></pre></td></tr></table></figure>
+
+<p>该指令的作用是跳转到物理地址为0xFE05B处开始执行</p>
+<p>0xFE05B处也被预先设置了许多指令，运行这些指令，会进行检测外设信息、初始化硬件、建立中断向量表并填写中断例程等工作，这段程序是写死的，暂时无需理解（深入了解可以参考：<a href="https://blog.csdn.net/weixin_43971252/article/details/89575297" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43971252/article/details/89575297</a>）；完成上面的工作后，BIOS最后一项需要完成的是：<strong>加载启动区</strong></p>
+<p>在这篇文章中介绍到的一个启动区就是MBR</p>
+<p>电脑启动是可以设置的，通常有U盘启动、硬盘启动、软盘启动、光盘启动等，一般情况下，我们都是通过硬盘启动的，BIOS的最后一步「加载启动区」其实就是<strong>将硬盘 CHS = 0/0/1 处的MBR共512 Bytes完整复制到内存0x07C00这个位置</strong></p>
+<p>BIOS会按照既定的顺序去依次检查各个启动项，这时就凸显MBR末尾2 Bytes的Magic Number的关键性了，如果BIOS检测载入0x07C00处的最后两字节不是 <code>55 AA</code>（也就是检查0x07DFE和0x07DFF两个位置），那么就认为这不是一个启动区，会载入下一个启动项</p>
+<p>下一个启动项可能源自软盘、U盘或光盘，BIOS检查的顺序是可以人为设置的，并不一定首先是硬盘；但当检查完所有的启动项，均未找到满足条件的启动区，那么电脑就无法启动</p>
+<blockquote>
+<p>载入扇区的最后两字节是 <code>55 AA</code>，那么就称该扇区为「引导扇区」，而这个硬盘就是一个「可引导盘」</p>
+</blockquote>
+<p>假设MBR数据完整无误，BIOS在最后将其512 Bytes加载到内存0x07C00后，同时通过设置PC跳转到0x07C00这个地址，从这里开始运行</p>
+<p>至此，BIOS任务完成，控制权从BIOS转交到MBR</p>
+<p>许多教程中的“BIOS把控制权转交给排在第一位的存储设备”其实就是「<strong>BIOS把启动区的512 Bytes复制到内存0x07C00位置，并用一条跳转指令设置PC寄存器，跳转到0x07C00</strong>」</p>
+<hr>
+<h5 id="Why-0x07C00"><a href="#Why-0x07C00" class="headerlink" title="Why 0x07C00"></a>Why 0x07C00</h5><p>前面有提，MBR中的Boot Loader其实是一段固定长度为446 Bytes的代码，当BIOS将MBR加载进内存后，执行的就是Boot Loader！</p>
+<p>Boot Loader的作用可以概况为：<strong>访问分区表并定位操作系统的位置</strong></p>
+<p>Boot Loader与操作系统挂钩，现如今，操作系统的大小至少是以MB为单位的，因此Boot Loader本身肯定不存储操作系统的数据，它也如同BIOS最后加载MBR一样，最后会将操作系统的代码加载到内存，最终完成控制权的转交！当操作系统得以运行，后面的一切都可以交由操作系统来分配了</p>
+<blockquote>
+<p>现在可以给出Boot Loader的定义了：</p>
+<p>「Boot Loader是在操作系统内核运行之前运行的一段小程序。通过这段小程序，我们可以初始化硬件设备、建立内存空间的映射图，从而将系统的软硬件环境带到一个合适的状态，以便为最后调用操作系统内核准备好正确的环境」</p>
+</blockquote>
+<p>Boot Loader高度依赖于硬件实现，不同的硬件有不同的Boot Loader</p>
+<p>运行Boot Loader的过程中，它会在MBR的DPT中寻找活动分区，当找到活动分区后，就将控制权转交给该分区内部的引导程序，引导程序负责操作系统的启动</p>
+<hr>
+<p>为什么BIOS会选择将MBR加载到内存0x07C00的位置？</p>
+<p>很简单，可以简单理解为一种<strong>约定俗成</strong>，所有的启动区代码都是被加载到这个位置的，有了0x07C00的偏移量，其中的代码才能正确运行</p>
+<p>参考《30天自制操作系统》一书中第29页的简易启动区代码 <code>helloos.nas</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">; hello-os</span><br><span class="line">; TAB=4</span><br><span class="line"></span><br><span class="line">	ORG		0x7c00		; 指明程序的装载地址</span><br><span class="line"></span><br><span class="line">	JMP		entry</span><br><span class="line">	DB		0x90</span><br><span class="line">	</span><br><span class="line">; ---（略）---</span><br></pre></td></tr></table></figure>
+
+<p>其中通过 <code>ORG</code> 指令规定程序的装载地址，事实上所有的启动区代码都有这一行代码，以确保都被BIOS加载到0x07C00的位置</p>
+<hr>
+<h5 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h5><p>综上，我们可以给出概述：</p>
+<ol>
+<li>电脑开机瞬间，CPU计算出物理地址0xFFFF0，并将PC寄存器初始化为这个值，跳转到BIOS程序的入口地址 —— <strong>一跳</strong></li>
+<li>该入口地址是一个跳转指令，跳转到0xFE05B的位置，跳转后继续执行 —— <strong>二跳</strong></li>
+<li>在0xFE05B执行了一些硬件检测的工作后，最后将启动区的内容加载到0x07C00位置，并跳转到这里 —— <strong>三跳</strong>，控制权从BIOS转交到MBR</li>
+<li>执行0x07C00处的启动区代码(MBR)，主要工作是加载操作系统内核，最后也跳转到加载处 —— <strong>四跳</strong>，控制权从MBR转交到操作系统</li>
+</ol>
+<p>当控制权交给操作系统，就是分段、分页、建立中断、设备驱动、内存管理、进程管理、文件系统、用户态接口等内容了</p>
+<p>最后返过来，对MBR给出概述：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210129150014896.png" alt="image-20210129150014896" style="zoom:67%;" />
+
+<p>MBR被加载到0x07C00后开始运行Boot Loader，它会从DPT中查找活跃分区，根据活跃分区中记录的起始/结束CHS，从硬盘中加载操作系统内核；如果MBR最后两字节是 <code>55 AA</code>，则认为是正确的启动区，跳转到操作系统内核的代码处，继续执行</p>
+<blockquote>
+<p>最后说一句，Boot Loader又被叫作「Master Boot Code」，以“Code”来凸显它的本质；但是“Loader”本身也有引导程序的意思，因此两者都可以使用</p>
+<p>反正我看见大多使用的是Boot Loader，在这里提一句是真的觉得，...，这些概念能不能统一一个名字</p>
+</blockquote>
+<hr>
+<h3 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h3><p>回到这张图：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221246850.png" alt="image-20210202221246850" style="zoom:67%;" />
+
+<p>MBR部分已经基本了解了，而其中的DPT记录着各个分区的数据，Boot Loader会从这些分区记录中找到唯一活跃的，然后根据其中的数据（例如起始CHS、结束CHS等），定位到硬盘中</p>
+<p>接下来我们就来解析下DPT中的记录指向的数据到底是什么</p>
+<p>在上图中，只画了DPT对两个分区的指向，事实上有四个，但剩下两个分区是一样的，暂时节略不画；每个分区最前方包含一段「<strong>引导扇区(Boot Sector)</strong>」，然后由于单个分区的容量很大，因此将剩余分区进一步划分为同样大小的「<strong>块组(Block Group)</strong>」，不同分区包含的块组数可能不同</p>
+<hr>
+<h4 id="Boot-Sector"><a href="#Boot-Sector" class="headerlink" title="Boot Sector"></a>Boot Sector</h4><p>Boot Sector中文名为「启动扇区」，它被放置在每个分区的最前面，占用1个扇区的大小（也就是0.5 KB）</p>
+<p>对于Boot Sector的理解，可以直接参考MBR！事实上，<strong>MBR就是特殊的Boot Sector</strong></p>
+<p>从体积上看，MBR也是占用0.5 KB的空间；从功能上看，MBR是为了加载操作系统内核的，而当操作系统内核被加载，才算是真正的“开机”</p>
+<p>Boot Sector可以安装启动管理程序，这个设计是为<strong>多系统</strong>而实现的！</p>
+<p>前面有提，分区(Partition)在日常生活中最常见的表示就是盘符：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210131112626769.png" alt="image-20210131112626769" style="zoom:67%;" />
+
+<p>而安装多系统其实就是选择一个盘符，将该系统的内核代码放入其中；为此，当需要安装多系统的时候，操作系统的引导代码会被置于盘符的Boot Sector中，用于引导操作系统内核代码</p>
+<p>MBR与Boot Sector最大的不同是，MBR是唯一的、不可或缺的，它是开机过程中继BIOS之后必然会运行到的区域，而Boot Sector由于有多个，其所处的分区未必是活跃的，因此未必能运行到</p>
+<p>在单系统时，假设我们安装的是Windows系统，那么唯一的活跃分区（通常是C盘）中的Boot Sector存储的代码我们不用关心（大多情况下，它与MBR相同），MBR中的Boot Loader会加载对应的操作系统内核；但是如果这时我们安装了Linux双系统，并且假设将其引导代码安装在D盘Boot Sector中，那么在开机时，用户会拥有两种选择：</p>
+<ol>
+<li><p>直接载入Windows的内核代码来开机</p>
+</li>
+<li><p>将开机的管理工作交给D盘的Boot Sector</p>
+<p>随后D盘的Boot Sector会载入Linux的内核代码来开机</p>
+</li>
+</ol>
+<p>可以看到，装载有Windows主系统的C盘的Boot Sector始终不会被访问，因为Windows是主系统，其引导代码存放在MBR的Boot Loader中；而在双系统时，Boot Loader的引导代码不符合要求，就将控制权转交给D盘的Boot Sector，再引导Linux操作系统内核</p>
+<p>可以说，分区的Boot Sector只有在多系统时才发挥作用</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/loader.gif" alt="image-20210131112626769"  />
+
+<p>上面的图片选自《鸟哥的Linux私房菜》，可以看到Windows分区的Boot Sector在开机过程被被“冷落”了</p>
+<p>此外，安装多系统时，最好先安装Windows再安装Linux，这是因为：</p>
+<ul>
+<li>Linux在安装时，可以让用户选择将开机引导程序安装在MBR还是各个分区的Boot Sector，并且能够自定义开机菜单（就是上图中的M1、M2）</li>
+<li>Windows在安装时，会直接把自己的开机引导程序<strong>覆盖</strong>在MBR以及对应的分区Boot Sector，并且不提供自定义开机菜单的功能</li>
+</ul>
+<p>因此如果后安装Windows，原本在MBR中的Linux开机引导程序会被覆盖掉，导致在开机菜单上无法找到Linux的选项；需要通过其它方式来挽救Linux</p>
+<blockquote>
+<p>值得一提的是，在一些地方也把这里的Boot Sector称之为“Boot Block”，例如 <a href="https://en.wiktionary.org/wiki/boot_block" target="_blank" rel="noopener">https://en.wiktionary.org/wiki/boot_block</a> 中就将Boot Sector定义为Boot Block的同义词(Synonyms)</p>
+<p>但是前面在介绍文件的时候有提，硬盘最小的存储单位是「扇区」，而文件存取的最小单位是「块」，一个块是多个扇区的组合，块的大小可能是1 KB、2 KB等，而这里的Boot Sector固定是0.5 KB，用「块」的说法有点不合适</p>
+<p>为了不混淆，我们这里强制使用Boot Sector的概念，不引入Boot Block</p>
+</blockquote>
+<hr>
+<h4 id="Block-Group"><a href="#Block-Group" class="headerlink" title="Block Group"></a>Block Group</h4><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221346670.png" alt="image-20210202221346670" style="zoom:67%;" />
+
+<p>对于一个分区而言，抛去最前面0.5 KB的Boot Sector，剩余的部分被划分成相同大小的「<strong>块组(Block Group)</strong>」，块组的大小由分区的大小决定，而在块组内部，又根据功能划分出了6个部分</p>
+<p>上图标识了每个组成部分占用的空间，其中K、M、N在不同文件系统中的取值都不同；上图重点说明一点：并非所有块组都有Super Block、Group Description和Reverse GDT</p>
+<hr>
+<h4 id="Super-Block"><a href="#Super-Block" class="headerlink" title="Super Block"></a>Super Block</h4><p>Super Block（超级块）位于块组的最前面，它负责记录<strong>整个分区</strong>的文件系统信息，例如Inode/Block的大小、使用量、剩余量、文件系统类型等</p>
+<p>当Super Block的数据遭到破坏，将导致整个分区数据的解析错误；基于Super Block的重要性，Ext2在设计的时候选择将Super Block备份，它以同样的内容存放在多个块组之中，这些Super Block区域的数据保持一致性</p>
+<p>我们使用 <code>dumpe2fs</code> 命令可以查看文件系统的参数，这些参数都是基于Super Block的：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202094702812.png" alt="image-20210202094702812" style="zoom:67%;" />
+
+<p>我们可以罗列出一些重要的数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Filesystem OS type:       Linux</span><br><span class="line">Inode count:              1280</span><br><span class="line">Block count:              5120</span><br><span class="line">Reserved block count:     256</span><br><span class="line">Free blocks:              4921</span><br><span class="line">Free inodes:              1268</span><br><span class="line">First block:              1</span><br><span class="line">Block size:               1024		# 每个块的大小为1 KB，即1 Block = 2 Sectors</span><br><span class="line">Fragment size:            1024</span><br><span class="line">Reserved GDT blocks:      19	# Reverse GDT占用19 Blocks</span><br><span class="line">Blocks per group:         8192		# 每个块组的体积为8192 Blocks</span><br><span class="line">Fragments per group:      8192</span><br><span class="line">Inodes per group:         1280		# 每个块组包含1280个Inodes</span><br><span class="line">Inode blocks per group:   160</span><br><span class="line">	......</span><br><span class="line">First inode:              11</span><br><span class="line">Inode size:	          128		# 每个Inode的体积为128 Bytse</span><br><span class="line"></span><br><span class="line">Group 0: (Blocks 1-5119)</span><br><span class="line">  Primary superblock at 1, Group descriptors at 2-2</span><br><span class="line">  Reserved GDT blocks at 3-21</span><br><span class="line">  Block bitmap at 22 (+21)</span><br><span class="line">  Inode bitmap at 23 (+22)</span><br><span class="line">  Inode table at 24-183 (+23)</span><br><span class="line">  4921 free blocks, 1268 free inodes, 2 directories</span><br><span class="line">  Free blocks: 198-540, 542-5119</span><br><span class="line">  Free inodes: 12-17, 19-1280</span><br></pre></td></tr></table></figure>
+
+<p>这些重要信息都是从Super Block中获取的</p>
+<blockquote>
+<p>Super Block会存放在哪些块组中？</p>
+<p>以我们前面通过 <code>mke2fs</code> 命令创建的 <code>Ext2</code> 文件为例，重新将 <code>Ext2</code> 映射到 <code>/dev/loop0</code> 上，在使用 <code>mke2fs</code> 命令时添加 <code>-n</code> 参数：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202094050255.png" alt="image-20210202094050255" style="zoom:67%;" />
+
+<p>有了该参数，<code>mke2fs</code> 并不会真正在设备上创建文件系统，而是模拟整个过程；在上图中也提到，该参数最大的作用是知道特定文件系统中Super Block备份的位置</p>
+<p>但是我们创建的 <code>Ext2</code> 只有5 MB，很小，它甚至并没有对Super Block进行备份；参考 <a href="http://blog.chinaunix.net/uid-24774106-id-3266816.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-24774106-id-3266816.html</a> 其中就有记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Superblock backups stored on blocks:</span><br><span class="line">    8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409</span><br></pre></td></tr></table></figure>
+
+<p>由于一个块组的大小是8192块，因此拥有Super Block的块组0、1、3、5、7、9、25、27、49</p>
+</blockquote>
+<hr>
+<p>我们尝试从之前创建的 <code>Ext2</code> 文件中解析Super Block的数据，首先获取Super Block所占用的1 Block中，各个字节的含义；在 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L419" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L419</a> 可以获得：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ext2_super_block</span> &#123;</span></span><br><span class="line">	__le32	s_inodes_count;		<span class="comment">/* Inodes count */</span></span><br><span class="line">	__le32	s_blocks_count;		<span class="comment">/* Blocks count */</span></span><br><span class="line">	__le32	s_r_blocks_count;	<span class="comment">/* Reserved blocks count */</span></span><br><span class="line">	__le32	s_free_blocks_count;	<span class="comment">/* Free blocks count */</span></span><br><span class="line">	__le32	s_free_inodes_count;	<span class="comment">/* Free inodes count */</span></span><br><span class="line">	__le32	s_first_data_block;	<span class="comment">/* First Data Block */</span></span><br><span class="line">	__le32	s_log_block_size;	<span class="comment">/* Block size */</span></span><br><span class="line">	__le32	s_log_frag_size;	<span class="comment">/* Fragment size */</span></span><br><span class="line">	__le32	s_blocks_per_group;	<span class="comment">/* # Blocks per group */</span></span><br><span class="line">	__le32	s_frags_per_group;	<span class="comment">/* # Fragments per group */</span></span><br><span class="line">	__le32	s_inodes_per_group;	<span class="comment">/* # Inodes per group */</span></span><br><span class="line">	......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>__le32</code> 的全称是Little End 32 Bits（小端序32 Bits），是为了增加程序通用性而设置的宏定义</p>
+<p>由于前面的MBR和分区1的Boot Sector，共占用1024 Bits，也就是0x400，所以我们对 <code>Ext2</code> 文件数据的解析从0x400开始：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202165011232.png" alt="image-20210202165011232" style="zoom:67%;" />
+
+<p>例如，最前面的4 Bytes是 <code>s_inodes_count</code>，通过 <code>dumpe2fs</code> 命令可以知道Inode Count = 1280，校验下发现 0x0500 = 1280，匹配上了；</p>
+<p>又例如 <code>s_log_block_size</code> 位于偏移量为24的位置，在数据中的值为 <code>00 00 00 00</code>，也就是为0</p>
+<p>事实上，这里直接标识 <code>s_log_block_size</code> 的含义为 /* Block size */ 是有点误导人的，在 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/super.c#L922" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/super.c#L922</a> 第922行可以看到：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blocksize = BLOCK_SIZE &lt;&lt; le32_to_cpu(sbi-&gt;s_es-&gt;s_log_block_size);</span><br></pre></td></tr></table></figure>
+
+<p><code>s_log_block_size</code> 只是作为位移量，令 <code>BLOCK_SIZE</code> 向左位移若干位后，得到最终的Block Size；而在 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/include/uapi/linux/fs.h#L32" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/include/uapi/linux/fs.h#L32</a> 的31、32行又可以看到：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BLOCK_SIZE_BITS 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BLOCK_SIZE (1&lt;&lt;BLOCK_SIZE_BITS)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>BLOCK_SIZE</code> 其实就是 $2^{10}$ = 1024</p>
+<p>也就是说，Block Size的大小其实就是 (1024 &lt;&lt; <code>s_log_block_size</code>)，这也表示Block Size的大小只能是 <strong>1024 × $2^n$ (n ≥ 0)</strong></p>
+<p>综上，结合图中的 <code>s_log_block_size</code> 值为0，可以得到Block Size值为1024；这与 <code>dumpe2fs</code> 的结果是匹配的</p>
+<p>可以通过这种方法，依次推导出源数据文件各字段的含义；总的来说，Super Block中记录的关键信息有：</p>
+<ol>
+<li>分区内所有Block和Inode的数量</li>
+<li>未使用和已使用的Inode/Block数量</li>
+<li>Block的大小（1、2、4 KB）和Inode的大小（128 Bytes）</li>
+<li>文件系统最近挂载的时间、上次挂载点；最近一次写入数据的时间</li>
+<li>一个Valid Bit，若文件系统已挂载，则Valid Bit为0；否则为1</li>
+</ol>
+<hr>
+<h4 id="Group-Descriptor"><a href="#Group-Descriptor" class="headerlink" title="Group Descriptor"></a>Group Descriptor</h4><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221626311.png" alt="image-20210202221626311" style="zoom:67%;" />
+
+<p><strong>块组描述符</strong>中记录着一个块组的信息，例如：</p>
+<ul>
+<li><p>在该块组中，Inode Table从哪里开始、Data Blocks从哪里开始</p>
+<blockquote>
+<p>这里其实给出了图中 K + M 的值</p>
+</blockquote>
+</li>
+<li><p>该块组中空闲的Inode和Data Blocks还有多少个</p>
+</li>
+<li><p>......</p>
+</li>
+</ul>
+<p>老规矩，我们在 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L197" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L197</a> 中找到Group Descriptor的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ext2_group_desc</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	__le32	bg_block_bitmap;		<span class="comment">/* Blocks bitmap block */</span></span><br><span class="line">	__le32	bg_inode_bitmap;		<span class="comment">/* Inodes bitmap block */</span></span><br><span class="line">	__le32	bg_inode_table;		<span class="comment">/* Inodes table block */</span></span><br><span class="line">	__le16	bg_free_blocks_count;	<span class="comment">/* Free blocks count */</span></span><br><span class="line">	__le16	bg_free_inodes_count;	<span class="comment">/* Free inodes count */</span></span><br><span class="line">	__le16	bg_used_dirs_count;	<span class="comment">/* Directories count */</span></span><br><span class="line">	__le16	bg_pad;</span><br><span class="line">	__le32	bg_reserved[<span class="number">3</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中前缀 <code>bg</code> 表示块组(Block Group)，同时留意到，每个Group Descriptor都是固定的<strong>32 Bytes</strong>大小</p>
+<p>目前我们的文件 <code>Ext2</code> 中的数据情况是：0.5 KB的MBR + 0.5 KB的分区1 Boot Sector + 1 KB的分区1 Super Block，所以分区1 Group Descriptor在文件中的偏移应该是 0x800</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203103706038.png" alt="image-20210203103706038" style="zoom:67%;" />
+
+<ul>
+<li><p><code>bg_block_bitmap</code> 值为 0x16 = 22，表明Block Bitmap位于第22个块</p>
+<p>由于每个块的大小为1 KB，所以Block Bitmap的位置偏移就是 1024 × 22 = 22528 = 0x5800；我们在 0x5800 的位置找到了Block Bitmap：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203104358143.png" alt="image-20210203104358143" style="zoom:67%;" />
+
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203104857597.png" alt="image-20210203104857597" style="zoom: 67%;" />
+
+<p>上面由于截图的原因，其实从第5A80h行到5BF0h行全是 <code>FF</code></p>
+<p>通过数数可以知道，目前已使用的Block共有197 + 1 + 1 + 384 × 8 = 3271个，而整个Block Bitmap最多记录1024 × 8 = 8192个块，也就是说剩余 8192 - 3271 = 4921 个空闲块可以使用</p>
+<p>对比 <code>dumpe2fs</code> 的结果可知分析正确：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203105326012.png" alt="image-20210203105326012" style="zoom:67%;" />
+
+<p>并且在前面的数据图中，局部偏移量为12的 <code>bg_free_blocks_count</code> 数值为 <code>39 13</code>，0x1339 = 4921，校验正确</p>
+<p>值得一提的是，我们创建的 <code>Ext2</code> 文件只有5 MB，这其实是过小了（创建的时候没考虑周全，导致的失误），导致整个 <code>Ext2</code> 文件只有 5120个块（如上图所示，<code>Block count</code>），但是分组1的Block Bitmap却能记录8192个块，其中多出来的3072个块是无论如何也使用不了的，为此Block Bitmap始终将这3072个块映射为「已使用的 <code>1</code>」，也就是前面说的第5A70h行的 <code>80</code> 和第5A80h - 5BF0h行的 <code>FF</code></p>
+<p>此外，同样可以看到 <code>dumpd2fs</code> 对块组0的描述：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203111012222.png" alt="image-20210203111012222" style="zoom:67%;" />
+
+<p>最前面的MBR和Boot Sector共占用了1 Block，而根据Block size的大小，分区1的块组0应该占用8192个块的大小，可惜由于 <code>Ext2</code> 本身只有5120个块的大小，所以在上面截图的第一行，显示将除了首个Block外的其它所有Block都分配给块组0，块组0的范围在Block 1 - Block 5119</p>
+<blockquote>
+<p>也就是说 <code>Ext2</code> 文件只有1个分区，该分区只有1个块组</p>
+</blockquote>
+<p>而在上图的倒数第三、二行，给出了空闲块的数量，以及空闲块的位置（198 - 540、542 - 5119）</p>
+</li>
+<li><p>基于同样的方法，可以分析位于第 0x17 = 23 个块的Inode Bitmap，这里略过</p>
+</li>
+</ul>
+<hr>
+<p>在介绍后面的Inode Table和Data Block之前，我们再回顾一下Group Descriptor</p>
+<p>Group Descriptor是为块组服务的，每个的大小都是32 Bytes，记录着当前块组的信息</p>
+<p>最后来探讨一下Group Descriptor的数量问题</p>
+<blockquote>
+<p>参考自 <a href="http://blog.chinaunix.net/uid-24774106-id-3266816.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-24774106-id-3266816.html</a></p>
+</blockquote>
+<p>许多教程都强调“块组描述符在每个块组的开头都有一份拷贝”，这是错误的，从前面的示意图就可以知道，Group Descriptor就像Super Block一样，<strong>并非在每个块组中都存在</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221346670.png" alt="image-20210202221346670" style="zoom:67%;" />
+
+<p>同样的，我们知道每个Group Descriptor只占用32 Bytes，但上图中的Group Descriptor都是以Block为单位的（也就是 n × 1024 Bytes）</p>
+<p>这是因为在一个块组中，存储着<strong>所有块组的Group Descriptor</strong>，每个块组的Group Descriptor都占用32 Bytes，整体上构成一个Group Descriptor Table（GDT）</p>
+<blockquote>
+<p>由于我们创建的 <code>Ext2</code> 太小，只包含一个块组，所以不能看出这点</p>
+</blockquote>
+<p>假设文件系统中一共有 n 个块组，那么如果某个块组包含GDT，GDT中实际有用的数据其实只有 n × 1024 Bytes；而在另一个包含GDT的块组中，其GDT中的数据是一模一样的</p>
+<p>所以Group Descriptor Table和Super Block一样，都是<strong>冗余</strong>的，通过冗余来确保数据安全</p>
+<hr>
+<h4 id="Reverse-GDT"><a href="#Reverse-GDT" class="headerlink" title="Reverse GDT"></a>Reverse GDT</h4><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221626311.png" alt="image-20210202221626311" style="zoom:67%;" />
+
+<p>前面可以知道，在GDT中，块组对应的Group Descriptor记录着Block Bitmap、Inode Bitmap和Inode Table的位置，这相当于间接告诉了我们上图中 K + M 的值</p>
+<p>事实上 K + M 应该视为一个整体，文件系统在创建时就为GDT预留了 K + M 个Block，然后根据块组的数量，使用了其中的 n × 1024 Bytes（可能不足一个Block），剩余未使用到的区域就都用 <code>00</code> 来填充，这就是所谓的「保留(Reverse) GDT」区域</p>
+<p>在一些教程的示意图中，有时会将GDT和Reverse GDT视为一个整体，统称为GDT，这个也是可行的</p>
+<hr>
+<h4 id="Inode-Table"><a href="#Inode-Table" class="headerlink" title="Inode Table"></a>Inode Table</h4><p>回到这张图：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203103706038.png" alt="image-20210203103706038" style="zoom:67%;" />
+
+<p><code>bg_inode_table</code> 的位置是第0x18 = 24个块，也就是 24 × 1024 = 24576 = 0x6000，于是可以在数据中定位Inode Table的开始位置</p>
+<p>那结束位置呢？</p>
+<p>回到我们的Super Block，其实在前面已经计算过每个块组中Inode的数量了：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203165841344.png" alt="image-20210203165841344" style="zoom:67%;" />
+
+<p>Super Block最前面的4 Bytes就是 <code>s_inodes_count</code>，我们计算得1280，也就是说每个块组中有1280个Inode</p>
+<blockquote>
+<p><strong>后期纠正</strong></p>
+<p>事实上Super Block中 <code>s_inodes_count</code> 记录的是<strong>总</strong>的Inode数量，而偏移量为40的 <code>s_inodes_per_group</code> 才是我们真正要探讨的</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210204002852084.png" alt="image-20210204002852084" style="zoom:67%;" />
+
+<p>只是由于我们创建的 <code>Ext2</code> 文件太小，使得只有唯一的一个块组，所以这里有 <code>s_inodes_count</code> = <code>s_inodes_per_group</code>，我们现在主要是针对一个块组来进行的讨论，所以后面发现概念有误后，特定回来纠正</p>
+</blockquote>
+<p>但我们还缺少每个Inode占用的空间大小</p>
+<p>实际上，在 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L419" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L419</a> 中仔细翻阅一下，可以找到偏移量为88 Bytes的 <code>s_inode_size</code> 字段：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ext2_super_block</span> &#123;</span></span><br><span class="line">	__le32	s_inodes_count;		<span class="comment">/* Inodes count */</span></span><br><span class="line">	__le32	s_blocks_count;		<span class="comment">/* Blocks count */</span></span><br><span class="line">	......</span><br><span class="line">	 __le16   s_inode_size; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203170350240.png" alt="image-20210203170350240" style="zoom:67%;" />
+
+<p>在 <code>Ext2</code> 文件中，<code>s_inode_size</code> 的值为 0x80 = 128，所以每个Inode占用128 Bytes的空间</p>
+<p>1280 × 128 = 163840 = 0x28000，所以事实上，下图中的 N 在Super Block中早已给出，163840 / 1024 = 160，即 N = 160：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210202221626311.png" alt="image-20210202221626311" style="zoom:67%;" />
+
+<p>只是要知道Inode Table的确切位置，还需要从Group Descriptor中获得 K + M 的值，才能定位</p>
+<p>这与我们 <code>dumpe2fs</code> 的结果中，Inode blocks per group的值是匹配的：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203171121789.png" alt="image-20210203171121789" style="zoom:67%;" />
+
+<p>我们从Group Descriptor中知道Inode Table的起始位置是0x6000，所以 0x6000 + 0x28000 = 0x2E000，Inode Table之后的Data Blocks从0x2E000这个位置开始</p>
+<hr>
+<h4 id="Data-Blocks"><a href="#Data-Blocks" class="headerlink" title="Data Blocks"></a>Data Blocks</h4><p>每个Inode实际上对应一个文件，在这里我们不打算对Inode Table和Data Blocks进行详细分析，因为分析方法和前面的都是一样的；我们参考 <a href="https://www.cnblogs.com/sduzh/p/7056933.html" target="_blank" rel="noopener">https://www.cnblogs.com/sduzh/p/7056933.html</a>，来试试定位我们在文件 <code>Ext2</code> 中写入 <code>Data.txt</code> 的内容</p>
+<p>在开始寻找前，简单回顾一下：</p>
+<ul>
+<li>Inode Table存储着块组中所有的Inode，Inode的大小记录在Super Block中，而位置需要结合块组对应的Group Descriptor</li>
+<li>Inode存储着文件的<strong>元数据</strong>，例如文件类型、文件大小、创建/访问/修改时间等</li>
+</ul>
+<p>开始寻找文件内容：</p>
+<ol>
+<li><p><strong>挂载 <code>Ext2</code>，查看文件的Inode编号</strong></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203182311846.png" alt="image-20210203182311846" style="zoom:67%;" />
+
+<p>Inode编号为18，注意这里的「编号」是从1开始的，而实际数据中Inode是从0开始编号的，所以会有±1的偏移</p>
+</li>
+<li><p><strong>计算块组位置</strong></p>
+<p>前面通过Super Block的 <code>s_inodes_per_group</code> 字段知道每个块组有1280个Inode，显然Inode编号位于 (18 - 1) / 1280 = 0 号块组中</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210204002852084.png" alt="image-20210204002852084" style="zoom:67%;" />
+</li>
+<li><p><strong>定位Inode Table</strong></p>
+<p>首先在Group Descriptor中找到Inode Table的起始位置：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203103706038.png" alt="image-20210203103706038" style="zoom:67%;" />
+
+<p>这个我们之前计算过，就是第 0x18 = 24 个块，所以Inode Table的起始位置为 24 × 1024 = 0x6000</p>
+</li>
+<li><p><strong>定位Inode</strong></p>
+<p>通过第2步知道我们要找的文件位于块组0，而 (18 - 1) % 1280 = 17，我们要找的文件在块组0的Inode Table的第17个Inode</p>
+<p>我们知道每个Group Descriptor都是32 Bytes，而每个Inode则是128 Bytes：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210203170350240.png" alt="image-20210203170350240" style="zoom:67%;" />
+
+<p>所以第17个Inode的位置是 0x6000 + 17 × 128 = 0x6880</p>
+</li>
+<li><p><strong>解析Inode</strong></p>
+<p>基于 <a href="https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L300" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.11.6/source/fs/ext2/ext2.h#L300</a> 结构体 <code>ext2_inode</code> 的解析，我们得出 0x6880 处数据的情况：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210204100221828.png" alt="image-20210204100221828" style="zoom:67%;" />
+
+<p>注意 0x6880 处已经是我们要找的 <code>Data.txt</code> 实际对应的Inode了，因此这里存储的都是我们的文件的元数据</p>
+<p>其中 <code>i_size</code> 的值为 0x21 = 33，表示我们 <code>Data.txt</code> 的文件大小是33 Bytes；而 <code>i_block</code> 的值为 0x021D = 541，表示文件的实际数据位于第541个块，也就是说地址为 541 × 1024 = 0x87400</p>
+<p>跳转到 0x87400 处，发现：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210204100746818.png" alt="image-20210204100746818" style="zoom:67%;" />
+
+<p>由于已知文件大小为33 Bytes，所以 <code>Data.txt</code> 文件的内容就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">It&apos;s created by testing Ext2 FS.\x0A</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>\x0A</code> 是Unix/Linux下的换行符；可知分析结果是正确的：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/image-20210204101009392.png" alt="image-20210204101009392" style="zoom:67%;" />
+
+</li>
+</ol>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/Misc/" rel="tag"># Misc</a>
+              <a href="/tags/FileSystem/" rel="tag"># FileSystem</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/02/07/Memory%20Forensics/" rel="next" title="内存取证（一）">
+                  <i class="fa fa-chevron-left"></i> 内存取证（一）
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn-File-System"><span class="nav-number">1.</span> <span class="nav-text">Learn File System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Disk-Structure"><span class="nav-number">1.1.</span> <span class="nav-text">Disk Structure</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CHS-Parameter"><span class="nav-number">1.1.1.</span> <span class="nav-text">CHS Parameter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CHS-Addressing-Mode"><span class="nav-number">1.1.2.</span> <span class="nav-text">CHS Addressing Mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LBA-Addressing-Mode"><span class="nav-number">1.1.3.</span> <span class="nav-text">LBA Addressing Mode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File"><span class="nav-number">1.2.</span> <span class="nav-text">File</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Block"><span class="nav-number">1.2.1.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Index-Node"><span class="nav-number">1.2.2.</span> <span class="nav-text">Index Node</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#File-Name"><span class="nav-number">1.2.3.</span> <span class="nav-text">File Name</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#File-Deletion"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">File Deletion</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hard-Link"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Hard Link</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Soft-Link"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">Soft Link</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inode-Usage"><span class="nav-number">1.2.4.</span> <span class="nav-text">Inode Usage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Manage-Empty-Block"><span class="nav-number">1.2.5.</span> <span class="nav-text">Manage Empty Block</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dev"><span class="nav-number">2.</span> <span class="nav-text">dev</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pseudo-Device"><span class="nav-number">2.1.</span> <span class="nav-text">Pseudo Device</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-System"><span class="nav-number">3.</span> <span class="nav-text">File System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dd-amp-losetup-amp-mke2fs"><span class="nav-number">3.1.</span> <span class="nav-text">dd &amp; losetup &amp; mke2fs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ext2"><span class="nav-number">3.2.</span> <span class="nav-text">Ext2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MBR"><span class="nav-number">3.3.</span> <span class="nav-text">MBR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DPT"><span class="nav-number">3.3.1.</span> <span class="nav-text">DPT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#55-AA"><span class="nav-number">3.3.2.</span> <span class="nav-text">55 AA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boot-Loader"><span class="nav-number">3.3.3.</span> <span class="nav-text">Boot Loader</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#How-Our-Computer-Start"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">How Our Computer Start</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Why-0x07C00"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">Why 0x07C00</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Summary"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partition"><span class="nav-number">3.4.</span> <span class="nav-text">Partition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Boot-Sector"><span class="nav-number">3.4.1.</span> <span class="nav-text">Boot Sector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Block-Group"><span class="nav-number">3.4.2.</span> <span class="nav-text">Block Group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Super-Block"><span class="nav-number">3.4.3.</span> <span class="nav-text">Super Block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Group-Descriptor"><span class="nav-number">3.4.4.</span> <span class="nav-text">Group Descriptor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reverse-GDT"><span class="nav-number">3.4.5.</span> <span class="nav-text">Reverse GDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inode-Table"><span class="nav-number">3.4.6.</span> <span class="nav-text">Inode Table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-Blocks"><span class="nav-number">3.4.7.</span> <span class="nav-text">Data Blocks</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/none.ico">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">139k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">3:51</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'AcnzIAQVbbnuGkhPPb8cjbgW-gzGzoHsz',
+    appKey: 'TLbccV8U8hEzCr7sXQrbouRU',
+    placeholder: "Welcome to comment.",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
