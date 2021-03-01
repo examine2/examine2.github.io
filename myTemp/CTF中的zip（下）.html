@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32X32.ico?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16X16.ico?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="&amp;emsp;">
+<meta name="keywords" content="CTF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CTF中的zip（下）">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;myTemp&#x2F;CTF%E4%B8%AD%E7%9A%84zip%EF%BC%88%E4%B8%8B%EF%BC%89.html">
+<meta property="og:site_name" content="examine2&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;fcrackzip_use.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;archpr_show.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;brute_force_choose.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;length.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;start_end.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;error_2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;diff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;three_choice.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;mingwen_1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;error_1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;not_found.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;step_1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;step_2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;step_3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;not_found.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;many_crc32.png">
+<meta property="og:updated_time" content="2021-02-28T10:07:37.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;examine-typora-picbed.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;fcrackzip_use.png">
+
+<link rel="canonical" href="http://yoursite.com/myTemp/CTF%E4%B8%AD%E7%9A%84zip%EF%BC%88%E4%B8%8B%EF%BC%89">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: false,
+    isPage: true,
+    isArchive: false
+  };
+</script>
+
+  <title>CTF中的zip（下） | examine2's Blog
+  </title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+		<a href="https://github.com/examine2" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">examine2's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+    
+    
+    
+    <div class="post-block" lang="en">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">CTF中的zip（下）
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <p>&emsp;</p>
+<a id="more"></a>
+
+<h2 id="Zip操作"><a href="#Zip操作" class="headerlink" title="Zip操作"></a>Zip操作</h2><h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>我们可以借助Linux下的 <code>zip</code> 命令来创建 <code>.zip</code> 压缩文件</p>
+<p>举例：把 <code>1.txt</code>、<code>2.txt</code>、<code>3.txt</code> 压缩为 <code>temp.zip</code></p>
+<p>直接压缩：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip temp.zip 1.txt 2.txt 3.txt</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>命令 <code>zip</code> 要求把 <code>.zip</code> 文件名罗列在前，待压缩文件在后面</strong></p>
+<p>如果把 <code>1.txt</code>、<code>2.txt</code>、<code>3.txt</code> 放入文件夹 <code>dir</code> 中，再把整个文件夹 <code>dir</code> 压缩为 <code>temp.zip</code>，需要指定参数 <code>-r</code> （递归执行）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip -r temp.zip dir</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果缺少参数 <code>-r</code>，那只会单独将一个空的 <code>dir</code> 文件夹压缩进 <code>temp.zip</code></p>
+</blockquote>
+<p>假如要向 <code>temp.zip</code> 中加入一个 <code>a.jpg</code>，添加参数 <code>-g</code>，就不会产生新的压缩文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip -g temp.zip a.jpg</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>1.txt</code> 有更改，需要把 <code>temp.zip</code> 中的 <code>1.txt</code> 也更新，添加 <code>-u</code> 参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip -u temp.zip 1.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>删除 <code>temp.zip</code> 中的 <code>3.txt</code>，添加参数 <code>-d</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip -d temp.zip 3.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>压缩<strong>3</strong>个 <code>.txt</code> 文件时，设置密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> zip temp.zip 1.txt 2.txt 3.txt -e</span></span><br></pre></td></tr></table></figure>
+
+<p>然后会要求输入密码、验证密码</p>
+<p>为每个压缩文档<strong>单独</strong>添加单行注释，使用参数 <code>-c</code>；为整个 <code>.zip</code> 文件添加多行注释，使用参数 <code>-z</code>（两者都是交互模式）</p>
+<p><strong>参数罗列</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-r	递归执行</span><br><span class="line">-g	向.zip中额外添加文件</span><br><span class="line">-u	更新.zip中已存在的文件</span><br><span class="line">-d	删除.zip中的文件</span><br><span class="line">-e	加密</span><br><span class="line">-c	每个文件单行注释</span><br><span class="line">-z	.zip文件多行注释</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>中文密码</strong></p>
+<p>到目前为止，还有挺多的压缩软件不支持密码为<strong>非ASCII可打印字符</strong></p>
+<ul>
+<li>Bandizip对 <code>.zip</code> 的压缩不支持中文密码</li>
+<li>Linux的 <code>zip</code> 命令输入中文密码，解密时会出错</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>压缩方法</strong></p>
+<p>注意，哪怕同为 <code>.zip</code> 压缩，实测Linux下的 <code>zip</code> 命令和Win10下的压缩软件Bandizip进行的操作是不同的</p>
+<blockquote>
+<p>还有，WinZip的私有压缩格式<strong>zipx</strong>对 <code>.jpeg</code> 压缩率比同类软件好，能减少20 ~ 30%——这也是对压缩方法不同的一个佐证</p>
+</blockquote>
+<p>对于如何判断一个 <code>.zip</code> 是否采用<strong>相同的压缩方法</strong>，我查阅了很多资料，都没有发现...</p>
+<p>注意压缩前后的<strong>文件大小</strong>是不能作为判断依据的，理由后面讲</p>
+</blockquote>
+<hr>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>同样借助的是Linux下的 <code>unzip</code> 工具</p>
+<p>直接解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> unzip temp.zip</span></span><br></pre></td></tr></table></figure>
+
+<p>将文件解压到指定的目录下，使用参数 <code>-d</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> unzip -d /d/xxx temp.zip</span></span><br></pre></td></tr></table></figure>
+
+<p>当解压出来的文件与当前目录下的文件<strong>重名</strong>时，<code>unzip</code> 会出现选项：<code>[y]es, [n]o, [A]ll, [N]one, [r]ename</code>，可以添加参数 <code>-n</code>，它的效果跟选择<code>[n]o</code>  选项一样，不会将重名文件解压出来</p>
+<p>不进行解压，先查看 <code>.zip</code> 中的文件信息，添加参数 <code>-l</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> unzip -l temp.zip</span></span><br></pre></td></tr></table></figure>
+
+<p>参数 <code>-v</code> 查看文件列表，以及<strong>压缩方法</strong>和<strong>压缩比率</strong></p>
+<p><strong>参数罗列</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-d	指定解压文件夹</span><br><span class="line">-n	重名文件不进行解压</span><br><span class="line">-l	查看待解压文件信息，不进行解压</span><br><span class="line">-v	查看文件列表、压缩方法和压缩比率，不进行解压</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>【参考】<a href="https://www.hangge.com/blog/cache/detail_1666.html" target="_blank" rel="noopener">https://www.hangge.com/blog/cache/detail_1666.html</a></p>
+</blockquote>
+<hr>
+<h3 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h3><p>像 <code>.zip</code> 的体积大小、CRC-32校验码之类的信息，我们都是通过手动打开 <code>.zip</code> 文件去查看的，那么能否通过脚本来获取这些信息呢？</p>
+<p>在这里我们使用Python 3的<strong>zipfile库</strong></p>
+<blockquote>
+<p>Python 3的<strong>zipfile库</strong>似乎是自带的</p>
+</blockquote>
+<p>首先通过 <code>zipfile.ZipFile()</code> 创建<strong>ZipFile</strong>对象，该函数的API为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">zipfile</span>.<span class="title">ZipFile</span><span class="params">(path[, mode = r[, compression[, allowZip64]]])</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>参数 <code>path</code> 是即将要打开的 <code>.zip</code> 文件的路径</li>
+<li><code>mode</code> 是打开方式，<code>r</code> 表示只读、<code>w</code> 表示创建或覆盖写入、<code>a</code> 表示附加写入</li>
+<li><code>compression</code> 只有在写 <code>.zip</code> 时才会使用，它指定压缩方法，由于我们只读取，因此不用管该参数</li>
+<li>当要操作的 <code>.zip</code> 文件大小超过<strong>2G</strong>，就需要将 <code>allowZip64</code> 参数设置为 <code>True</code></li>
+</ul>
+<p>创建<strong>ZipFile</strong>对象后，只需要掌握几个函数就可以了：</p>
+<p><code>printdir()</code>、<code>namelist()</code>、<code>infolist()</code>、<code>gerinfo()</code></p>
+<ul>
+<li><p><code>ZipFile.printdir()</code></p>
+<p>打印压缩包中的基本信息：文件名、最近修改时间、文件体积</p>
+</li>
+<li><p><code>ZipFile.namelist()</code></p>
+<p>返回一个列表，包含压缩包中的所有文件名</p>
+</li>
+<li><p><code>ZipFile.infolist()</code></p>
+<p>返回一个对象列表，列表中的元素都是一个<strong>ZipInfo</strong>对象，并且会罗列出每个文件的一些基本信息，如 <code>filename</code> 文件名、<code>file_size</code> 文件大小...</p>
+</li>
+<li><p><code>getinfo(filename)</code></p>
+<p>我们用这个函数来获取单个文件的信息，它接收文件名作为参数，然后返回对应的<strong>ZipInfo</strong>对象</p>
+<p><strong>ZipInfo</strong>对象可以直接通过<strong>属性</strong>的方式获得相应的文件信息，如 <code>ZipInfo.filename</code>、<code>ZipInfo.file_size</code></p>
+<p>注意，<code>ZipFile.infolist()</code> 中罗列出来的信息是不齐全的，比如还可以获取<strong>CRC校验码</strong>：<code>ZipInfo.CRC</code>；常用的<strong>ZipInfo</strong>属性有：</p>
+<p><code>filename</code>、<code>data_time</code>、<code>compress_type</code>、<code>comment</code>、<code>create_version</code>、<code>extract_version</code>、<code>flag_bits</code>、<code>CRC</code>、<code>compress_size</code>、<code>file_size</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h3><h4 id="fcrackzip"><a href="#fcrackzip" class="headerlink" title="fcrackzip"></a>fcrackzip</h4><p><strong>fcrackzip</strong>是一款专门用于破解 <code>.zip</code> 文件密码的工具，适用于Linux</p>
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>我们在Linux上安装<strong>fcrackzip</strong>，只需执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt install fcrackzip</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>可以在终端输入 <code>fcrackzip -h</code> 来查看用法：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/fcrackzip_use.png" style="zoom:67%;" />
+
+<p>下面记录几个常用的参数：</p>
+<ul>
+<li><p><code>-c</code></p>
+<p>指定字符集，分别有 <code>a</code>、<code>A</code>、<code>1</code>、<code>!</code>、<code>:</code></p>
+<p><code>a</code> 表示小写字码[a-z]、<code>A</code> 表示大写字母[A-Z]、<code>1</code> 表示数字[0-9]、<code>!</code> 表示特殊字符 <code>!:$%&amp;/()=?{[]}+*~#</code>、<code>:</code> 表示包含之后的字符</p>
+<p>如：<code>-c &quot;a1:&amp;!&quot;</code> 表示小写字母、数字、以及 <code>&amp;</code> 和 <code>!</code></p>
+</li>
+<li><p><code>-u</code></p>
+<p><strong>fcrackzip</strong>默认会将爆破过程罗列，添加该参数后只显示爆破成功的密码</p>
+</li>
+<li><p><code>-l</code></p>
+<p>指定密码的长度，可以通过 <code>-</code> 来表示范围，如 <code>-l 3</code> 表示3位密码、<code>-l 3-7</code> 表示3到7位密码</p>
+</li>
+<li><p><code>-b</code></p>
+<p>使用暴力破解算法</p>
+</li>
+<li><p><code>-D</code> 和 <code>-p</code></p>
+<p><code>-D</code> 指定使用字典爆破，而 <code>-p</code> 则指定要使用的字典，如 <code>fcrackzip -D -p dict.txt</code></p>
+</li>
+</ul>
+<hr>
+<h4 id="ARCHPR"><a href="#ARCHPR" class="headerlink" title="ARCHPR"></a>ARCHPR</h4><p><strong>ARCHPR(Advanced Archive Password Recovery)</strong>是一个高度优化的<strong>口令恢复工具</strong>，适用于 <code>.zip</code> 和 <code>.rar</code> 文件</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/archpr_show.png" style="zoom:67%;" />
+
+<p>点击<kbd>打开</kbd>按钮，选择待爆破压缩文件，然后选择爆破方式，点击<kbd>开始!</kbd></p>
+<p>它支持<strong>4</strong>种密码爆破方式——<strong>暴力破解</strong>、<strong>掩码</strong>、<strong>字典</strong>、<strong>明文攻击</strong></p>
+<hr>
+<h5 id="暴力破解-Brute-Force"><a href="#暴力破解-Brute-Force" class="headerlink" title="暴力破解(Brute-Force)"></a>暴力破解(Brute-Force)</h5><p>作为最普通的密码攻击手段，<strong>ARCHPR</strong>允许在<kbd>范围</kbd>选项卡中，选择暴力破解的字符集：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/brute_force_choose.png" style="zoom: 67%;" />
+
+<p>其中&quot;所有特殊符号&quot;为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!@#$%^&amp;*()_+-=&lt;&gt;,./?[]&#123;&#125;~:;`&apos;|&quot;\</span><br></pre></td></tr></table></figure>
+
+<p>此外，可以自定义字符集：通过勾选<kbd>用户定义□</kbd>，然后点击右边的&quot;自定义字符集&quot;选项</p>
+<blockquote>
+<p>如你所见，在给定的字符集中，只囊括了<strong>ASCII可打印字符</strong>，如果 <code>.zip</code> 的密码是中文的话，那就必须选择&quot;自定义字符集&quot;，并且勾选<kbd>转换为OEM编码</kbd>；否则密码会&quot;Not Found&quot;</p>
+</blockquote>
+<p>在<kbd>长度</kbd>选项卡中，设置密码长度：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/length.png" style="zoom:67%;" />
+
+<p>在<kbd>范围</kbd>选项卡的右边，可以看到：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/start_end.png" style="zoom:67%;" />
+
+<p>这里就得知道，<strong>ARCHPR</strong>在暴力破解密码的时候，是采用特定的顺序的：</p>
+<ul>
+<li>大小字母 <code>A</code> - <code>Z</code></li>
+<li>空格</li>
+<li>小写字母 <code>a</code> - <code>z</code></li>
+<li>数字 <code>0</code> - <code>9</code></li>
+<li>特殊字符 <code>!@#$</code> ...</li>
+</ul>
+<p>也就是说，暴力破解密码的顺序大致为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;AAA&quot; -&gt; &quot;AAB&quot; -&gt; &quot;AAC&quot; -&gt; ... -&gt; &quot;AAZ&quot; -&gt; &quot;AA &quot; -&gt; &quot;AAa&quot; -&gt; &quot;AAb&quot; -&gt; ... -&gt; &quot;AAz&quot; -&gt; &quot;AA0&quot; -&gt; &quot;AA1&quot; -&gt; ... -&gt; &quot;AA9&quot; -&gt; &quot;AA!&quot; -&gt; &quot;AA@&quot;</span><br></pre></td></tr></table></figure>
+
+<p>上图的<strong>&quot;开始于&quot;</strong>有2个作用：</p>
+<ol>
+<li>当你知道密码长度为5，并且第一个字符为 <code>k</code>，你可以在<strong>&quot;开始于&quot;</strong>设置 <code>kAAAA</code>，那么<strong>ARCHPR</strong>将跳过 <code>AAAAA</code> 到 <code>kAAAA</code> 的前一个的暴力破解，节省时间</li>
+<li>如果破解密码的时间太长，<strong>ARCHPR</strong>会每隔5分钟自动保存密码（在<kbd>自动保存</kbd>选项卡中可以选择），如果某次暴力破解被迫中断，那么可以通过查看最后一次保存的密码，并设置<strong>&quot;开始于&quot;</strong>，直接从上次爆破的地方继续开始爆破</li>
+</ol>
+<p><strong>&quot;结束于&quot;</strong>的作用类似</p>
+<hr>
+<p>在这里，引出<strong>ARCHPR</strong>的第一个坑：</p>
+<h6 id="坑1：版本不支持"><a href="#坑1：版本不支持" class="headerlink" title="坑1：版本不支持"></a>坑1：版本不支持</h6><p>先去下载 <code>hour.zip</code>：</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1Az6IyTvElnzPSjBZ3UWGMA" target="_blank" rel="noopener">https://pan.baidu.com/s/1Az6IyTvElnzPSjBZ3UWGMA</a><br>提取码：dgkv </p>
+</blockquote>
+<p><code>hour.zip</code> 是某道CTF题中的最后一步，flag就在压缩包里面</p>
+<p>我们尝试用<strong>ARCHPR</strong>暴力破解出 <code>hour.zip</code> 的密码，结果却显示：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/error_2.png" style="zoom:70%;" />
+
+<blockquote>
+<p>我尝试在网上查找出现这个报错的原因，然而只能大概的说，压缩 <code>.zip</code> 的压缩算法是有版本的，<strong>ARCHPR</strong>不支持较高压缩版本的 <code>.zip</code></p>
+<p>后来使用<strong>fcrackzip</strong>爆破出了 <code>hour.zip</code> 的密码 <code>z1P</code>，得到里面的 <code>flag.txt</code> 后，我又用Bandizip将它压缩回 <code>flag.zip</code>，密码还是 <code>z1P</code>；然后我对比了 <code>hour.zip</code> 和 <code>flag.zip</code> 的内容，发现：</p>
+<p><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/diff.png" alt=""></p>
+<p>左边是 <code>hour.zip</code>，右边是复现的 <code>flag.zip</code></p>
+<p><font color='red'>红色方框</font>中的是<strong>解压所需的pkware最低版本</strong>，虽然不知道 <code>14 03</code> 如何转化为版本号，但两者的数值的确不同</p>
+<p>将 <code>hour.zip</code> 的 <code>14 03</code> 手动更改为 <code>14 00</code> 后，发现使用<strong>ARCHPR</strong>就不会出现上面的报错信息！</p>
+<p>然而由于是强行更改的，<strong>ARCHPR</strong>甚至爆破不出这个长度只有3的弱密码！</p>
+<p>也就是说，对于较高压缩版本的 <code>.zip</code>，<strong>ARCHPR</strong>根本毫无用处</p>
+</blockquote>
+<hr>
+<h5 id="掩码-Mask"><a href="#掩码-Mask" class="headerlink" title="掩码(Mask)"></a>掩码(Mask)</h5><p><strong>掩码</strong>攻击属于<strong>局部暴力破解</strong>，如果你已经知道部分的密码，那么可以直接输入它，再用 <code>?</code> 来代替那些不知道的部分；随后<strong>ARCHPR</strong>就会爆破 <code>?</code> 处的字符</p>
+<p>注意<strong>掩码</strong>攻击是固定长度的</p>
+<blockquote>
+<p>比如我知道密码的长度为7，后4位是 <code>love</code>，那么就可以在<strong>掩码</strong>处填入 <code>???love</code></p>
+</blockquote>
+<p>确定<strong>掩码</strong>后，爆破方式与<strong>暴力破解</strong>没什么不同</p>
+<p>如果密码本身就可能包含 <code>?</code>，那可以在<kbd>高级</kbd>选项卡中，更改默认的掩码符号 <code>?</code></p>
+<hr>
+<h5 id="字典-Dictionary"><a href="#字典-Dictionary" class="headerlink" title="字典(Dictionary)"></a>字典(Dictionary)</h5><p><strong>字典</strong>相比较<strong>暴力破解</strong>更&quot;智能&quot;，因为<strong>字典</strong>中包含了大部分可能使用的密码，而不是毫无头绪的穷尽遍历</p>
+<p>一份好的字典是必须的，字典囊括的密码数决定了<strong>字典攻击</strong>的效果</p>
+<blockquote>
+<p>比如Github上就有许多爆破字典：<a href="https://github.com/rootphantomer/Blasting_dictionary" target="_blank" rel="noopener">https://github.com/rootphantomer/Blasting_dictionary</a></p>
+</blockquote>
+<p><strong>ARCHPR</strong>为<strong>字典攻击</strong>提供了3个选项：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/three_choice.png" style="zoom:67%;" />
+
+<ul>
+<li><p>智能变化</p>
+<p>&quot;智能变化&quot;是针对字典元素的：假如当<strong>字典攻击</strong>到 <code>password</code> 时，<strong>ARCHPR</strong>会自动将 <code>password</code> 进行变化：</p>
+<p><code>PASSword</code>、<code>passWORD</code>、全小写 <code>password</code>、全大写 <code>PASSWORD</code>、首字母大写 <code>Password</code>、首字母小写 <code>pASSWORD</code>、元音字母大写 <code>pAsswOrd</code>、元音字母小写 <code>PaSSWoRD</code>、间隔变化1 <code>PaSsWoRd</code>、间隔变化2 <code>pAsSwOrD</code></p>
+<p>对于字典中的每个元素，都会执行上面10种变化，增大破解几率，但破解时间会增大10倍</p>
+</li>
+<li><p>尝试所有可能的大/小写组合</p>
+<p>以字典元素 <code>password</code> 为例，<strong>ARCHPR</strong>会依次尝试每个字母的大小写组合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password -&gt; passworD -&gt; passwoRd -&gt; passwoRD -&gt; ... -&gt; PASSWORD</span><br></pre></td></tr></table></figure>
+
+<p>很显然，这种情况下破解时间会大幅增加</p>
+</li>
+<li><p>转换为OEM编码</p>
+<p>当字典元素不只包含<strong>拉丁字母(Latin Letters)</strong>时，这个选项才会生效</p>
+<p>（具体涉及ANSI代码页，暂时略过）</p>
+</li>
+</ul>
+<p>在<kbd>字典</kbd>选项卡中还有一个<kbd>开始行号□</kbd>，它用于规定从字典的第几行开始进行<strong>字典攻击</strong>；如果<strong>字典攻击</strong>中途停止了，最后一次攻击到的行数会写入<kbd>开始行号□</kbd>中，以便继续</p>
+<hr>
+<h5 id="明文攻击-Plaintext"><a href="#明文攻击-Plaintext" class="headerlink" title="明文攻击(Plaintext)"></a>明文攻击(Plaintext)</h5><p><strong>明文攻击</strong>也是CTF中的一类比较少见但有用的题型</p>
+<h6 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h6><p><code>.zip</code> <strong>传统加密算法</strong>本质上是伪随机数流和明文进行异或，产生这个伪随机流需要用到3个32 bits的<strong>key</strong>；找到这3个<strong>key</strong>，就能解开加密的文件</p>
+<p>压缩软件用这3个<strong>key</strong>加密压缩包中的所有文件，当我们得到已加密压缩包中的任意一个文件，如果我们用<strong>同样的压缩方法</strong>进行无密码的压缩，得到的无密码 <code>.zip</code> 和有密码的 <code>.zip</code> 进行比较，分析两个文件的不同点，就能得到3个<strong>key</strong>了</p>
+<p>所谓<strong>明文</strong>是指我们通过某些方法得到的已经加密的 <code>.zip</code> 文件中的部分文件</p>
+<p>用<strong>相同的压缩方法</strong>将该<strong>明文</strong>压缩成 <code>.zip</code>在拥有<strong>2</strong>个 <code>.zip</code> 文件后，由于新的 <code>.zip</code> 和原本的 <code>.zip</code> 用<strong>同样的压缩方法</strong>放置入了至少1个<strong>相同的文件</strong>，那么就能够根据新的 <code>.zip</code> 爆破出压缩密码</p>
+<blockquote>
+<p><strong>明文</strong>需大于12 bytes</p>
+</blockquote>
+<h6 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h6><p>我们以Bugku的杂项题目<strong>神秘的文件</strong>为例，<a href="https://ctf.bugku.com/files/d017f513e8f414cae61bfa3498ea34a8/5ee325f5-44c6-4a0b-b496-a0b11ef6dca1.rar" target="_blank" rel="noopener">点击下载</a></p>
+<p>解压 <code>.rar</code> 压缩包，得到 <code>flag.zip</code> 和 <code>logo.png</code>；我们发现 <code>flag.zip</code> 是加密的，但是里面也有一个名为 <code>logo.png</code> 的文件</p>
+<p>怀疑 <code>logo.png</code> 就是<strong>泄露文件</strong>，首先需要检查两个 <code>logo.png</code> 是不是完全相同</p>
+<p>使用<strong>WinRar</strong>将 <code>logo.png</code> 压缩为 <code>logo.zip</code>（无密码），浏览 <code>logo.zip</code>，发现原先的 <code>logo.png</code> 经过ZIP压缩，会得到与 <code>flag.zip</code> 中的 <code>logo.png</code> 相同的<strong>CRC校验码</strong>—— <code>3e62bf64</code></p>
+<p>基于此，我们可以断定两个 <code>logo.png</code> 是相同的，那么这就考察<strong>明文攻击</strong>了</p>
+<p>打开<strong>ARCHPR</strong>，在<kbd>明文</kbd>选项卡中分别导入加密的 <code>flag.zip</code> 和明文 <code>logo.zip</code>，<kbd>开始!</kbd></p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/mingwen_1.png" style="zoom: 67%;" />
+
+<p>成功得到压缩密码 <code>q1w2e3r4</code></p>
+<blockquote>
+<p>剩下的求flag步骤与本文无关，略过</p>
+</blockquote>
+<hr>
+<p>在这里，引出<strong>ARCHPR</strong>另外两个坑：</p>
+<h6 id="坑2：不同压缩算法"><a href="#坑2：不同压缩算法" class="headerlink" title="坑2：不同压缩算法"></a>坑2：不同压缩算法</h6><p>就上面的题目而言，在压缩 <code>logo.png</code> 时不使用<strong>WinRar</strong>，而是使用Linux下的 <code>zip</code> 命令，得到 <code>logo.zip</code></p>
+<p>然后对 <code>flag.zip</code> 和 <code>logo.zip</code> 发动明文攻击，但<strong>ARCHPR</strong>却给出报错：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/error_1.png" style="zoom: 70%;" />
+
+<p>经测试和浏览网上的write-up，就这题而言，压缩 <code>logo.png</code> 时使用Bandizip、2345好压、7z、快压、360压缩、Linux <code>zip</code> 命令，都会出现上图的报错信息；只有使用<strong>WinRar</strong>压缩后才能正常进行明文攻击</p>
+<p>缘由是不同软件对 <code>.zip</code> 的<strong>压缩算法</strong>是不同的</p>
+<blockquote>
+<p>然而我浏览了许多关于<strong>明文攻击</strong>的文章，关于<strong>zip不同压缩算法</strong>都是模棱两可、一笔带过</p>
+<blockquote>
+<p>&quot;最后请教大佬得知，压缩算法的锅，emmm，有点想哭，修改压缩算法&quot;</p>
+<p>&quot;可能是文件的压缩方式与加密文件不同，尝试更换压缩方式&quot;</p>
+</blockquote>
+<p>找了许久，没能得到一个明确的答案，不知道如何确定所谓的&quot;正确的压缩算法&quot;；并且就上题而言，使用<strong>WinRar</strong>压缩后的 <code>logo.png</code> 虽然<strong>CRC校验码</strong>相同，但是<strong>体积大小</strong>却是不同的——压缩后的体积根本不能作为<strong>相同压缩算法</strong>的判别依据</p>
+<p>或许做<strong>明文攻击</strong>题时，遇到上图的问题需要逐个尝试不同的压缩软件...☹</p>
+<p><strong>补充</strong></p>
+<p>后面在一篇<a href="[https://veritas501.space/2017/06/23/%E7%BB%99%E4%BD%A0%E5%8E%8B%E7%BC%A9%E5%8C%85%E5%8D%B4%E4%B8%8D%E7%BB%99%E4%BD%A0%E5%AF%86%E7%A0%81%E7%9A%84%E4%BA%BA%E5%88%B0%E5%BA%95%E5%9C%A8%E6%83%B3%E4%BB%80%E4%B9%88/](https://veritas501.space/2017/06/23/给你压缩包却不给你密码的人到底在想什么/)">文章</a>中找到一句话：</p>
+<p><strong>构造明文压缩包时要选用与加密压缩包相同的压缩软件</strong>，如果他用WinRar压的，你用7z构造出的压缩包来做明文压缩包，软件是会报错的</p>
+</blockquote>
+<h6 id="坑3：口令未找到"><a href="#坑3：口令未找到" class="headerlink" title="坑3：口令未找到"></a>坑3：口令未找到</h6><p>当你进行长时间的<strong>明文攻击</strong>后，最终却显示：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/not_found.png" style="zoom:67%;" />
+
+<p>你以为<strong>明文攻击</strong>失败了？并没有</p>
+<blockquote>
+<p>虽然 <code>.zip</code> 文件的加密原理很难理解，但有一些需要记住</p>
+<p><code>.zip</code>  的加密过程中会生成3个<strong>key(加密密钥)</strong>，如果我们能够得到<strong>key</strong>，那么哪怕没有<strong>密码</strong>，也能够通过<strong>明文</strong>和<strong>key</strong>复现出加密压缩包中的文件</p>
+</blockquote>
+<p><strong>ARCHPR</strong>的<strong>明文攻击</strong>分<strong>3</strong>个阶段：</p>
+<ol>
+<li><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/step_1.png" style="zoom:67%;" />
+
+<p>阶段一：<strong>减少密钥的数量</strong></p>
+<p>这一步是为后面搜寻<strong>密钥</strong>做准备的</p>
+</li>
+<li><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/step_2.png" style="zoom:67%;" />
+
+<p>阶段二：<strong>搜索密钥</strong></p>
+</li>
+<li><img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/step_3.png" style="zoom:67%;" />
+
+<p>阶段三：<strong>尝试找回口令</strong></p>
+</li>
+</ol>
+<p>&quot;口令&quot;就是加密压缩包的密码</p>
+<p>在阶段二，就会根据<strong>明文</strong>去找到3个<strong>key</strong>；而在阶段三，会尝试找回压缩包的密码</p>
+<blockquote>
+<p>我个人觉得阶段三是多余了，原因是它花费了大量的时间(相对阶段2)，还不保证成功</p>
+<p>既然我们知道，拥有<strong>key</strong>就能够复现压缩包中的文件，那么就完全可以在阶段二结束后，停止<strong>明文攻击</strong>，跳过耗时久的阶段三</p>
+</blockquote>
+<p>在阶段三直接点击<kbd>停止</kbd>，会出现：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/not_found.png" style="zoom:67%;" />
+
+<p>点击<kbd>保存</kbd>可以将上述的&quot;总计口令&quot;、&quot;总计时间&quot;、&quot;平均速度&quot;之类的统计信息保存下来，但用处不大</p>
+<p>点击<kbd>确定</kbd>，<strong>ARCHPR</strong>会让你保存一个 <code>$File_Name$_decrypted.zip</code> 的文件，这个文件就是<strong>ARCHPR</strong>根据<strong>key</strong>复现的压缩包文件</p>
+<p>我们可以直接通过打开 <code>$File_Name$_decrypted.zip</code> 查看原先被加密的文件</p>
+<blockquote>
+<p>因此，在进行<strong>明文攻击</strong>时，不妨在结束阶段二后就停止攻击，打开保存下来的 <code>.zip</code> 文件，就能得到flag</p>
+</blockquote>
+<p>练习：</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1f07VM3bGuPs5frMhbuFoOw" target="_blank" rel="noopener">https://pan.baidu.com/s/1f07VM3bGuPs5frMhbuFoOw</a><br>提取码：b74h </p>
+</blockquote>
+<hr>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><p><strong>练习一</strong>：格式为flag{xxx}</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1Ur7CTAqdw2s00fRCWK9RJg" target="_blank" rel="noopener">https://pan.baidu.com/s/1Ur7CTAqdw2s00fRCWK9RJg</a><br>提取码：ulv8</p>
+</blockquote>
+<p><strong>练习二</strong>：格式为flag{xxx}</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1CXPXydOejb8PaUXbQwgaDg" target="_blank" rel="noopener">https://pan.baidu.com/s/1CXPXydOejb8PaUXbQwgaDg</a><br>提取码：z12i</p>
+</blockquote>
+<p>&emsp;</p>
+<p><strong>解答一</strong>：</p>
+<p>打开 <code>zippy.zip</code>，发现有54个以 <code>chunk</code> 命名的 <code>.zip</code>，并且附带一句提示：<code>the text files within each zip consist of only &quot;printable&quot; ASCII characters</code></p>
+<p>被告知&quot;每个 <code>.zip</code> 只包含<strong>可打印ASCII字符</strong>&quot;</p>
+<p>大致浏览一下各个 <code>chunk.zip</code>，里面都有一个 <code>data.txt</code>，并且每个 <code>data.txt</code> 只有<strong>4</strong>字节大小，在<strong>CRC爆破</strong>的攻击范围内</p>
+<p>由于 <code>.zip</code> 文件较多，写脚本将所有 <code>.zip</code> 的<strong>CRC校验码</strong>读取出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line">crc32 = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">54</span>):</span><br><span class="line">    path = <span class="string">'zippy\chunk'</span> + str(i) + <span class="string">'.zip'</span></span><br><span class="line">    file = zipfile.ZipFile(path, <span class="string">'r'</span>)</span><br><span class="line">    info = file.getinfo(<span class="string">'data.txt'</span>)</span><br><span class="line">    crc32.append(info.CRC)</span><br></pre></td></tr></table></figure>
+
+<p>得到结果如图：</p>
+<img src="https://examine-typora-picbed.oss-cn-beijing.aliyuncs.com/img/many_crc32.png" style="zoom: 67%;" />
+
+<p>由于每个 <code>data.txt</code> 的内容为<strong>4</strong>字节的<strong>可打印ASCII字符</strong>，因此继续写脚本爆破内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"></span><br><span class="line">ASCII = <span class="string">' !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve</span><span class="params">(crc32)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> ASCII:</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> ASCII:</span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> ASCII:</span><br><span class="line">                <span class="keyword">for</span> d <span class="keyword">in</span> ASCII:</span><br><span class="line">                    <span class="keyword">if</span> hex(zlib.crc32(bytes(a+b+c+d, encoding=<span class="string">'utf-8'</span>)))[<span class="number">2</span>:] == crc32:</span><br><span class="line">                        <span class="keyword">return</span> a+b+c+d</span><br><span class="line">                    </span><br><span class="line">flag = <span class="string">""</span></span><br><span class="line">crc32 = [<span class="string">'de65c01b'</span>, <span class="string">'b156ff98'</span>, ...]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> crc32:</span><br><span class="line">    flag += solve(i)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>可打印ASCII字符</strong>有95个，所以每个<strong>CRC校验码</strong>的爆破需要大约$95^4=81450625$次，要爆破54个<strong>CRC校验码</strong>，所以耗费的时间是比较多的，我自己花费了1h03min才爆破出来</p>
+<p>可以适当调整一下 <code>ASCII</code> 的顺序，让更有可能出现的大小写英文字母在前面，能相对提高速度</p>
+</blockquote>
+<p>最终得到结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UEsDBBQDAQAAAJFy1kgWujyNLwAAACMAAAAIAAAAZmxhZy50eHT/xhoeSnjMRLuArw2FXUAIWn8UQblChs4AF1dAnT4nB5hs2SkR4fTfZZRB56Bp/FBLAQI/AxQDAQAAAJFy1kgWujyNLwAAACMAAAAIAAAAAAAAAAAAIIC0gQAAAABmbGFnLnR4dFBLBQYAAAAAAQABADYAAABVAAAAAAA=</span><br></pre></td></tr></table></figure>
+
+<p>base64解码，得到乱码，然而乱码以 <code>PK</code> 开头</p>
+<p>明显是 <code>.zip</code> 文件内容，将base64解码内容另存为 <code>temp.zip</code>，结果是一个未损坏的 <code>.zip</code> 压缩包，而且压缩包中包含一个加密的 <code>flag.txt</code></p>
+<p>检查过不是<strong>伪加密</strong>，于是采用<strong>暴力破解</strong>，使用<strong>fcrackzip</strong>爆破出压缩密码 <code>z1P</code>，得到flag（版本太高，<strong>ARCHPR</strong>不支持）</p>
+<blockquote>
+<p><strong>Mark</strong></p>
+<p>BUUCTF的题目 <a href="https://files.buuoj.cn/files/38ccc6412d706ee177c5f2880f4aeba2/b2ca8799-13d7-45df-a707-94373bf2800c.zip?token=eyJ1c2VyX2lkIjo3MDA0LCJ0ZWFtX2lkIjpudWxsLCJmaWxlX2lkIjoyMDJ9.XxWuhg.7qypYBumzGi0dLtkIXHAeprwVzU" target="_blank" rel="noopener">zip</a> 也是考察CRC爆破，还考察一点 <code>.rar</code> 的文件格式</p>
+</blockquote>
+<hr>
+<p><strong>解答二</strong>：</p>
+<p>解压 <code>temp.rar</code>，得到 <code>Desktop.zip</code> 和 <code>readme.txt</code></p>
+<p>发现 <code>Desktop.zip</code> 中也有一个 <code>readme.txt</code>，尝试将外面的那个 <code>readme.txt</code> 压缩成 <code>readme.zip</code>，发现两个 <code>readme.txt</code> 的<strong>CRC-32校验码</strong>相同，确定为<strong>明文攻击</strong></p>
+<p>测试了几下，发现Bandizip、WinRar压缩的 <code>readme.zip</code> 都被<strong>ARCHPR</strong>判定为<strong>不同压缩算法</strong>；最后发现Linux下的 <code>zip</code> 命令压缩的 <code>readme.zip</code> 能够进行<strong>明文攻击</strong></p>
+<blockquote>
+<p>...</p>
+</blockquote>
+<p>那就用Linux压缩的 <code>readme.zip</code> 和 <code>Desktop.zip</code> 进行<strong>明文攻击</strong></p>
+<p><strong>明文攻击</strong>阶段二就停止，在导出的 <code>Desktop_decrypted.zip</code> 中打开 <code>key.txt</code>，得到flag</p>
+<blockquote>
+<p>我在阶段三浪费了2个多小时，结果告诉我&quot;口令未找到&quot;，真的鸡肋...</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">总计口令: n/a</span><br><span class="line">总计时间: 2h 36m 45s 616ms </span><br><span class="line">平均速度(口令/秒): n/a</span><br><span class="line">这个文件的口令 : 未找到</span><br><span class="line">加密密钥: [ df96dc88 b432ddfd df4b9e93 ]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h2 id="Zip炸弹"><a href="#Zip炸弹" class="headerlink" title="Zip炸弹"></a>Zip炸弹</h2>
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Zip操作"><span class="nav-number">1.</span> <span class="nav-text">Zip操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#压缩"><span class="nav-number">1.1.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">1.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取"><span class="nav-number">1.3.</span> <span class="nav-text">读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爆破"><span class="nav-number">1.4.</span> <span class="nav-text">爆破</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fcrackzip"><span class="nav-number">1.4.1.</span> <span class="nav-text">fcrackzip</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARCHPR"><span class="nav-number">1.4.2.</span> <span class="nav-text">ARCHPR</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#暴力破解-Brute-Force"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">暴力破解(Brute-Force)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#坑1：版本不支持"><span class="nav-number">1.4.2.1.1.</span> <span class="nav-text">坑1：版本不支持</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#掩码-Mask"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">掩码(Mask)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字典-Dictionary"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">字典(Dictionary)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#明文攻击-Plaintext"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">明文攻击(Plaintext)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#原理"><span class="nav-number">1.4.2.4.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实战"><span class="nav-number">1.4.2.4.2.</span> <span class="nav-text">实战</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#坑2：不同压缩算法"><span class="nav-number">1.4.2.4.3.</span> <span class="nav-text">坑2：不同压缩算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#坑3：口令未找到"><span class="nav-number">1.4.2.4.4.</span> <span class="nav-text">坑3：口令未找到</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练习"><span class="nav-number">2.</span> <span class="nav-text">练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zip炸弹"><span class="nav-number">3.</span> <span class="nav-text">Zip炸弹</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="examine"
+    src="/images/none.ico">
+  <p class="site-author-name" itemprop="name">examine</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/examine2" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;examine2" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">examine</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">64k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:46</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'AcnzIAQVbbnuGkhPPb8cjbgW-gzGzoHsz',
+    appKey: 'TLbccV8U8hEzCr7sXQrbouRU',
+    placeholder: "Welcome to comment.",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
